@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link rel="stylesheet" href="src/styles/media query.css">
+
+    <style>
+        /* BASE & LAYOUT (Consistent with other pages) */
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; font-family: 'Roboto', sans-serif; background: #faf7f2; color: #222; }
+        .container { max-width: 1200px; margin: auto; padding: 0 15px; }
+        .nav-open { display: flex !important; flex-direction: column; align-items: flex-start; }
+
+        /* HEADER & NAVIGATION */
+        header { background: #1a1157; color: #fff; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between; height: 80px; }
+        .logo { height: 60px; margin-right: 40px; }
+        nav { flex: 1; }
+        nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; justify-content: flex-end; }
+        nav li { font-weight: 700; position: relative; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #ffe066; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0; /* Aligned to the right for consistent navigation */
+            background: #2a2f95;
+            min-width: 220px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+            border-radius: 0 0 8px 8px;
+            z-index: 10;
+            padding: 0;
+            margin-top: 0;
+        }
+        .dropdown-content li { padding: 0; }
+        .dropdown-content a {
+            display: block;
+            padding: 12px 24px;
+            color: #fff;
+            font-weight: 400;
+            text-decoration: none;
+            border-bottom: 1px solid #4e6b2b;
+        }
+        .dropdown-content a:hover {
+            background: #2e3d1b;
+            color: #ffe066;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .menu-toggle { display: none; background: none; border: none; color: #fff; cursor: pointer; padding: 0; }
+
+        /* WORKSHOP SECTIONS */
+        .banner {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+        .banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .workshop-intro, .workshop-why, .workshop-types, .workshop-register {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .workshop-intro {
+            background: #faf7f2;
+            text-align: center;
+        }
+        .workshop-intro h1 { 
+            font-size: 2.8rem; 
+            color: #a85b2b; 
+            margin-bottom: 20px; 
+            font-weight: 700;
+        }
+        .workshop-intro .banner-subtitle { 
+            font-size: 1.15rem; 
+            line-height: 1.6; 
+            color: #555; 
+            max-width: 900px; 
+            margin: 0 auto 30px; 
+        }
+
+        .section-title { 
+            font-size: 2.2rem; 
+            color: #40602b; 
+            text-align: center; 
+            margin-bottom: 30px; 
+            font-weight: 700; 
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .workshop-why, .workshop-types {
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            margin-top: 30px;
+            border-radius: 12px;
+        }
+        .workshop-why h2, .workshop-types h2, .workshop-register h2 {
+             font-size: 1.8rem;
+             color: #a85b2b;
+             margin-bottom: 20px;
+             text-align: left;
+        }
+        .workshop-why p, .workshop-types p, .workshop-register p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #444;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        /* COURSES SECTION */
+        .courses-section {
+            padding: 60px 20px;
+        }
+        .course-list {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr; /* Stack on small screens, will adjust later */
+            gap: 32px;
+        }
+        .course-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 32px;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border: 1px solid #fbeee0;
+        }
+        .course-img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        .course-details h3 {
+            font-size: 1.8rem;
+            color: #234d1b;
+            margin-bottom: 16px;
+        }
+        .course-details p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .course-meta {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .course-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 600;
+        }
+        .course-price-tag {
+            font-size: 1.8rem;
+            color: #a85b2b;
+            font-weight: 700;
+            margin-top: 16px;
+        }
+
+        /* REGISTER SECTION (Black/Dark Blue) */
+        .register-section {
+            padding: 80px 20px;
+            background: #1a1157; 
+            color: #fff;
+            margin-top: 40px;
+        }
+        .register-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .register-title {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Roboto', sans-serif;
+        }
+        .submit-btn {
+            background: #a85b2b;
+            color: #fff;
+            padding: 16px 48px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background: #8a4a20;
+        }
+        .success-message {
+            display: none;
+            background: #4CAF50;
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* FOOTER (Consistent with other pages) */
+        footer { background: #1a1157; color: #fff; padding: 40px 20px 20px; }
+        .footer-content { max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 32px; }
+        .footer-logo { height: 48px; margin-bottom: 16px; }
+        .footer-links { flex: 1; }
+        .footer-links ul { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: #ffe066; text-decoration: none; }
+        .footer-bottom { text-align: center; margin-top: 32px; font-size: 0.95rem; color: #bbb; }
+
+
+        /* MOBILE/RESPONSIVE */
+        @media (max-width: 900px) {
+            header { padding: 10px 20px; height: auto; }
+            .logo { height: 50px; }
+            .menu-toggle { display: block; order: 1; margin-left: auto; }
+            nav { order: 2; width: 100%; display: none; }
+            nav ul { flex-direction: column; align-items: flex-start; gap: 0; padding: 10px 0; }
+            nav a { padding: 10px 20px; display: block; width: 100%; border-bottom: 1px solid #2e3d1b; }
+            .dropdown-content { position: static; min-width: 100%; box-shadow: none; border-radius: 0; background: #2e3d1b; }
+            .dropdown:hover .dropdown-content { display: none; } 
+            
+            .banner { height: 250px; }
+            .workshop-intro, .workshop-why, .workshop-types, .workshop-register, .courses-section { padding: 20px 10px; }
+            .workshop-intro h1 { font-size: 2rem; }
+            .workshop-intro .banner-subtitle { font-size: 1rem; }
+            
+            .course-item { grid-template-columns: 1fr; padding: 20px; }
+            .course-img { height: 180px; }
+            .course-details h3 { font-size: 1.5rem; margin-top: 15px; }
+            .register-section { padding: 50px 10px; }
+            .register-title { font-size: 2rem; }
+
+            .footer-content { flex-direction: column; align-items: center; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a> 
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <nav id="main-nav">
+            <ul>
+                <li class="dropdown">
+                    <a href="#" aria-haspopup="true">Cake Menu</a>
+                    <ul class="dropdown-content" role="menu">
+                        <li><a href="index.html#new-products">New Products</a></li>
+                        <li><a href="index.html#favorite-products">Favorite Products</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
+                        <li><a href="index.html#tet-gifts">Tet Gifts</a></li>
+                    </ul>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="#workshop-schedule">Workshop</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="banner">
+        <a href="work-shop.html"><img src="Image 3/workshop.jpg" alt="Workshop banner image" class="banner-img"></a>
+    </section>
+
+    <section class="workshop-intro">
+        <div class="container">
+            <h1 id="workshop-schedule">WORKSHOP "CRAFTED BY HAND, WRAPPED WITH LOVE" 🎁</h1>
+            <img src="Image 3/Workshop Intro.jpg" alt="Intro Workshop: Chef preparing ingredients" style="width:100%; max-width:750px; margin:20px 0; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+            <p class="banner-subtitle">Tại Matie Cake, mỗi chiếc bánh không chỉ là món ăn ngon mà còn là trải nghiệm gắn kết. Khi mua bất kỳ hộp bánh hoặc bộ quà tặng đặc biệt nào, bạn sẽ nhận ngay **voucher** tham gia workshop làm bánh miễn phí, cơ hội tự tay làm bánh thủ công và tận hưởng niềm vui sáng tạo.</p>
+            <img src="Image 3/Workshop all.jpg" alt="Workshop participants enjoying cake making" style="width:100%; max-width:800px; margin:20px 0; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.1);">
+        </div>
+    </section>
+
+    <section class="workshop-why container">
+        <h2>🗓️ Lịch Trình Workshop</h2>
+        <ul>
+            <p>• Workshop diễn ra vào **Thứ Bảy và Chủ Nhật hàng tuần**.</p>
+            <p>• Chủ đề đổi mới hàng tháng: Bánh Trung Thu, Bông Lan Trứng Muối, Flan, Flan Cheese, Cookies, Croissant, v.v.</p>
+            <p>• Thời lượng: **2 - 2.5 giờ** mỗi buổi.</p>
+            <p>• Số lượng: **10 – 15 người** mỗi buổi để đảm bảo trải nghiệm tốt nhất.</p>
+        </ul>
+    </section>
+    
+    <section class="workshop-types container">
+        <h2>🌟 Lợi Ích Khi Tham Gia Workshop</h2>
+        <ul>
+            <p>• Học làm bánh trực tiếp với **Bếp trưởng của Matie Cake**.</p>
+            <p>• Khám phá nguyên liệu và **bí quyết** làm nên những chiếc bánh thơm ngon, an toàn.</p>
+            <p>• **Tự tay** sáng tạo, trang trí và mang sản phẩm tự làm về nhà.</p>
+            <p>• Nhận thêm **voucher cà phê** để thưởng thức đồ uống sau buổi workshop.</p>
+        </ul>
+    </section>
+
+    <section class="courses-section">
+        <h2 class="section-title">Khóa Học Chuyên Nghiệp 👩‍🍳</h2>
+        <div class="course-list container">
+            <div class="course-item">
+                <img src="Image 3/cold-cake-course.jpg" alt="Business Cold Cake Course" class="course-img">
+                <div class="course-details">
+                    <h3>Khóa Học Bánh Lạnh Kinh Doanh</h3>
+                    <p>Học chuyên sâu các công thức bánh lạnh phổ biến (Tiramisu, Mousse, Cheesecake...) tối ưu cho kinh doanh, đảm bảo chất lượng, bảo quản lâu và lợi nhuận cao.</p>
+                    <div class="course-meta">
+                        <div class="course-meta-item">🕒 8 Buổi</div>
+                        <div class="course-meta-item">🎓 Chứng chỉ đầu bếp Matie</div>
+                    </div>
+                    <div class="course-price-tag">3,500,000 ₫</div>
+                </div>
+            </div>
+
+            <div class="course-item">
+                <img src="Image 3/basic-cake-course.jpg" alt="Basic Business Cake Course" class="course-img">
+                <div class="course-details">
+                    <h3>Khóa Học Bánh Kem Cơ Bản</h3>
+                    <p>Cung cấp kiến thức nền tảng về bánh bông lan, kem bơ, kem tươi, và các kỹ thuật trang trí cơ bản, giúp bạn tự tin mở tiệm bánh nhỏ hoặc làm quà tặng.</p>
+                    <div class="course-meta">
+                        <div class="course-meta-item">🕒 10 Buổi</div>
+                        <div class="course-meta-item">👩‍🏫 Hỗ trợ trọn đời</div>
+                    </div>
+                    <div class="course-price-tag">4,200,000 ₫</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="workshop-register container">
+        <h2>📝 Cách Thức Đăng Ký Workshop</h2>
+        <ul>
+            <p>• **Online:** Đăng ký ngay qua website (form bên dưới) hoặc fanpage Matie Cake.</p>
+            <p>• **Tại cửa hàng:** Xuất trình voucher và chọn lịch tham gia phù hợp.</p>
+            <p>• **Hotline/Zalo:** 0886804360.</p>
+        </ul>
+    </section>
+
+    <section class="register-section" id="register">
+        <div class="register-container">
+            <h2 class="register-title">Đăng Ký Tham Gia Ngay!</h2>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Họ và Tên *</label>
+                    <input type="text" id="name" name="name" required placeholder="Nhập họ tên đầy đủ">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Số Điện Thoại *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Nhập số điện thoại của bạn">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email của bạn">
+                </div>
+                
+                <div class="form-group">
+                    <label for="course">Chọn Khóa Học/Workshop *</label>
+                    <select id="course" name="course" required>
+                        <option value="">-- Chọn Khóa Học/Workshop --</option>
+                        <option value="cold-cake">Khóa Học Bánh Lạnh Kinh Doanh</option>
+                        <option value="basic-cake">Khóa Học Bánh Kem Cơ Bản</option>
+                        <option value="free-workshop">Workshop Miễn Phí (Sử dụng Voucher)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-btn">Gửi Đăng Ký</button>
+                
+                <div class="success-message" id="successMessage">
+                    ✓ Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content container">
+            <div class="footer-info">
+                <img src="Image/Logo.png" alt="Matie Cake" class="footer-logo">
+                <div>Matie Cake Co., Ltd.</div>
+                <div>Address: 3636 Hai Ba Trung, Vo Thi Sau Ward, 3 district, Ho Chi Minh City</div>
+                <div>Phone: 0886804360</div>
+                <div>Email: matiecake@gmail.com</div>
+            </div>
+
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return & Refund Policy</a></li>
+                    <li><a href="#">Payment Methods</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Personal Data Protection</a></li>
+                    <li><a href="#">Contact Information</a></li>
+                    <li><a href="#">Store</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Matie Cake.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Mobile Menu Toggle Logic
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.querySelector('nav');
+
+            if (menuToggle && nav) {
+                menuToggle.addEventListener('click', function() {
+                    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+                    menuToggle.setAttribute('aria-expanded', !isExpanded);
+                    nav.classList.toggle('nav-open');
+                });
+            }
+
+            // 2. Form Submission Logic
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const phone = document.getElementById('phone').value;
+                const email = document.getElementById('email').value;
+                const course = document.getElementById('course').value;
+                
+                // For demonstration, we simulate success message
+                const successMsg = document.getElementById('successMessage');
+                successMsg.style.display = 'block';
+                
+                // Clear the form fields after submission
+                this.reset();
+                
+                // Hide the success message after 5 seconds
+                setTimeout(function() {
+                    successMsg.style.display = 'none';
+                }, 5000);
+                
+                // In a real application, AJAX request would be sent here:
+                console.log('Registration Data:', { name, phone, email, course });
+            });
+
+            // 3. Smooth scroll logic for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href.length <= 1) return; // Skip if just '#'
+                    
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

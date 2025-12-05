@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlanCheese | Matie Cake</title>
+
+    <link rel="icon" type="image/png" href="Image/Logo.png" />
+    <link rel="stylesheet" href="src/styles/main.css" />
+    <link rel="stylesheet" href="src/styles/media query.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet"/>
+
+    <style>
+        /* RESET & GLOBAL */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+
+        /* HEADER – GIỮ NGUYÊN TEMPLATE INDEX */
+        header {
+            background: linear-gradient(90deg, #1a1157, #3246a8);
+            color: #fff;
+            padding: 12px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 56px;
+        }
+
+        nav {
+            flex: 1;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 32px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav li {
+            position: relative;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #ffe066;
+        }
+
+        /* DROPDOWN */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            background: #2a2f95;
+            min-width: 220px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            padding: 0;
+            z-index: 10;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            border-bottom: 1px solid #3c5ea8;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* MOBILE MENU */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .nav-open {
+            display: flex !important;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* BANNER */
+        .banner {
+            width: 100%;
+            height: 360px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* PRODUCT MAIN BLOCK */
+        .product-main {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .columns {
+            display: flex;
+            gap: 40px;
+        }
+
+        /* SLIDER */
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+
+        .slide {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            font-size: 2rem;
+            background: rgba(255,255,255,0.8);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        /* PRODUCT INFO */
+        .info h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: #234d1b;
+        }
+
+        .price {
+            font-size: 1.6rem;
+            color: #a85b2b;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .product-quick-info {
+            padding-left: 18px;
+            line-height: 1.7;
+        }
+
+        /* ORDER BOX */
+        .order-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .order-minus, .order-plus {
+            width: 34px;
+            height: 34px;
+            background: #eee;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.3rem;
+        }
+
+        .order-qty {
+            width: 60px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .order-btn {
+            background: #a85b2b;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .order-btn:hover { background: #6e3a16; }
+
+        /* DESCRIPTION */
+        .desc-area {
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .desc-title {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: #a85b2b;
+        }
+
+        .desc-content {
+            line-height: 1.7;
+            color: #333;
+        }
+
+        /* REVIEWS */
+        .reviews-section {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .reviews-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            color: #234d1b;
+        }
+
+        .review-item {
+            padding: 18px;
+            border-radius: 12px;
+            background: #fafafa;
+            margin-bottom: 18px;
+            border: 1px solid #eee;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2a2f95;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+        }
+
+        /* RELATED PRODUCTS */
+        .related {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 24px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        .related h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+        }
+
+        .related-products {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .related-card {
+            width: 200px;
+            text-decoration: none;
+            color: #222;
+            background: #faf7f2;
+            padding: 16px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: 0.25s;
+        }
+
+        .related-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 130px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            padding: 0 20px;
+        }
+
+        .footer-info,
+        .footer-links {
+            flex: 1;
+        }
+
+        .footer-links a {
+            color: #ffe066;
+            text-decoration: none;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                padding: 12px 20px;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-left: auto;
+            }
+
+            .columns {
+                flex-direction: column;
+            }
+
+            .slider {
+                height: 300px;
+            }
+
+            .slide {
+                height: 300px;
+            }
+
+            .related-products {
+                justify-content: center;
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                padding: 12px 0;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html">
+            <img src="Image/Logo.png" class="logo" />
+        </a>
+
+        <button class="menu-toggle" aria-expanded="false">
+            ☰
+        </button>
+
+        <nav id="main-nav">
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="index.html#new-products">New Products</a></li>
+                        <li><a href="index.html#favorite-products">Favorite Products</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
+                        <li><a href="index.html#tet-gifts">Tet Gifts</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- BANNER -->
+    <div class="banner">
+        <img src="Image/Giới thiệu.jpg" />
+    </div>
+
+    <!-- PRODUCT MAIN -->
+    <div class="product-main">
+        <div class="columns">
+            <!-- LEFT: SLIDER -->
+            <div class="slider" id="slider">
+                <img src="Image 2/Flancheese/Flancheese 1.png" class="slide active" />
+                <img src="Image 2/Flancheese/Flancheese 2.JPG" class="slide" />
+                <img src="Image 2/Flancheese/FlanCheese 3.JPG" class="slide" />
+                <img src="Image 2/Flancheese/Flancheese 4.JPG" class="slide" />
+
+                <button class="prev">❮</button>
+                <button class="next">❯</button>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="info">
+                <h1>FlanCheese</h1>
+                <div class="price">180,000 ₫</div>
+
+                <ul class="product-quick-info">
+                    <li><b>Includes:</b> Rich cheese & sweet flan</li>
+                    <li><b>Weight:</b> 900g/cake</li>
+                    <li><b>Shelf life:</b> 1 month</li>
+                    <li><b>Storage:</b> Room temperature, use within 3 days</li>
+                    <li><b>Voucher:</b> Handmade Mooncake Workshop</li>
+                </ul>
+
+                <div class="order-controls">
+                    <button class="order-minus">-</button>
+                    <input type="number" value="1" class="order-qty" min="1" />
+                    <button class="order-plus">+</button>
+
+                    <a href="https://www.facebook.com/profile.php?id=61553058065460"
+                       class="order-btn" target="_blank">
+                        Order
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="desc-area">
+            <h2 class="desc-title">Description</h2>
+            <div class="desc-content">
+                <b>Flancheese</b> is an upgraded version of classic flan, blending smooth sweetness
+                with the mild richness of cheese — addictive and elegant.
+                <br><br>
+                Handmade daily, no preservatives, perfect for tea time & gifting.
+            </div>
+        </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="reviews-section">
+        <h2 class="reviews-title">Product Reviews</h2>
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="avatar">M</div>
+                <div>
+                    <div><b>Mai Phuong</b></div>
+                    <div>★★★★★</div>
+                </div>
+            </div>
+            <div>
+               “The cake is delicious, smooth flan and rich cheese. Fast delivery!”
+            </div>
+        </div>
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="avatar">T</div>
+                <div>
+                    <div><b>Tuan Anh</b></div>
+                    <div>★★★★★</div>
+                </div>
+            </div>
+            <div>
+                “Rich cheese flavor – perfect sweetness.”
+            </div>
+        </div>
+    </div>
+
+    <!-- RELATED -->
+    <div class="related">
+        <h2>Related Products</h2>
+
+        <div class="related-products">
+            <a class="related-card" href="flan-gato.html">
+                <img src="Image 2/Flan gato/Flan Gato1.png" />
+                <div>Flan Gato</div>
+                <div class="price">190,000 ₫</div>
+            </a>
+
+            <a class="related-card" href="flan-gato-donut.html">
+                <img src="Image 2/Flan Gato Donut/Flan Gato Donut 1.png" />
+                <div>Flan Gato Donut</div>
+                <div class="price">140,000 ₫</div>
+            </a>
+
+            <a class="related-card" href="flancheese-donut.html">
+                <img src="Image 2/Flan cheese donut/Flancheese Donut 1.png" />
+                <div>FlanCheese Donut</div>
+                <div class="price">140,000 ₫</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <img src="Image/Logo.png" class="footer-logo" />
+                <div>Matie Cake Co., Ltd.</div>
+                <div>Address: 3636 Hai Ba Trung, District 3, HCM</div>
+                <div>Phone: 0886804360</div>
+                <div>Email: matiecake@gmail.com</div>
+            </div>
+
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Payment Methods</a></li>
+                    <li><a href="#">Store</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">© 2025 Matie Cake.</div>
+    </footer>
+
+    <script>
+        /* SLIDER */
+        const slides = document.querySelectorAll(".slide");
+        let current = 0;
+
+        function showSlide(i) {
+            slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+        }
+
+        document.querySelector(".prev").onclick = () => {
+            current = (current - 1 + slides.length) % slides.length;
+            showSlide(current);
+        };
+
+        document.querySelector(".next").onclick = () => {
+            current = (current + 1) % slides.length;
+            showSlide(current);
+        };
+
+        /* QUANTITY */
+        document.querySelector(".order-minus").onclick = () => {
+            let input = document.querySelector(".order-qty");
+            if (input.value > 1) input.value--;
+        };
+
+        document.querySelector(".order-plus").onclick = () => {
+            let input = document.querySelector(".order-qty");
+            input.value++;
+        };
+
+        /* MOBILE MENU */
+        const menuToggle = document.querySelector(".menu-toggle");
+        const nav = document.querySelector("#main-nav");
+
+        menuToggle.addEventListener("click", () => {
+            nav.classList.toggle("nav-open");
+        });
+    </script>
+
+</body>
+</html>

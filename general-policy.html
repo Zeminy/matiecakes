@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyal Customers | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========== GLOBAL STYLE ========== */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        a { text-decoration: none; }
+
+        /* ========== HEADER ========== */
+        header {
+            background: #1a1157;
+            color: #fff;
+            padding: 12px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .logo {
+            height: 60px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+            justify-content: flex-end;
+        }
+
+        nav a {
+            color: #fff;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        nav a:hover { color: #ffe066; }
+
+        /* Mobile Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #2a2f95;
+            min-width: 220px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+            border-radius: 0 0 8px 8px;
+            top: 100%;
+            right: 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 22px;
+            color: #fff;
+            border-bottom: 1px solid #3c5c9a;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* ========== BANNER ========== */
+        .banner {
+            width: 100%;
+            height: 340px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ========== LOYAL CUSTOMER SECTION ========== */
+        .loyal-container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 30px 25px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 4px 22px rgba(0,0,0,0.1);
+        }
+
+        .loyal-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #234d1b;
+            margin-bottom: 25px;
+        }
+
+        .intro-text {
+            text-align: center;
+            color: #444;
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+            line-height: 1.7;
+        }
+
+        /* ========== BENEFIT CARDS ========== */
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+            margin-bottom: 45px;
+        }
+
+        .benefit-card {
+            background: #faf7f2;
+            border-radius: 14px;
+            padding: 25px 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: 0.25s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+
+        .benefit-icon {
+            font-size: 45px;
+            margin-bottom: 12px;
+            color: #a85b2b;
+        }
+
+        .benefit-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #234d1b;
+            margin-bottom: 10px;
+        }
+
+        .benefit-text {
+            font-size: 1rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* ========== VIP TIERS ========== */
+        .tier-section {
+            margin-top: 20px;
+        }
+
+        .tier-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #a85b2b;
+            margin-bottom: 25px;
+        }
+
+        .tier-grid {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tier-card {
+            flex: 1;
+            min-width: 260px;
+            max-width: 320px;
+            background: #fff4e3;
+            border-radius: 16px;
+            padding: 26px 20px;
+            text-align: center;
+            border: 2px solid #f2d5ad;
+            transition: 0.3s ease;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-5px);
+            border-color: #a85b2b;
+        }
+
+        .tier-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #234d1b;
+            margin-bottom: 10px;
+        }
+
+        .tier-perk {
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: #1a1157;
+            color: white;
+            padding: 40px 0 25px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 25px;
+        }
+
+        .footer-links a { color: #ffe066; }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.95rem;
+            margin-top: 25px;
+            color: #bbb;
+        }
+
+        /* ========== MOBILE ========== */
+        @media (max-width: 900px) {
+            nav { display: none; background: #1a1157; width: 100%; }
+            nav ul { flex-direction: column; padding: 12px 0; }
+            .menu-toggle { display: block; }
+
+            .banner { height: 200px; }
+            .loyal-container { border-radius: 0; }
+        }
+
+        .nav-open { display: block !important; }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <a href="index.html">
+        <img src="Image/Logo.png" class="logo" alt="logo">
+    </a>
+
+    <button class="menu-toggle">☰</button>
+
+    <nav id="main-nav">
+        <ul>
+            <li class="dropdown">
+                <a href="#">Cake Menu</a>
+                <ul class="dropdown-content">
+                    <li><a href="index.html#new-products">New Products</a></li>
+                    <li><a href="index.html#favorite-products">Favorite Products</a></li>
+                    <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
+                    <li><a href="index.html#tet-gifts">Tet Gifts</a></li>
+                </ul>
+            </li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+            <li><a href="general-policy.html">General Policy</a></li>
+            <li><a href="work-shop.html">Workshop</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- BANNER -->
+<section class="banner">
+    <img src="Image/Giới thiệu.jpg" alt="">
+</section>
+
+<!-- LOYAL CUSTOMER PROGRAM -->
+<div class="loyal-container">
+    <h2 class="loyal-title">LOYAL CUSTOMER PROGRAM</h2>
+
+    <p class="intro-text">
+        Matie Cake trân trọng gửi lời cảm ơn đến quý khách hàng đã đồng hành cùng chúng tôi.  
+        Chương trình thành viên được thiết kế nhằm mang lại **nhiều ưu đãi hấp dẫn – quyền lợi đặc biệt – trải nghiệm cao cấp** dành riêng cho khách hàng thân thiết.
+    </p>
+
+    <!-- BENEFIT CARDS -->
+    <div class="benefit-grid">
+        <div class="benefit-card">
+            <div class="benefit-icon">🎁</div>
+            <div class="benefit-title">Giảm Giá Thành Viên</div>
+            <div class="benefit-text">
+                Giảm từ <b>5% – 20%</b> khi mua sản phẩm giá niêm yết.  
+                Áp dụng cả mua tại cửa hàng & online.
+            </div>
+        </div>
+
+        <div class="benefit-card">
+            <div class="benefit-icon">⭐</div>
+            <div class="benefit-title">Ưu Tiên Sản Phẩm Mới</div>
+            <div class="benefit-text">
+                Thành viên được thông báo & đặt trước sản phẩm mới, phiên bản giới hạn.
+            </div>
+        </div>
+
+        <div class="benefit-card">
+            <div class="benefit-icon">🎉</div>
+            <div class="benefit-title">Sự Kiện Riêng Tư</div>
+            <div class="benefit-text">
+                Mời tham dự workshop, sự kiện dùng thử & ưu đãi dành riêng cho VIP Members.
+            </div>
+        </div>
+
+        <div class="benefit-card">
+            <div class="benefit-icon">🚚</div>
+            <div class="benefit-title">Ưu Đãi Giao Hàng</div>
+            <div class="benefit-text">
+                Giảm phí ship cho đơn hàng trên 250,000₫.  
+                Đặc quyền vận chuyển nhanh trong ngày tại TP.HCM.
+            </div>
+        </div>
+    </div>
+
+    <!-- TIERS -->
+    <div class="tier-section">
+        <h3 class="tier-title">Membership Tiers</h3>
+
+        <div class="tier-grid">
+            <div class="tier-card">
+                <div class="tier-name">Silver</div>
+                <div class="tier-perk">
+                    • Giảm 5% mọi đơn hàng  
+                    • Nhận ưu đãi sinh nhật  
+                    • Nhận thông tin sản phẩm mới
+                </div>
+            </div>
+
+            <div class="tier-card">
+                <div class="tier-name">Gold</div>
+                <div class="tier-perk">
+                    • Giảm 10% mọi đơn  
+                    • Freeship 1 lần/tháng  
+                    • Ưu tiên mua sản phẩm Limit Edition  
+                </div>
+            </div>
+
+            <div class="tier-card">
+                <div class="tier-name">Diamond</div>
+                <div class="tier-perk">
+                    • Giảm 20% mọi đơn  
+                    • Freeship 3 lần/tháng  
+                    • Tham dự workshop miễn phí  
+                    • Bộ quà tặng sinh nhật đặc biệt
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div>
+            <img src="Image/Logo.png" class="footer-logo" alt="">
+            <p>Matie Cake Co., Ltd.<br>
+            3636 Hai Ba Trung, Vo Thi Sau Ward, District 3, HCMC<br>
+            Phone: 0886804360<br>
+            Email: matiecake@gmail.com</p>
+        </div>
+
+        <div class="footer-links">
+            <p><a href="#">Shipping Policy</a></p>
+            <p><a href="#">Return & Refund Policy</a></p>
+            <p><a href="#">Payment Methods</a></p>
+            <p><a href="#">Privacy & Data Protection</a></p>
+            <p><a href="#">Store</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">© 2025 Matie Cake.</div>
+</footer>
+
+<!-- SCRIPT -->
+<script>
+document.querySelector(".menu-toggle").addEventListener("click", function () {
+    document.getElementById("main-nav").classList.toggle("nav-open");
+});
+</script>
+
+</body>
+</html>

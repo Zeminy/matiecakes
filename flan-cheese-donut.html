@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlanCheese Donut | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+
+<style>
+/* ==========================================
+   GLOBAL
+========================================== */
+body {
+    margin: 0;
+    padding: 0;
+    background: #faf7f2;
+    font-family: 'Roboto', sans-serif;
+    color: #222;
+}
+
+a { text-decoration: none; }
+
+/* ==========================================
+   HEADER (ĐỒNG BỘ 100% VỚI INDEX)
+========================================== */
+header {
+    background: #1a1157;
+    color: #fff;
+    padding: 0 40px;
+    height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.logo { height: 56px; }
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 30px;
+}
+
+/* NAVIGATION */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+}
+nav li {
+    font-weight: 700;
+    position: relative;
+}
+nav a {
+    color: #fff;
+    padding: 8px 0;
+    display: inline-block;
+}
+
+/* Hover underline */
+nav li::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    background: #ffe066;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0);
+    transition: .2s;
+}
+nav li:hover::after { transform: scaleX(1); }
+
+/* DROPDOWN MENU */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #2a2f95;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.dropdown-content a {
+    padding: 12px 20px;
+    display: block;
+    color: #fff;
+}
+.dropdown:hover .dropdown-content { display: block; }
+
+/* ===============================
+   BANNER
+================================ */
+.banner { width: 100%; height: 380px; overflow: hidden; }
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* ==========================================
+   PRODUCT DETAIL PAGE
+========================================== */
+.product-main {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.12);
+    padding: 40px 48px;
+}
+
+/* Columns */
+.product-columns {
+    display: flex;
+    gap: 48px;
+}
+
+/* Product Images Slider */
+.slider {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 16px;
+}
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    opacity: 0;
+    transition: .4s;
+}
+.slide.active { opacity: 1; position: relative; }
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,.85);
+    border-radius: 50%;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.prev { left: 12px; }
+.next { right: 12px; }
+
+/* Product Info */
+.product-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: #1a1157;
+}
+.product-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #a85b2b;
+    margin-bottom: 20px;
+}
+
+.product-quick-info li { margin-bottom: 8px; }
+
+/* Quantity + Order Button */
+.order-controls { margin-top: 20px; display: flex; gap: 10px; align-items: center; }
+.order-minus, .order-plus {
+    width: 38px; height: 38px; border: none;
+    background: #eee; cursor: pointer;
+    border-radius: 6px; font-size: 1.2rem;
+}
+.order-qty {
+    width: 50px; text-align: center;
+    border: 1px solid #ccc; border-radius: 6px;
+}
+.order-btn {
+    padding: 12px 30px;
+    background: #a85b2b;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+/* Description */
+.product-desc-area { margin-top: 40px; }
+.desc-title { font-size: 1.4rem; color: #a85b2b; font-weight: 700; }
+
+/* Related products */
+.related-products-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 32px;
+    background: #fff;
+    border-radius: 24px;
+}
+.related-products {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+.related-card {
+    width: 210px;
+    background: #faf7f2;
+    border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    padding: 16px;
+    transition: .2s;
+}
+.related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+.related-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.related-name {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #1a1157;
+}
+
+/* FOOTER (Đồng bộ Index) */
+footer {
+    background: #1a1157;
+    color: #fff;
+    padding: 40px 0;
+}
+.footer-logo { height: 48px; margin-bottom: 12px; }
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    font-size: .9rem;
+    color: #bbb;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .menu-toggle { display: block; }
+    nav { display: none; width: 100%; }
+    nav.nav-open { display: block; }
+
+    nav ul { flex-direction: column; padding: 10px 0; gap: 10px; }
+
+    header { flex-direction: row; height: auto; padding: 15px 20px; }
+
+    .product-columns { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =================== HEADER =================== -->
+<header>
+    <a href="index.html"><img src="Image/Logo.png" class="logo"></a>
+
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+        ☰
+    </button>
+
+    <nav>
+        <ul>
+            <li class="dropdown">
+                <a href="#">Cake Menu</a>
+                <ul class="dropdown-content">
+                    <li><a href="index.html#new-products">New Products</a></li>
+                    <li><a href="index.html#favorite-products">Favorite Products</a></li>
+                    <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
+                    <li><a href="index.html#tet-gifts">Tet Gifts</a></li>
+                </ul>
+            </li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+            <li><a href="general-policy.html">General Policy</a></li>
+            <li><a href="work-shop.html">Workshop</a></li>
+        </ul>
+    </nav>
+</header>
+
+
+<!-- =================== BANNER =================== -->
+<section class="banner">
+    <img src="Image/Giới thiệu.jpg" class="banner-img">
+</section>
+
+
+<!-- =================== PRODUCT MAIN =================== -->
+<div class="product-main">
+
+    <div class="product-columns">
+
+        <!-- SLIDER -->
+        <div class="slider" id="slider">
+            <img src="Image 2/Flan cheese donut/Flancheese Donut 1.png" class="slide active">
+            <img src="Image 2/Flan cheese donut/FlanCheeseDonut 2.JPG" class="slide">
+            <img src="Image 2/Flan cheese donut/FlanCheeseDonut3.JPG" class="slide">
+            <img src="Image 2/Flan cheese donut/FlanCheeseDonut 4.jpg" class="slide">
+
+            <button class="prev">&#10094;</button>
+            <button class="next">&#10095;</button>
+        </div>
+
+        <!-- INFO -->
+        <div class="product-info-area">
+            <h1 class="product-title">FlanCheese Donut</h1>
+            <div class="product-price">140,000 ₫</div>
+
+            <ul class="product-quick-info">
+                <li><b>Includes:</b> Rich cheese + caramel flan</li>
+                <li><b>Weight:</b> 900g</li>
+                <li><b>Shelf life:</b> 1 month</li>
+                <li><b>Storage:</b> Room temp 3 days after opening</li>
+                <li><b>Gift:</b> Workshop voucher</li>
+            </ul>
+
+            <div class="order-controls">
+                <button class="order-minus">-</button>
+                <input type="number" value="1" class="order-qty">
+                <button class="order-plus">+</button>
+                <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank" class="order-btn">Order</a>
+            </div>
+
+            <div style="margin-top:12px;">
+                Category: <a href="index.html#favorite-products">Favorite Products</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="product-desc-area">
+        <h2 class="desc-title">Description</h2>
+        <div class="desc-content">
+            Flancheese Donut is an upgraded version of the classic flan...
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =================== RELATED PRODUCTS =================== -->
+<div class="related-products-section">
+    <h2 style="font-size:1.6rem;color:#1a1157;font-weight:700;">Related Products</h2>
+
+    <div class="related-products">
+
+        <a href="set-tasty.html" class="related-card">
+            <img src="Image 2/Tasty 3/SetTasty3 1.png">
+            <div class="related-name">Set Tasty 3</div>
+        </a>
+
+        <a href="hoang-kim-bong-lan.html" class="related-card">
+            <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png">
+            <div class="related-name">Golden Sponge Cake</div>
+        </a>
+
+        <a href="flan-gato.html" class="related-card">
+            <img src="Image 2/Flan gato/Flan Gato1.png">
+            <div class="related-name">Flan Gato</div>
+        </a>
+
+        <a href="flan-gato-donut.html" class="related-card">
+            <img src="Image 2/Flan Gato Donut/Flan Gato Donut 1.png">
+            <div class="related-name">Flan Gato Donut</div>
+        </a>
+
+    </div>
+</div>
+
+
+<!-- =================== FOOTER =================== -->
+<footer>
+    <div style="max-width:1100px;margin:auto;padding:0 20px;">
+        <img src="Image/Logo.png" class="footer-logo">
+        <p>Matie Cake Co., Ltd.</p>
+        <p>Address: 3636 Hai Ba Trung, Q3, HCM</p>
+        <p>Phone: 0886804360</p>
+        <p>Email: matiecake@gmail.com</p>
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 Matie Cake.
+    </div>
+</footer>
+
+
+<!-- =================== SCRIPT =================== -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* SLIDER */
+    const slides = document.querySelectorAll(".slide");
+    let current = 0;
+    const show = i => slides.forEach((s,x)=>s.classList.toggle("active", x===i));
+    document.querySelector(".next").onclick = () => { current=(current+1)%slides.length; show(current); };
+    document.querySelector(".prev").onclick = () => { current=(current-1+slides.length)%slides.length; show(current); };
+
+    /* QUANTITY */
+    const qty = document.querySelector(".order-qty");
+    document.querySelector(".order-minus").onclick = () => { if(qty.value>1) qty.value--; };
+    document.querySelector(".order-plus").onclick = () => qty.value++;
+});
+</script>
+
+</body>
+</html>
