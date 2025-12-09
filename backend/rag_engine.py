@@ -42,7 +42,20 @@ class RAGEngine:
         print("RAGEngine initialized.")
 
     def load_documents(self) -> List:
-        html_files = glob.glob(os.path.join(self.docs_dir, "*.html"))
+        # Recursive glob to find all HTML files
+        all_html_files = glob.glob(os.path.join(self.docs_dir, "**/*.html"), recursive=True)
+        
+        # Filter out system directories
+        html_files = []
+        exclude_dirs = {'venv', 'node_modules', '.git', '__pycache__'}
+        
+        for file_path in all_html_files:
+            # Check if any excluded directory is in the path
+            parts = file_path.split(os.sep)
+            if not any(excluded in parts for excluded in exclude_dirs):
+                html_files.append(file_path)
+        
+        print(f"Found {len(html_files)} HTML files to process.")
         docs = []
         from bs4 import BeautifulSoup
         from langchain_core.documents import Document
@@ -121,13 +134,16 @@ class RAGEngine:
             context = "\n\n".join([d.page_content for d in docs])
 
             system_prompt = (
-                "You are an efficient and helpful AI assistant for **Matie Cake**."
-                "**GOAL**: Save the customer's time. Keep answers SHORT, CONCISE, and to the point (max 2-3 sentences unless asked for more)."
-                "**IMAGES**: If the context mentions an image, you **MUST** display it as a CLICKABLE LINK to its source page."
+                "You are a friendly and knowledgeable **Sales Consultant** for **Matie Cake**."
+                "**GOAL**: engagingly recommend cakes based on the user's taste preferences."
+                "**INSTRUCTIONS**:"
+                "1. If the user mentions a flavor (e.g., cheese, fruit, salty), IMMEDIATELY search the context for cakes with that flavor."
+                "2. Recommend the best matching cake and explain WHY it fits their taste in 1 sentence."
+                "3. **IMAGES**: You **MUST** display the image of the recommended cake as a CLICKABLE LINK."
                 "**FORMAT**: `[![Alt Text](ImageURL)](SourcePageURL)`."
-                "**CRITICAL**: You MUST use the exact `Source` filename provided in the context for the link (e.g., `set-tasty.html`). DO NOT GUESS filenames."
-                "Example: `[![Flan Gato](Image/flan.png)](flan-gato.html)`."
-                "If asked for a recommendation, give a 1-sentence reason and show the clickable image."
+                "4. Use the `Source` filename from context for the link. DO NOT GUESS."
+                "5. Keep it short (max 3 sentences) unless asked for details."
+                "Example: `For cheese lovers, I highly recommend the **Flan Cheese**! It combines rich caramel flan with creamy cheese. [![Flan Cheese](Image/flan.png)](flan-cheese.html)`."
                 f"Context: {context}"
             )
 

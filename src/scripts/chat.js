@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 <div class="chat-messages" id="chat-messages">
                     <div class="message bot">
-                        Hello! I'm your Matie Cake assistant. Ask me anything about our cakes! 🍰
+                        Hello! 👋 Welcome to Matie Cake. To help me find the best cake for you, could you tell me what kind of flavors you like? (e.g., Cheese, Fruit, Salted Egg...) 🍰
                     </div>
                 </div>
 
@@ -66,10 +66,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentImageData = null;
 
+    // RESTORE STATE & HISTORY
+    const savedState = sessionStorage.getItem('chatState');
+    const savedMessages = sessionStorage.getItem('chatMessages');
+
+    if (savedState === 'open') {
+        windowEl.classList.add('active');
+    }
+
+    if (savedMessages) {
+        messagesEl.innerHTML = savedMessages;
+        scrollToBottom();
+    }
+
     // Toggle Chat
     function toggleChat() {
         windowEl.classList.toggle('active');
-        if (windowEl.classList.contains('active')) {
+        const isOpen = windowEl.classList.contains('active');
+        sessionStorage.setItem('chatState', isOpen ? 'open' : 'closed');
+
+        if (isOpen) {
             setTimeout(() => inputEl.focus(), 300); // Wait for animation
         }
     }
@@ -190,8 +206,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         messagesEl.appendChild(div);
         scrollToBottom();
+
+        // SAVE HISTORY
+        sessionStorage.setItem('chatMessages', messagesEl.innerHTML);
+
         return div;
     }
+
+    // Force all links in chat to open in new tab
+    messagesEl.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (link) {
+            e.preventDefault();
+            const url = link.getAttribute('href');
+            if (url && url !== '#') {
+                window.open(url, '_blank');
+            }
+        }
+    });
 
     // Helper: Add Typing Indicator
     function addTypingIndicator() {
@@ -213,5 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function removeMessage(id) {
         const el = document.getElementById(id);
         if (el) el.remove();
+        // SAVE HISTORY (Update after removal)
+        sessionStorage.setItem('chatMessages', messagesEl.innerHTML);
     }
 });
