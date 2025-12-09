@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================
+           BASE & GLOBAL STYLE
+        ============================ */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f7f7fb;
+            color: #333;
+        }
+
+        a { text-decoration: none; }
+
+        .nav-open { 
+            display: flex !important; 
+            flex-direction: column; 
+            align-items: flex-start; 
+        }
+
+        /* ===========================
+           HEADER (ĐỒNG BỘ VỚI INDEX)
+        ============================ */
+        header {
+    background: linear-gradient(90deg, #1a1157, #3f53ae);
+    color: #fff;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+        .logo {
+            height: 60px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav li {
+            position: relative;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: #fff;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #ffe066;
+        }
+
+        /* Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 110%;
+            right: 0;
+            min-width: 220px;
+            background: #2f2a7a;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .dropdown-content a {
+            padding: 12px 20px;
+            display: block;
+            border-bottom: 1px solid #423c99;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Mobile menu button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+        }
+
+        /* ===========================
+           MIDDLE SECTION (GIỚI THIỆU)
+        ============================ */
+        .middle-section {
+            max-width: 1400px;
+            margin: 50px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .side-image {
+            width: 250px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            height: auto;
+            max-height: 580px;
+        }
+
+        .center-content {
+            flex: 1;
+            background: #fff;
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+            line-height: 1.7;
+        }
+
+        .center-content h2 {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #a85b2b;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .center-content p {
+            font-size: 1.15rem;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        /* ===========================
+           FOOTER
+        ============================ */
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 40px 0 20px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .footer-info {
+            flex: 2;
+        }
+
+        .footer-logo {
+            height: 50px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links a {
+            color: #ffe066;
+            transition: 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            font-size: 0.95rem;
+            border-top: 1px solid #2d226a;
+        }
+
+        /* ===========================
+           RESPONSIVE
+        ============================ */
+        @media (max-width: 1024px) {
+            .side-image { width: 180px; }
+            .center-content { padding: 30px; }
+        }
+
+        @media (max-width: 900px) {
+            header { padding: 12px 20px; }
+            .logo { height: 52px; }
+
+            .menu-toggle { display: block; }
+
+            nav {
+                display: none;
+                width: 100%;
+                background: #1a1157;
+                position: absolute;
+                left: 0;
+                top: 70px;
+                padding: 16px 0;
+                z-index: 100;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+            nav a {
+                display: block;
+                width: 100%;
+                padding: 12px 20px;
+            }
+
+            .dropdown-content {
+                position: static;
+                border-radius: 0;
+                background: #2f2a7a;
+                box-shadow: none;
+            }
+
+            .middle-section {
+                flex-direction: column;
+                margin: 20px auto;
+            }
+            .side-image { display: none; }
+
+            .center-content {
+                padding: 25px;
+                border-radius: 12px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <a href="index.html">
+            <img src="Image/Logo.png" alt="Matie Cake" class="logo">
+        </a>
+        <button class="menu-toggle" aria-expanded="false">
+            <svg width="26" height="26" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+
+        <nav id="main-nav">
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <div class="dropdown-content">
+                        <a href="index.html#new-products">New Products</a>
+                        <a href="index.html#favorite-products">Favorite Products</a>
+                        <a href="index.html#christmas-gifts">Christmas Gifts</a>
+                        <a href="index.html#tet-gifts">Tet Gifts</a>
+                    </div>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+                            <li class="dropdown">
+                <a href="#">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <section class="middle-section">
+        
+        <img src="Intro 1.jpg" alt="Ảnh trái" class="side-image">
+
+        <div class="center-content">
+            <h2>About Us</h2>
+
+            <p>Matie Cake was born from the passion and desire to create high-quality handmade cakes, 
+            preserving traditional flavors while bringing a contemporary touch. Starting with small batches 
+            from a home kitchen, the brand gradually shaped its identity: meticulous ingredient selection, 
+            sophisticated flavor balance, and creative presentation.</p>
+
+            <p>Through continuous research, testing, and refinement, Matie Cake entered the market with the mission 
+            to create cakes that are not only delicious but also carry emotional value. The motto 
+            <b>“Giving delicate gifts, sending love”</b> has guided every aspect of our work: 
+            from production to packaging design and customer experience.</p>
+
+            <p>From the early challenging days until today, Matie Cake has grown steadily, building a trusted reputation 
+            in the handmade cake community. Our products are now recognized as a symbol of sophistication, 
+            making them the perfect choice for gifting on meaningful occasions.</p>
+        </div>
+
+        <img src="Intro 2.jpg" alt="Ảnh phải" class="side-image">
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <img src="Image/Logo.png" class="footer-logo">
+                <div>Matie Cake Co., Ltd.</div>
+                <div>Address: 3636 Hai Ba Trung, Vo Thi Sau Ward, District 3, Ho Chi Minh City</div>
+                <div>Phone: 0886804360</div>
+                <div>Email: matiecake@gmail.com</div>
+            </div>
+
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return & Refund Policy</a></li>
+                    <li><a href="#">Payment Methods</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Personal Data Protection</a></li>
+                    <li><a href="#">Contact Information</a></li>
+                    <li><a href="#">Store</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 Matie Cake.
+        </div>
+    </footer>
+
+    <script>
+        /* Mobile Menu Toggle */
+        const toggle = document.querySelector('.menu-toggle');
+        const nav = document.getElementById('main-nav');
+
+        toggle.addEventListener('click', () => {
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', !expanded);
+            nav.classList.toggle('nav-open');
+        });
+    </script>
+
+</body>
+</html>
