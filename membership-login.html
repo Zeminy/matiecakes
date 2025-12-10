@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Membership - Đăng nhập / Đăng ký | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="src/styles/main.css" />
+    <link rel="stylesheet" href="src/styles/media query.css" />
+
+    <style>
+        /* form-specific minimal styles (không sửa global css) */
+        .member-page { padding: 60px 20px; background: #faf7f2; min-height: 70vh; }
+        .member-box {
+            max-width: 960px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+        .member-card {
+            background: #fff;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+            border: 1px solid #f3eae0;
+        }
+        .member-card h2 { margin-top: 0; margin-bottom: 12px; color: #1a1157; }
+        .tabs { display:flex; gap:8px; margin-bottom:16px; }
+        .tab-btn {
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor:pointer;
+            font-weight:700;
+            color:#1a1157;
+        }
+        .tab-btn.active { background:#ffe066; color:#1a1157; border-color:rgba(0,0,0,0.05); }
+
+        form .form-group { margin-bottom:14px; }
+        form label { display:block; margin-bottom:6px; font-weight:600; color:#333; font-size:0.95rem; }
+        form input { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e7e0da; font-size:0.95rem; }
+        .submit-btn { background:#a85b2b; color:#fff; padding:12px 18px; border:none; border-radius:8px; cursor:pointer; font-weight:700; }
+        .alt-link { margin-top:12px; display:inline-block; color:#3f53ae; cursor:pointer; text-decoration:underline; }
+        .msg { margin-top:12px; padding:10px 12px; border-radius:8px; display:none; }
+        .msg.success { background:#e6f7ec; color:#17602a; border:1px solid #bfe7c6; }
+        .msg.error { background:#ffecec; color:#7a1a1a; border:1px solid #f5bebe; }
+
+        footer {
+    background: #1a1157;
+    color: #fff;
+    padding: 40px 0;
+}
+.footer-logo {
+    height: 48px;
+    margin-bottom: 12px;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.footer-info {
+    color: #fff;
+    max-width: 60%;
+}
+.footer-info div,
+.footer-info img { margin-bottom: 8px; }
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 6px; }
+.footer-links a { color: #ffe066; display: block; }
+
+/* bottom line */
+.footer-bottom {
+    text-align: center;
+    margin-top: 24px;
+    padding: 12px 0;
+    font-size: .9rem;
+    color: #ccc;
+}
+
+
+        /* responsive */
+        @media (max-width:900px){
+            .member-box{ grid-template-columns: 1fr; padding:0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER (giữ nguyên) -->
+    <header>
+        <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a>
+        <button class="menu-toggle" aria-label="Toggle menu" onclick="document.querySelector('nav').classList.toggle('nav-open')">☰</button>
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="index.html#new-products">New</a></li>
+                        <li><a href="index.html#favorite-products">Best Seller</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas</a></li>
+                        <li><a href="index.html#tet-gifts">Tet</a></li>
+                    </ul>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+                <li class="dropdown"><a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership.html">Login / Sign Up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN: đăng nhập / đăng ký -->
+    <main class="member-page">
+        <div class="member-box">
+            <div class="member-card" id="authCard">
+                <div class="tabs" role="tablist">
+                    <button class="tab-btn active" data-mode="login">Đăng nhập</button>
+                    <button class="tab-btn" data-mode="register">Đăng ký</button>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <form id="loginForm" novalidate>
+                    <h2>Đăng nhập</h2>
+
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input id="loginEmail" type="email" name="email" required placeholder="email@domain.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Mật khẩu</label>
+                        <input id="loginPassword" type="password" name="password" required placeholder="Mật khẩu">
+                    </div>
+
+                    <button class="submit-btn" type="submit">Đăng nhập</button>
+                    <div class="msg success" id="loginSuccess">Đăng nhập thành công (giả lập).</div>
+                    <div class="msg error" id="loginError">Vui lòng kiểm tra thông tin.</div>
+
+                    <div style="margin-top:12px;">
+                        <a class="alt-link" id="showRegister">Bạn chưa có tài khoản? Đăng ký</a>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- RIGHT CARD: additional info or registration form -->
+            <div class="member-card" id="sideCard">
+                <!-- REGISTER FORM -->
+                <form id="registerForm" style="display:none" novalidate>
+                    <h2>Đăng ký thành viên</h2>
+
+                    <div class="form-group">
+                        <label for="fullName">Họ và tên</label>
+                        <input id="fullName" type="text" name="fullname" required placeholder="Nguyễn Văn A">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input id="phone" type="tel" name="phone" required placeholder="0886804360" pattern="[0-9+ ]{7,15}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input id="regEmail" type="email" name="email" required placeholder="email@domain.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regPassword">Mật khẩu</label>
+                        <input id="regPassword" type="password" name="password" required placeholder="Mật khẩu (ít nhất 6 ký tự)" minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regPassword2">Xác nhận mật khẩu</label>
+                        <input id="regPassword2" type="password" name="password2" required placeholder="Nhập lại mật khẩu">
+                    </div>
+
+                    <button class="submit-btn" type="submit">Đăng ký</button>
+                    <div class="msg success" id="regSuccess">Đăng ký thành công (giả lập). Vui lòng đăng nhập.</div>
+                    <div class="msg error" id="regError">Có lỗi. Vui lòng kiểm tra lại.</div>
+
+                    <div style="margin-top:12px;">
+                        <a class="alt-link" id="showLogin">Đã có tài khoản? Đăng nhập</a>
+                    </div>
+                </form>
+
+                <!-- Small info card visible when register hidden -->
+                <div id="infoBox">
+                    <h2>Quyền lợi thành viên</h2>
+                    <ul style="padding-left:18px; color:#444; line-height:1.6;">
+                        <li>• Nhận voucher & khuyến mãi</li>
+                        <li>• Lưu đơn, lịch sử mua hàng</li>
+                        <li>• Ưu đãi workshop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER (giữ nguyên) -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <img src="Image/Logo.png" alt="Matie Cake" class="footer-logo">
+                <div>Matie Cake Co., Ltd.</div>
+                <div>Address: 3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</div>
+                <div>Phone: 0886804360</div>
+                <div>Email: matiecake@gmail.com</div>
+            </div>
+
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return & Refund Policy</a></li>
+                    <li><a href="#">Payment Methods</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Personal Data Protection</a></li>
+                    <li><a href="#">Contact Information</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2025 Matie Cake.</div>
+    </footer>
+
+    <script>
+        // Toggle tabs and forms
+        const tabs = document.querySelectorAll('.tab-btn');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const infoBox = document.getElementById('infoBox');
+
+        function setMode(mode){
+            tabs.forEach(t=> t.classList.toggle('active', t.dataset.mode===mode));
+            if(mode === 'login'){
+                loginForm.style.display = '';
+                registerForm.style.display = 'none';
+                infoBox.style.display = '';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = '';
+                infoBox.style.display = 'none';
+            }
+        }
+
+        tabs.forEach(t=> t.addEventListener('click', ()=> setMode(t.dataset.mode)));
+        document.getElementById('showRegister').addEventListener('click', ()=> setMode('register'));
+        document.getElementById('showLogin').addEventListener('click', ()=> setMode('login'));
+
+        // Fake submit handlers with validation
+        loginForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const pw = document.getElementById('loginPassword').value;
+            const ok = email.length>0 && pw.length>0;
+            document.getElementById('loginSuccess').style.display = ok ? 'block' : 'none';
+            document.getElementById('loginError').style.display = ok ? 'none' : 'block';
+            if(ok) {
+                // simulate login success
+                setTimeout(()=> { document.getElementById('loginSuccess').style.display='none'; }, 3000);
+            }
+        });
+
+        registerForm.addEventListener('submit', function(e){
+            e.preventDefault();
+            const name = document.getElementById('fullName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pw = document.getElementById('regPassword').value;
+            const pw2 = document.getElementById('regPassword2').value;
+            let valid = true;
+            if(!name || !phone || !email || pw.length < 6) valid = false;
+            if(pw !== pw2) valid = false;
+
+            document.getElementById('regSuccess').style.display = valid ? 'block' : 'none';
+            document.getElementById('regError').style.display = valid ? 'none' : 'block';
+
+            if(valid){
+                // clear and switch to login view
+                this.reset();
+                setTimeout(()=> { document.getElementById('regSuccess').style.display='none'; setMode('login'); }, 1500);
+            }
+        });
+    </script>
+<script src="src/scripts/chat.js" defer></script>
+</body>
+</html>

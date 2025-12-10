@@ -1,5 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Inject HTML if not present
+    // 0. Inject Font Awesome if not present
+    if (!document.querySelector('link[href*="font-awesome"]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
+        document.head.appendChild(link);
+    }
+
+    // 1. Inject CSS styles if not present
+    if (!document.querySelector('link[href*="chat.css"]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'src/styles/chat.css';
+        document.head.appendChild(link);
+    }
+
+    // 2. Inject HTML if not present
     if (!document.getElementById('chat-widget')) {
         const chatWidget = document.createElement('div');
         chatWidget.id = 'chat-widget';
@@ -66,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentImageData = null;
 
-    // RESTORE STATE & HISTORY
+    // RESTORE STATE & HISTORY (Changed to sessionStorage for temporary persistence)
     const savedState = sessionStorage.getItem('chatState');
     const savedMessages = sessionStorage.getItem('chatMessages');
 
@@ -207,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messagesEl.appendChild(div);
         scrollToBottom();
 
-        // SAVE HISTORY
+        // SAVE HISTORY (Session Only)
         sessionStorage.setItem('chatMessages', messagesEl.innerHTML);
 
         return div;

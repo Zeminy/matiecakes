@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Box of 4 Baked Cakes – Tinh Hoa Doan Vien| Matie Cake</title>
+    <title>Box of 4 Mini Cakes - Trang Van Gan Ket | Matie Cake</title>
     <link rel="icon" type="image/png" href="Image/Logo.png">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="src/styles/main.css">
     <link rel="stylesheet" href="src/styles/media query.css">
-
     <style>
-        /* CSS CHUNG VÀ CƠ BẢN (Đảm bảo tính liên kết với các trang khác) */
-        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        .nav-open { display: flex !important; flex-direction: column; align-items: flex-start; }
-
-        /* HEADER & NAVIGATION */
-        header { background: #1a1157; color: #fff; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between; }
+        /* CSS remains the same as it is language-agnostic */
+        html { scroll-behavior: smooth; }
+        body { margin: 0; font-family: 'Roboto', sans-serif; background: #faf7f2; color: #222; }
+        header {
+    background: linear-gradient(90deg, #1a1157, #3f53ae);
+    color: #fff;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
         .logo { height: 60px; margin-right: 40px; }
         nav { flex: 1; }
-        nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; justify-content: flex-end; }
+        nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; }
         nav li { font-weight: 700; position: relative; }
         nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
         nav a:hover { color: #ffe066; }
@@ -28,14 +35,12 @@
             display: none;
             position: absolute;
             top: 100%;
-            right: 0;
+            left: 0;
             background: #2a2f95;
             min-width: 220px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.10);
             border-radius: 0 0 8px 8px;
             z-index: 10;
-            padding: 0;
-            margin-top: 0;
         }
         .dropdown-content li { padding: 0; }
         .dropdown-content a {
@@ -45,96 +50,45 @@
             font-weight: 400;
             text-decoration: none;
             border-bottom: 1px solid #4e6b2b;
-            white-space: nowrap;
         }
         .dropdown-content a:hover {
             background: #2e3d1b;
             color: #ffe066;
         }
         .dropdown:hover .dropdown-content { display: block; }
-        .menu-toggle { display: none; background: none; border: none; color: #fff; cursor: pointer; padding: 0; }
-
-        /* BANNER */
         .banner {
+            background: #fbeee0;
+            padding: 0;
+            text-align: center;
             width: 100%;
             height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            margin-bottom: 40px;
         }
         .banner-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 0;
+            box-shadow: none;
             display: block;
         }
-        
-        /* PRODUCT MAIN SECTION */
-        .product-main {
-            max-width: 1200px;
+        .product-detail {
+            max-width: 700px;
             margin: 40px auto;
             background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-            padding: 40px 48px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 32px 24px;
         }
-        .product-columns {
-            display: flex;
-            gap: 48px;
-            align-items: flex-start;
-        }
-        .product-image-area {
-            flex: 1.2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .product-info-area {
-            flex: 1.5;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        .product-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #234d1b;
-            margin-bottom: 18px;
-            text-align: left;
-        }
-        .product-price {
-            color: #a85b2b;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-align: left;
-        }
-        .product-quick-info {
-            font-size: 1.08rem;
-            color: #222;
-            margin-bottom: 18px;
-            list-style: none;
-            padding: 0;
-        }
-        .product-quick-info li { margin-bottom: 8px; }
-        /* Styling for nested includes list */
-        .product-quick-info .flavor-list {
-            list-style: disc;
-            padding-left: 20px;
-            margin-top: 5px;
-            font-size: 1rem;
-        }
-        .product-quick-info .flavor-list li {
-            margin-bottom: 4px;
-        }
-
-        /* SLIDER CSS */
         .slider {
             position: relative;
             width: 100%;
             height: 500px;
             overflow: hidden;
             margin-bottom: 24px;
-            border-radius: 12px;
         }
         .slide {
             width: 100%;
@@ -166,8 +120,76 @@
         }
         .slider .prev { left: 12px; }
         .slider .next { right: 12px; }
-
-        /* ORDER CONTROLS */
+        .product-title { font-size: 2rem; font-weight: 700; color: #40602b; margin-bottom: 18px; text-align: center; }
+        .product-price { color: #a85b2b; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; text-align: center; }
+        .product-desc { font-size: 1.05rem; color: #444; margin-bottom: 16px; }
+        .product-ingredient, .product-gift {
+            font-size: 1rem;
+            color: #222;
+            margin-bottom: 12px;
+            background: #fbeee0;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+        .product-main {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+            padding: 40px 48px;
+        }
+        .product-columns {
+            display: flex;
+            gap: 48px;
+            align-items: flex-start;
+        }
+        .product-image-area {
+            flex: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-main-img {
+            width: 100%;
+            max-width: 480px;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 24px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+        }
+        .product-info-area {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .product-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #234d1b;
+            margin-bottom: 18px;
+        }
+        .product-price-old {
+            color: #999;
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            margin-bottom: 4px;
+        }
+        .product-price {
+            color: #a85b2b;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .product-quick-info {
+            font-size: 1.08rem;
+            color: #222;
+            margin-bottom: 18px;
+            list-style: none;
+            padding: 0;
+        }
+        .product-quick-info li { margin-bottom: 8px; }
         .order-controls {
             display: flex;
             align-items: center;
@@ -181,7 +203,6 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            line-height: 1;
         }
         .order-qty {
             width: 48px;
@@ -201,7 +222,6 @@
             text-decoration: none;
             transition: background 0.2s;
             margin-left: 12px;
-            display: inline-block;
         }
         .order-btn:hover { background: #40602b; }
         .product-category {
@@ -225,148 +245,29 @@
             color: #222;
             line-height: 1.7;
         }
-        
-        /* REVIEWS SECTION CSS */
-        .reviews-section {
-            max-width: 1200px;
-            margin: 40px auto;
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-            padding: 40px 48px;
+        @media (max-width: 900px) {
+            .product-detail { padding: 18px 4px; }
+            .slider { height: 180px; }
+            .slide { height: 180px; }
+            .product-columns { flex-direction: column; gap: 18px; }
+            .product-image-area, .product-info-area { padding: 0; }
+            .product-main { border-radius: 0; padding: 12px 2vw; }
+            .product-main-img { max-width: 98vw; height: auto; }
+            .product-desc-area { padding-top: 18px; }
         }
-        .reviews-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #234d1b;
-            margin-bottom: 24px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 12px;
+        footer { background: #1a1157; color: #fff; padding: 40px 0 20px 0; }
+        .footer-content { max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 32px; }
+        .footer-info { flex: 2; }
+        .footer-logo { height: 48px; margin-bottom: 16px; }
+        .footer-links { flex: 1; }
+        .footer-links ul { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: #ffe066; text-decoration: none; }
+        .footer-bottom { text-align: center; margin-top: 32px; font-size: 0.95rem; color: #bbb; }
+        @media (max-width: 900px) {
+            .products { flex-direction: column; align-items: center; }
+            .footer-content { flex-direction: column; align-items: center; }
         }
-        .rating-summary {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #f4f4f4;
-        }
-        .rating-score {
-            text-align: center;
-            padding: 15px 30px;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            min-width: 150px;
-            background: #fbeee0;
-        }
-        .rating-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #a85b2b;
-            line-height: 1;
-            margin-bottom: 5px;
-        }
-        .rating-stars {
-            color: gold;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-        .rating-count {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        .rating-bars {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .rating-bar-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .rating-bar-label {
-            width: 60px;
-            font-size: 0.95rem;
-            color: #444;
-        }
-        .rating-bar-bg {
-            flex-grow: 1;
-            height: 10px;
-            background: #eee;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-        .rating-bar-fill {
-            height: 100%;
-            background: #a85b2b;
-            border-radius: 5px;
-        }
-        .rating-bar-count {
-            width: 30px;
-            text-align: right;
-            font-size: 0.95rem;
-            color: #444;
-        }
-        .review-item {
-            border: 1px solid #eee;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-        }
-        .review-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .review-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #2a2f95;
-            color: #fff;
-            text-align: center;
-            line-height: 40px;
-            font-weight: 700;
-            margin-right: 15px;
-        }
-        .review-user-info {
-            flex-grow: 1;
-        }
-        .review-user-name {
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 3px;
-        }
-        .review-stars {
-            color: gold;
-            font-size: 1rem;
-        }
-        .review-date {
-            font-size: 0.9rem;
-            color: #888;
-        }
-        .review-content {
-            font-size: 1rem;
-            color: #444;
-            line-height: 1.6;
-        }
-        .review-images {
-            margin-top: 10px;
-            display: flex;
-            gap: 10px;
-        }
-        .review-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
-        
-        /* RELATED PRODUCTS CSS */
         .related-products-section {
             margin: 56px auto 0 auto;
             max-width: 1200px;
@@ -420,61 +321,20 @@
             font-weight: 700;
             font-size: 1rem;
         }
-
-        /* FOOTER CSS (Cập nhật địa chỉ và thông tin) */
-        footer { background: #1a1157; color: #fff; padding: 40px 0 20px 0; }
-        .footer-content { max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 32px; padding: 0 20px; }
-        .footer-info { flex: 2; }
-        .footer-logo { height: 48px; margin-bottom: 16px; }
-        .footer-links { flex: 1; }
-        .footer-links ul { list-style: none; padding: 0; }
-        .footer-links li { margin-bottom: 8px; }
-        .footer-links a { color: #ffe066; text-decoration: none; }
-        .footer-bottom { text-align: center; margin-top: 32px; font-size: 0.95rem; color: #bbb; border-top: 1px solid #2e246e; padding-top: 20px; }
-
-
-        /* MOBILE/RESPONSIVE CSS */
         @media (max-width: 900px) {
-            header { padding: 10px 20px; }
-            .logo { height: 50px; }
-            .menu-toggle { display: block; }
-            nav { position: absolute; top: 70px; left: 0; width: 100%; background: #1a1157; z-index: 50; display: none; }
-            nav ul { flex-direction: column; align-items: flex-start; gap: 0; padding: 10px 0; }
-            nav a { padding: 10px 20px; display: block; width: 100%; }
-            .dropdown-content { position: static; min-width: 100%; box-shadow: none; border-radius: 0; background: #2e3d1b; }
-            .dropdown:hover .dropdown-content { display: none; } 
-            
-            .banner { height: 200px; }
-            .product-main { border-radius: 0; padding: 12px 2vw; }
-            .product-columns { flex-direction: column; gap: 18px; }
-            .product-image-area, .product-info-area { padding: 0; }
-            .slider { height: 300px; } 
-            .slide { height: 300px; } 
             .related-products { gap: 12px; justify-content: center; }
             .related-card { width: 45vw; min-width: 140px; }
-            .footer-content { flex-direction: column; align-items: center; text-align: center; }
-
-            .reviews-section { border-radius: 0; padding: 12px 2vw; }
-            .rating-summary { flex-direction: column; gap: 20px; align-items: stretch; }
         }
     </style>
-    <link rel="stylesheet" href="src/styles/chat.css">
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a>
-        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </button>
-        <nav id="main-nav">
+        <a href="index.html"><img src="Image/Logo.png" alt="Mid-Autumn Cake" class="logo"></a>
+        <nav>
             <ul>
                 <li class="dropdown">
-                    <a href="#" aria-haspopup="true">Cake Menu</a>
-                    <ul class="dropdown-content" role="menu">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
                         <li><a href="index.html#new-products">New Products</a></li>
                         <li><a href="index.html#favorite-products">Favorite Products</a></li>
                         <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
@@ -484,51 +344,46 @@
                 <li><a href="home.html">Home</a></li>
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
-                <li><a href="work-shop.html">Workshop</a></li>    
+                <li><a href="work-shop.html">Workshop</a></li>
+                            <li class="dropdown">
+                <a href="#">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+
             </ul>
         </nav>
     </header>
-    
     <section class="banner">
         <img src="Image/Giới thiệu.jpg" alt="Mid-Autumn Cake" class="banner-img">
     </section>
-    
     <div class="product-main">
         <div class="product-columns">
             <div class="product-image-area">
                 <div class="slider" id="slider">
-                    <img src="Image/Tinh hoa đoàn viên 1.jpg" class="slide active" alt="Tinh Hoa Doan Vien 1">
-                    <img src="Image/Tinh hoa đoàn viên 2.jpg" class="slide" alt="Tinh Hoa Doan Vien 2">
-                    <img src="Tinh hoa đoàn viên 7.jpg" class="slide" alt="Tinh Hoa Doan Vien 3">
-                    <img src="Image/Tinh hoa đoàn viên 4.png" class="slide" alt="Tinh Hoa Doan Vien 4"> 
-                    <img src="Image/Tinh hoa đoàn viên 5.png" class="slide" alt="Tinh Hoa Doan Vien 5">                    
-                    <img src="Image/Tinh hoa đoàn viên 6.png" class="slide" alt="Tinh Hoa Doan Vien 6">                                       
-                    
-                    <button class="prev" aria-label="Previous slide">&#10094;</button>
-                    <button class="next" aria-label="Next slide">&#10095;</button>
+                    <img src="Image/Trăng vàng đoàn kết 1.jpg" class="slide active" alt="Golden Moon Connection 1">
+                    <img src="Image/Trăng vàng đoàn kết 2.jpg" class="slide" alt="Golden Moon Connection 2">
+                    <img src="Image/Trăng vàng đoàn kết 3.jpg" class="slide" alt="Golden Moon Connection 3">
+                    <img src="Image/Trăng vàng gắn kết  2.JPG" class="slide" alt="Golden Moon Connection 4">                    
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
                 </div>
             </div>
             <div class="product-info-area">
-                <h1 class="product-title">Box of 4 Baked Cakes – “Tinh Hoa Doan Vien”</h1>
-                <div class="product-price">950,000 ₫</div>
+                <h1 class="product-title">Box 4 Mini Cakes - Trang Vang Gan Ket</h1>
+                <div class="product-price">650,000 ₫</div>
                 <ul class="product-quick-info">
-                    <li><b>– Includes:</b>
-                        <ul class="flavor-list">
-                            <li>Premium Char Siu Roasted Chicken 220g</li>
-                            <li>Golden Mung Bean 220g</li>
-                            <li>Five-Spice Grilled Shrimp 220g</li>
-                            <li>White Lotus Seed 220g</li>
-                        </ul>
-                    </li>
-                    <li><b>– Weight:</b> 220g/cake</li>
-                    <li><b>– Shelf life:</b> Store in the refrigerator. Expiry date: 1 month from date of manufacture.</li>
-                    <li><b>– Storage instructions:</b> Keep at room temperature (about $25^\circ\text{C}$) and use within 3 days after opening the packaging.</li>
-                    <li><b>– Voucher:</b> Voucher to join the handmade Mid-Autumn cake workshop</li>
+                    <li><b>– Includes:</b> 6 mini cakes with mixed flavors (suggested: Mung Bean, Taro, Lotus Seed, Mixed Filling)</li>
+                    <li><b>– Weight:</b>80g/cake</li>
+                    <li><b>– Shelf life:</b>  Store in the refrigerator. Expiry date: 1 month from date of manufacture.</li>
+                    <li><b>– Storage instructions:</b> Keep at room temperature (about 25°C) and use within 3 days after opening the packaging.</li>
+                    <li><b>- Voucher:</b> Voucher to join the handmade Mid-Autumn cake workshop.</li>
                 </ul>
                 <div class="order-controls">
-                    <button class="order-minus" aria-label="Decrease quantity">-</button>
-                    <input type="number" value="1" min="1" class="order-qty" aria-label="Quantity">
-                    <button class="order-plus" aria-label="Increase quantity">+</button>
+                    <button class="order-minus">-</button>
+                    <input type="number" value="1" min="1" class="order-qty">
+                    <button class="order-plus">+</button>
                     <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank" class="order-btn">Order</a>
                 </div>
                 <div class="product-category">Category: <a href="index.html#new-products">New Products</a></div>
@@ -537,45 +392,44 @@
         <div class="product-desc-area">
             <h2 class="desc-title">Description</h2>
             <div class="desc-content">
-                <b>The “Quintessence of Reunion” box</b> is a perfect harmony between rich savory flavors – symbolizing prosperity and abundance, and delicate sweetness – representing peace and happiness. Four flavors blend together as a wish for the family to always be strong, united, and full of love. This is not only a gift for the Mid-Autumn season, but also a subtle message of reunion and fulfillment.
+                Compact yet exquisite, <b>the “Golden Moon Connection” box</b> is the perfect choice to share Mid-Autumn joy in a gentle, sophisticated way. The mini cakes represent simplicity yet abundance, like a small but warm moonlight shining in every corner of the home. This is a suitable gift for intimate occasions, both elegant and friendly.
                 <br><br>
             </div>
         </div>
     </div>
-    
     <div class="reviews-section">
-        <h2 class="reviews-title">Product Reviews</h2>
-        
+        <h2 class="reviews-title">Product Ratings</h2>
+       
         <div class="rating-summary">
             <div class="rating-score">
                 <div class="rating-number">4.8</div>
                 <div class="rating-stars">★★★★★</div>
-                <div class="rating-count">128 reviews</div>
+                <div class="rating-count">128 local reviews</div>
             </div>
             <div class="rating-bars">
                 <div class="rating-bar-item">
-                    <span class="rating-bar-label">5 stars</span>
+                    <span class="rating-bar-label">5 star</span>
                     <div class="rating-bar-bg">
                         <div class="rating-bar-fill" style="width: 85%;"></div>
                     </div>
                     <span class="rating-bar-count">109</span>
                 </div>
                 <div class="rating-bar-item">
-                    <span class="rating-bar-label">4 stars</span>
+                    <span class="rating-bar-label">4 star</span>
                     <div class="rating-bar-bg">
                         <div class="rating-bar-fill" style="width: 10%;"></div>
                     </div>
                     <span class="rating-bar-count">13</span>
                 </div>
                 <div class="rating-bar-item">
-                    <span class="rating-bar-label">3 stars</span>
+                    <span class="rating-bar-label">3 star</span>
                     <div class="rating-bar-bg">
                         <div class="rating-bar-fill" style="width: 3%;"></div>
                     </div>
                     <span class="rating-bar-count">4</span>
                 </div>
                 <div class="rating-bar-item">
-                    <span class="rating-bar-label">2 stars</span>
+                    <span class="rating-bar-label">2 star</span>
                     <div class="rating-bar-bg">
                         <div class="rating-bar-fill" style="width: 1%;"></div>
                     </div>
@@ -591,6 +445,7 @@
             </div>
         </div>
 
+
         <div class="reviews-list">
             <div class="review-item">
                 <div class="review-header">
@@ -602,11 +457,11 @@
                     <div class="review-date">15/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cake box is very beautiful and luxurious. The cakes are delicious, the filling is rich, and the sweet and savory flavors are harmonious. My family really liked the Premium Char Siu Roasted Chicken and White Lotus Seed flavors. The packaging was careful, and the delivery was fast. We will continue to support the shop next year!
+                    The cake box is very beautiful and luxurious. Will continue to support the shop next year!
                 </div>
                 <div class="review-images">
-                    <img src="Image/Tinh hoa đoàn viên 1.jpg" class="review-image" alt="Review image">
-                    <img src="Image/Tinh hoa đoàn viên 2.jpg" class="review-image" alt="Review image">
+                    <img src="Image/Trăng vàng đoàn kết 2.jpg" class="review-image" alt="Review image">
+                    <img src="Image/Trăng vàng đoàn kết 1.jpg" class="review-image" alt="Review image">
                 </div>
             </div>
 
@@ -620,7 +475,7 @@
                     <div class="review-date">12/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cakes are very delicious! The crust is soft, and the filling is generous. The unique Golden Lava Mooncake (Kim Sa Nguyệt Bảo) flavor, with its flowing filling when bitten into, is very appealing. The Five-Spice Grilled Shrimp is also very special. The price is a bit high, but it's worth the quality. It's excellent for gifting to bosses and partners!
+                    The cake is delicious! The crust is soft and the filling is rich. The unique Kim Sa Nguyet Bao flavor flows out when you bite into it, which is very appealing. The Five-Spice Grilled Shrimp is also very special. The price is a bit high but worth the quality. It's great for gifting to bosses and partners!
                 </div>
             </div>
 
@@ -634,10 +489,10 @@
                     <div class="review-date">08/09/2024</div>
                 </div>
                 <div class="review-content">
-                    I have bought many kinds of Mid-Autumn cakes from different shops, but Matie Cake's are the best! The cakes are not dry or greasy. Both the Mung Bean and White Lotus Seed are smooth. The voucher to join the cake-making workshop is also very interesting. I will definitely order again!
+                    I have bought many types of Mid-Autumn cakes from different shops, but Matie Cake's cake is the best! The cake is not dry and not greasy. Both the mung bean and white lotus seed are smooth. The voucher to join the cake making workshop is also very interesting. I will definitely order again!
                 </div>
                 <div class="review-images">
-                    <img src="Image/Tinh hoa đoàn viên 4.png" class="review-image" alt="Review image">
+                    <img src="Image/Trăng vàng đoàn kết 3.jpg" class="review-image" alt="Review image">
                 </div>
             </div>
 
@@ -651,7 +506,7 @@
                     <div class="review-date">05/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cakes are delicious, and the packaging is beautiful. However, I found it a bit too sweet compared to my family's preference. If the sweetness level could be adjusted, it would be more perfect. But overall, it is still a quality product and worth buying!
+                    The cake is delicious and beautifully packaged. However, I found it a bit too sweet compared to my family's preference. It would be perfect if the sweetness could be adjusted. But overall, it's still a quality product, worth buying!
                 </div>
             </div>
 
@@ -665,35 +520,30 @@
                     <div class="review-date">02/09/2024</div>
                 </div>
                 <div class="review-content">
-                    Very satisfied with the product! The cake box is luxurious, suitable for gifts. The cake is buttery and the sweet and savory flavors are balanced. My children really love eating it.
+                    Very satisfied with the product! The luxurious box is suitable for gifts. The cake is buttery and the salty/sweet flavor is balanced. My younger siblings love eating it, and adults also enjoy it. I will recommend friends to buy from Matie Cake.
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
     <div class="related-products-section">
         <h2 class="related-title">Related Products</h2>
         <div class="related-products">
-            <a href="kim-sa-nguyet-bao.html" class="related-card">
-                <img src="Image/Kim sa nguyệt bảo 1.jpg" alt="Golden Lava Mooncake">
-                <div class="related-name">Box 6 Lava Cakes - Kim Sa Nguyet Bao</div>
-                <div class="related-price">850,000 ₫</div>
+            <a href="tinh-hoa-doan-vien.html" class="related-card">
+                <img src="Image/Tinh hoa đoàn viên 1.jpg" alt="Quintessence of Reunion">
+                <div class="related-name">Box of 4 Baked Cakes – Tinh Hoa Doan Vien</div>
+                <div class="related-price">950,000 ₫</div>
             </a>
             <a href="ngoc-sac-tinh-hoa.html" class="related-card">
                 <img src="Image/Ngọc sắc tinh hoa 1.jpg" alt="Jade Essence">
-                <div class="related-name">Box 4 jelly cakes “Ngoc Sac Tinh Hoa”</div>
+                <div class="related-name">Box 4 jelly cakes “Ngoc Sac Tinh Hoa” </div>
                 <div class="related-price">750,000 ₫</div>
             </a>
-            <a href="trang-vang-gan-ket.html" class="related-card">
-                <img src="Image/Trăng vàng đoàn kết 1.jpg" alt="Golden Moon Connection">
-                <div class="related-name">Box 4 Mini Cakes - Trang Vang Gan Ket</div>
-                <div class="related-price">650,000 ₫</div>
+            <a href="kim-sa-nguyet-bao.html" class="related-card">
+                <img src="Image/Kim sa nguyệt bảo 1.jpg" alt="Golden Lava Mooncake">
+                <div class="related-name"> Box 6 Lava Cakes - Kim Sa Nguyet Bao</div>
+                <div class="related-price">850,000 ₫</div>
             </a>
-            <a href="flan-cheese.html" class="related-card">
-                <img src="Image 2/Flancheese/Flancheese 1.png" alt="Flancheese">
-                <div class="related-name">Flancheese</div>
-                <div class="related-price">180,000 ₫</div>
-            </a>
-        </div>
+            </div>
     </div>
     <footer>
         <div class="footer-content">
@@ -721,63 +571,48 @@
             © 2025 Matie Cake.
         </div>
     </footer>
-    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var slider = document.getElementById('slider');
-            if (slider) {
-                var slides = slider.querySelectorAll('.slide');
-                var current = 0;
-                var prevBtn = slider.querySelector('.prev');
-                var nextBtn = slider.querySelector('.next');
-                
-                function showSlide(idx) {
-                    slides.forEach(function(s, i) {
-                        s.classList.toggle('active', i === idx);
-                    });
-                }
-                
-                // Slider navigation logic
-                prevBtn.onclick = function() {
-                    current = (current - 1 + slides.length) % slides.length;
-                    showSlide(current);
-                };
-                nextBtn.onclick = function() {
-                    current = (current + 1) % slides.length;
-                    showSlide(current);
-                };
-                showSlide(current);
+            var slides = slider.querySelectorAll('.slide');
+            var current = 0;
+            var prevBtn = slider.querySelector('.prev');
+            var nextBtn = slider.querySelector('.next');
+            function showSlide(idx) {
+                slides.forEach(function(s, i) {
+                    s.classList.toggle('active', i === idx);
+                });
             }
+            prevBtn.onclick = function() {
+                current = (current - 1 + slides.length) % slides.length;
+                showSlide(current);
+            };
+            nextBtn.onclick = function() {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            };
+            showSlide(current);
 
             // Handle quantity increase/decrease
             const minusBtn = document.querySelector('.order-minus');
             const plusBtn = document.querySelector('.order-plus');
             const qtyInput = document.querySelector('.order-qty');
 
-            if (minusBtn && plusBtn && qtyInput) {
-                minusBtn.addEventListener('click', function() {
-                    let val = parseInt(qtyInput.value, 10);
-                    if (val > 1) qtyInput.value = val - 1;
-                });
-                plusBtn.addEventListener('click', function() {
-                    let val = parseInt(qtyInput.value, 10);
-                    qtyInput.value = val + 1;
-                });
-            }
-            
-            // Mobile menu toggle logic
-            const menuToggle = document.querySelector('.menu-toggle');
-            const nav = document.querySelector('nav');
-
-            if (menuToggle && nav) {
-                menuToggle.addEventListener('click', function() {
-                    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-                    menuToggle.setAttribute('aria-expanded', !isExpanded);
-                    nav.classList.toggle('nav-open');
-                });
-            }
+            minusBtn.addEventListener('click', function() {
+                let val = parseInt(qtyInput.value, 10);
+                if (val > 1) qtyInput.value = val - 1;
+            });
+            plusBtn.addEventListener('click', function() {
+                let val = parseInt(qtyInput.value, 10);
+                qtyInput.value = val + 1;
+            });
         });
     </script>
-    <script src="src/scripts/chat.js"></script>
+<script src="src/scripts/chat.js" defer></script>
 </body>
+
 </html>
+
+
+
+

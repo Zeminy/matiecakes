@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xuan Sang Tet Den | Matie Cake</title>
@@ -17,7 +15,19 @@
         .nav-open { display: flex !important; flex-direction: column; align-items: flex-start; }
 
         /* HEADER & NAVIGATION */
-        header { background: #1a1157; color: #fff; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between; }
+        header {
+    background: linear-gradient(90deg, #1a1157, #3f53ae);
+    color: #fff;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
         .logo { height: 60px; margin-right: 40px; }
         nav { flex: 1; }
         nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; justify-content: flex-end; }
@@ -456,7 +466,6 @@
             .rating-summary { flex-direction: column; gap: 20px; align-items: stretch; }
         }
     </style>
-    <link rel="stylesheet" href="src/styles/chat.css">
 </head>
 <body>
     <header>
@@ -483,6 +492,13 @@
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>
+                            <li class="dropdown">
+                <a href="#">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+
             </ul>
         </nav>
     </header>
@@ -696,7 +712,7 @@
                 <div class="related-price">190,000 ₫</div>
             </a>
             <a href="flan-cheese.html" class="related-card">
-                <img src="Image 2/Flancheese/Flancheese 1.png" alt="Flancheese">
+                <img src="Image 2/Flancheese/Flancheese5.jpg" alt="Flancheese">
                 <div class="related-name">Flancheese</div>
                 <div class="related-price">180,000 ₫</div>
             </a>
@@ -786,6 +802,6 @@
             }
         });
     </script>
-    <script src="src/scripts/chat.js"></script>
+<script src="src/scripts/chat.js" defer></script>
 </body>
 </html>
