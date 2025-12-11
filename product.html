@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           GLOBAL STYLE 
+        ========================================== */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #faf7f2;
+            font-family: 'Roboto', sans-serif;
+            color: #222;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ==========================================
+           HEADER 
+        ========================================== */
+        header {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            color: #fff;
+            padding: 0 40px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            height: 80px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 26px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            font-weight: 600;
+            position: relative;
+        }
+
+        nav a {
+            color: #fff;
+            padding: 8px 0;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        nav li::after {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background: #ffe066;
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            transform: scaleX(0);
+            transition: .2s ease;
+        }
+
+        nav li:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* DROPDOWN */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            background: #2a2f95;
+            padding: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 220px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content li {
+            padding: 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #fff;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffe066;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* MOBILE ICON */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        .nav-open {
+            display: flex !important;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* ==========================================
+           PRODUCT PAGE
+        ========================================== */
+        .product-container {
+            max-width: 1800px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .product-detail {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .product-image-container {
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            border-radius: 16px;
+            object-fit: cover;
+        }
+
+        /* Box preview overlay on main image */
+        .box-preview {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .box-slots {
+            position: absolute;
+            inset: 0;
+        }
+
+        .box-slot {
+            position: absolute;
+            width: 28%;
+            height: 17%;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: none;
+            font-weight: 700;
+            color: var(--muted, #6a6a6a);
+            font-size: 0.9rem;
+        }
+
+        .box-slot.slot-1 {
+            top: 11.5%;
+            left: 18%;
+        }
+
+        .box-slot.slot-2 {
+            top: 11.5%;
+            left: 54%;
+        }
+
+        .box-slot.slot-3 {
+            top: 32%;
+            left: 18%;
+        }
+
+        .box-slot.slot-4 {
+            top: 32%;
+            left: 54%;
+        }
+
+        .box-slot.filled img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .box-overflow {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--accent, #d81b60);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-weight: 800;
+            box-shadow: 0 6px 12px rgba(216, 27, 96, 0.25);
+            font-size: 0.9rem;
+            display: none;
+            pointer-events: none;
+        }
+
+        .selected-list {
+            margin-top: 12px;
+            background: #fff;
+            border: 1px solid var(--border, #e6e2da);
+            border-radius: 10px;
+            padding: 10px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .selected-list-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border, #e6e2da);
+        }
+
+        .selected-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .selected-thumb {
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+
+        .selected-name {
+            flex: 1;
+            font-weight: 700;
+            color: var(--text, #1f1f1f);
+        }
+
+        .selected-qty {
+            font-weight: 700;
+            color: var(--muted, #6a6a6a);
+        }
+
+        .selected-remove {
+            background: none;
+            border: none;
+            color: var(--accent, #d81b60);
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .product-info h1 {
+            font-size: 2rem;
+            color: #1a1157;
+            margin-bottom: 16px;
+        }
+
+        .product-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #a85b2b;
+            margin-bottom: 24px;
+        }
+
+        .product-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        /* Gift Options Section */
+        .gift-section {
+            margin-top: 32px;
+            padding: 24px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .gift-section h3 {
+            font-size: 1.2rem;
+            color: #1a1157;
+            margin-bottom: 8px;
+        }
+
+        .gift-subtitle {
+            font-size: 0.9rem;
+            color: #b0376b;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+        }
+
+        .gift-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .gift-card.selected {
+            border-color: #b0376b;
+            border-width: 2px;
+            box-shadow: 0 4px 16px rgba(176, 55, 107, 0.15);
+        }
+
+        .gift-card-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #f5f5f5;
+        }
+
+        .gift-card-title {
+            font-weight: 700;
+            color: #1a1157;
+            margin-bottom: 8px;
+            min-height: 40px;
+            font-size: 0.95rem;
+        }
+
+        .gift-card-price {
+            font-weight: 700;
+            color: #a85b2b;
+        }
+
+        .gift-card-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .gift-card-qty label {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .gift-card-qty input {
+            width: 64px;
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        /* Price Display */
+        .price-breakdown {
+            margin-top: 24px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            border: 2px solid #ffe066;
+        }
+
+        .price-breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #555;
+        }
+
+        .price-breakdown-item.total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a1157;
+            border-top: 2px solid #e0e0e0;
+            padding-top: 16px;
+            margin-top: 8px;
+        }
+
+        /* Add to Cart Button */
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ffe066;
+            color: #1a1157;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+        }
+
+        /* Assortment */
+        .assortment-section {
+            margin: 24px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+        }
+
+        .assortment-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .assortment-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1a1157;
+        }
+
+        .assortment-subtitle {
+            font-size: 0.9rem;
+            color: #b0376b;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .assortment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .assortment-tile {
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            text-align: left;
+            cursor: pointer;
+            display: grid;
+            grid-template-columns: 54px 1fr;
+            gap: 10px;
+            align-items: center;
+            font-weight: 700;
+            transition: all 0.15s ease;
+            color: #1a1157;
+        }
+
+        .assortment-tile:hover {
+            border-color: #b0376b;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        .assortment-tile.active {
+            border: 2px solid #b0376b;
+            box-shadow: 0 6px 14px rgba(176, 55, 107, 0.1);
+            background: #fff8fb;
+        }
+
+        .assortment-name {
+            flex: 1;
+            margin-right: 8px;
+        }
+
+        .assortment-thumb {
+            width: 54px;
+            height: 54px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+
+        .assortment-extra {
+            color: #1a1157;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #ffd633;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 224, 102, 0.4);
+        }
+
+        .add-to-cart-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            height: 48px;
+            margin-bottom: 12px;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: #ffe066;
+            display: block;
+            margin: 6px 0;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 12px;
+            font-size: 0.9rem;
+            color: #ccc;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 14px 22px;
+                height: auto;
+                flex-wrap: wrap;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+            }
+
+            nav.nav-open {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+
+            nav li {
+                width: 100%;
+            }
+
+            nav a {
+                display: block;
+                padding: 12px 0;
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                border-radius: 0;
+                box-shadow: none;
+                background: #2a2f95;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <a href="index.html">
+            <img src="Image/Logo.png" alt="Matie Cake" class="logo">
+        </a>
+
+        <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+            ☰
+        </button>
+
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="index.html#new-products">New</a></li>
+                        <li><a href="index.html#favorite-products">Best Seller</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas</a></li>
+                        <li><a href="index.html#tet-gifts">Tet</a></li>
+                    </ul>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- PRODUCT DETAIL -->
+    <div class="product-container">
+        <div class="product-detail">
+            <div class="product-image-container">
+                <img src="https://www.sugarfina.com/media/catalog/product/b/e/bentobox_4pc_blue-2_edited-v2_2.jpg?quality=92&bg-color=255,255,255&fit=bounds&height=570&width=570&canvas=570:570"
+                    alt="Cupcake Box" class="product-image" id="product-image">
+                <div class="box-preview" id="box-preview">
+                    <div id="box-slots" class="box-slots"></div>
+                    <div id="box-overflow" class="box-overflow"></div>
+                </div>
+                <div id="selected-list" class="selected-list"></div>
+            </div>
+
+            <div class="product-info">
+                <h1 id="product-name"> Mooncake Gift Box (4 pieces)</h1>
+                <div class="product-price" id="display-price">$38.00</div>
+                <p class="product-description">A beautiful box of premium handmade cupcakes, perfect for gifting on
+                    special occasions.</p>
+
+                <!-- Assortment Section -->
+                <div class="assortment-section">
+                    <div class="assortment-header">
+                        <div class="assortment-title">Select your assortment</div>
+                        <div class="assortment-subtitle">Don't skip this step!</div>
+                    </div>
+                    <div id="assortment-options" class="assortment-grid"></div>
+                </div>
+
+                <!-- Gift Options Section -->
+                <div class="gift-section">
+                    <div class="gift-section-header">
+                        <div class="gift-section-title"
+                            style="color: #1a1157; font-size: 1rem; font-weight: 600; margin-bottom: 8px;">
+                            Complete your gift...</div>
+                        <div class="gift-subtitle">Optional</div>
+                    </div>
+                    <div id="gift-options-container" class="gift-grid">
+                        <!-- Gift options will be rendered here by JavaScript -->
+                    </div>
+
+                    <!-- Price Breakdown -->
+                    <div class="price-breakdown">
+                        <div class="price-breakdown-item">
+                            <span>Base Price:</span>
+                            <span id="base-price-display">$38.00</span>
+                        </div>
+                        <div class="price-breakdown-item" id="assortment-breakdown">
+                            Assortment: $0.00
+                        </div>
+                        <div id="addons-breakdown">
+                            <!-- Addon prices will be shown here -->
+                        </div>
+                        <div class="price-breakdown-item total">
+                            <span>Total:</span>
+                            <span id="total-price-display">$38.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add to Cart Button -->
+                <button class="add-to-cart-btn" id="add-to-cart-btn">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <img src="Image/Logo.png" class="footer-logo">
+            <p style="margin: 6px 0;">Matie Cake Co., Ltd.</p>
+            <p style="margin: 4px 0;">3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</p>
+            <p style="margin: 4px 0;">Phone: 0886804360</p>
+            <p style="margin: 4px 0;">Email: matiecake@gmail.com</p>
+
+            <div class="footer-links">
+                <a href="#">Shipping Policy</a>
+                <a href="#">Return & Refund Policy</a>
+                <a href="#">Payment Methods</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Personal Data Protection</a>
+                <a href="#">Contact Information</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 Matie Cake. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script type="module" src="js/product.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector(".menu-toggle")?.addEventListener("click", () => {
+            document.querySelector("nav").classList.toggle("nav-open");
+        });
+    </script>
+</body>
+
+</html>

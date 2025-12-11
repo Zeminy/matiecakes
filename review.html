@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Your Order | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,600,700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           GLOBAL STYLE 
+        ========================================== */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a { text-decoration: none; }
+        
+        /* ==========================================
+           HEADER 
+        ========================================== */
+        header {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            color: #fff;
+            padding: 0 40px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .logo { height: 56px; }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 26px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav li {
+            font-weight: 600;
+            position: relative;
+        }
+        
+        nav a {
+            color: #fff;
+            padding: 8px 0;
+            display: inline-block;
+            font-weight: 600;
+        }
+        
+        nav li::after {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background: #ffe066;
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            transform: scaleX(0);
+            transition: .2s ease;
+        }
+        
+        nav li:hover::after { transform: scaleX(1); }
+        
+        /* DROPDOWN */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            background: #2a2f95;
+            padding: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 220px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        
+        .dropdown-content li {
+            padding: 0;
+        }
+        
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #fff;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .dropdown-content a:hover {
+            background: rgba(255,255,255,0.1);
+            color: #ffe066;
+        }
+        
+        .dropdown:hover .dropdown-content { display: block; }
+        
+        /* MOBILE ICON */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+        }
+        
+        .nav-open {
+            display: flex !important;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        /* ==========================================
+           CHECKOUT PROGRESS BAR
+        ========================================== */
+        .checkout-progress {
+            background: #fff;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .progress-steps {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .progress-step:hover {
+            background: #f5f5f5;
+        }
+        
+        .progress-step-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .progress-step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .progress-step-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .progress-step.active .progress-step-icon,
+        .progress-step.active .progress-step-number,
+        .progress-step.active .progress-step-text {
+            color: #1a1157;
+        }
+        
+        .progress-step.completed .progress-step-icon,
+        .progress-step.completed .progress-step-number,
+        .progress-step.completed .progress-step-text {
+            color: #1a1157;
+        }
+        
+        .progress-step.inactive .progress-step-icon,
+        .progress-step.inactive .progress-step-number,
+        .progress-step.inactive .progress-step-text {
+            color: #999;
+        }
+        
+        .progress-step.active .progress-step-number,
+        .progress-step.completed .progress-step-number {
+            background: #1a1157;
+            color: #fff;
+        }
+        
+        .progress-step.inactive .progress-step-number {
+            background: #e0e0e0;
+            color: #999;
+        }
+        
+        .progress-connector {
+            flex: 1;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 0 10px;
+        }
+        
+        .progress-connector.completed {
+            background: #1a1157;
+        }
+        
+        /* ==========================================
+           REVIEW PAGE
+        ========================================== */
+        .review-wrapper {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .review-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1157;
+            margin-bottom: 30px;
+        }
+        
+        .review-layout {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 30px;
+            align-items: start;
+        }
+        
+        /* Review Sections */
+        .review-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1157;
+            margin: 0;
+        }
+        
+        .edit-link {
+            color: #1a1157;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .edit-link:hover {
+            color: #3f53ae;
+        }
+        
+        /* Item Section */
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .item-number {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1157;
+        }
+        
+        .item-delete-btn {
+            background: none;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+        
+        .item-delete-btn:hover {
+            color: #b71c1c;
+        }
+        
+        .item-details {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        
+        .item-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1157;
+            margin-bottom: 10px;
+        }
+        
+        .item-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 6px;
+        }
+        
+        .item-meta strong {
+            color: #333;
+        }
+        
+        .send-additional-link {
+            color: #1a1157;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        /* Info Display */
+        .info-display {
+            margin-bottom: 20px;
+        }
+        
+        .info-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .info-value {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            position: relative;
+        }
+        
+        .info-value .bullet {
+            position: absolute;
+            left: 0;
+            color: #1a1157;
+            font-weight: bold;
+        }
+        
+        .info-value.with-edit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Payment Info Display */
+        .payment-info-box {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .payment-card-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-logo-small {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #1a1157;
+        }
+        
+        .card-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .address-display {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .contact-display {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        /* Order Summary Sidebar */
+        .order-summary-sidebar {
+            background: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .summary-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1157;
+            margin: 0;
+        }
+        
+        .return-to-bag {
+            color: #1a1157;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .summary-items-count {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        .summary-row-label {
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .summary-row-value {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .summary-row.total-before-tax {
+            border-top: 1px solid #e0e0e0;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-weight: 600;
+        }
+        
+        .summary-row.taxes {
+            font-size: 0.85rem;
+        }
+        
+        .summary-row.order-total {
+            border-top: 2px solid #1a1157;
+            margin-top: 15px;
+            padding-top: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1a1157;
+        }
+        
+        .info-icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #666;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: help;
+            font-weight: bold;
+        }
+        
+        /* Legal Agreement */
+        .legal-agreement {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        
+        .legal-agreement a {
+            color: #1a1157;
+            text-decoration: underline;
+        }
+        
+        /* Place Order Button */
+        .place-order-btn {
+            width: 100%;
+            padding: 16px;
+            background: #e91e63;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .place-order-btn:hover {
+            background: #c2185b;
+        }
+        
+        .place-order-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+        }
+        
+        .footer-logo {
+            height: 48px;
+            margin-bottom: 12px;
+        }
+        
+        .footer-links {
+            margin-top: 20px;
+        }
+        
+        .footer-links a {
+            color: #ffe066;
+            display: block;
+            margin: 6px 0;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 12px;
+            font-size: 0.9rem;
+            color: #ccc;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .review-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-summary-sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            header {
+                padding: 14px 22px;
+                height: auto;
+                flex-wrap: wrap;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+            }
+            
+            nav.nav-open {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+            
+            nav li {
+                width: 100%;
+            }
+            
+            nav a {
+                display: block;
+                padding: 12px 0;
+                width: 100%;
+            }
+            
+            .dropdown-content {
+                position: static;
+                border-radius: 0;
+                box-shadow: none;
+                background: #2a2f95;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <a href="index.html">
+            <img src="Image/Logo.png" alt="Matie Cake" class="logo">
+        </a>
+        
+        <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+            ☰
+        </button>
+        
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="index.html#new-products">New</a></li>
+                        <li><a href="index.html#favorite-products">Best Seller</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas</a></li>
+                        <li><a href="index.html#tet-gifts">Tet</a></li>
+                    </ul>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CHECKOUT PROGRESS BAR -->
+    <div class="checkout-progress">
+        <div class="progress-steps">
+            <div class="progress-step completed" style="cursor: default; pointer-events: none;">
+                <span class="progress-step-icon">🔒</span>
+                <span class="progress-step-text">Secure Checkout</span>
+            </div>
+            <div class="progress-connector completed"></div>
+            <div class="progress-step completed" onclick="window.location.href='cart.html'">
+                <span class="progress-step-number">1</span>
+                <span class="progress-step-text">Bag/Shipping</span>
+            </div>
+            <div class="progress-connector completed"></div>
+            <div class="progress-step completed" onclick="window.location.href='checkout.html'">
+                <span class="progress-step-number">2</span>
+                <span class="progress-step-text">Payment</span>
+            </div>
+            <div class="progress-connector completed"></div>
+            <div class="progress-step active" onclick="window.location.href='review.html'">
+                <span class="progress-step-number">3</span>
+                <span class="progress-step-text">Review</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- REVIEW CONTENT -->
+    <div class="review-wrapper">
+        <h1 class="review-title">Review Your Order</h1>
+        
+        <div class="review-layout">
+            <!-- Left Column: Items and Details -->
+            <div class="review-items-column">
+                <div id="items-container">
+                    <!-- Items will be rendered here by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Right Column: Order Summary -->
+            <div class="order-summary-sidebar">
+                <div class="summary-header">
+                    <h2>Order Summary</h2>
+                    <a href="cart.html" class="return-to-bag">
+                        <span>🛍️</span>
+                        <span>Return to bag</span>
+                    </a>
+                </div>
+                
+                <div id="order-summary-content">
+                    <!-- Summary will be rendered here by JavaScript -->
+                </div>
+                
+                <!-- Payment Method Review -->
+                <div class="review-section" style="margin-top: 20px;">
+                    <div class="section-header">
+                        <h3 class="section-title">Payment Method:</h3>
+                        <a href="checkout.html" class="edit-link">Edit</a>
+                    </div>
+                    <div id="payment-method-display">
+                        <!-- Payment method will be rendered here -->
+                    </div>
+                </div>
+                
+                <!-- Billing Address Review -->
+                <div class="review-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Billing Address:</h3>
+                        <a href="checkout.html" class="edit-link">Edit</a>
+                    </div>
+                    <div id="billing-address-display">
+                        <!-- Billing address will be rendered here -->
+                    </div>
+                </div>
+                
+                <!-- Contact Info Review -->
+                <div class="review-section">
+                    <div class="section-header">
+                        <h3 class="section-title">Contact Info:</h3>
+                        <a href="checkout.html" class="edit-link">Edit</a>
+                    </div>
+                    <div id="contact-info-display">
+                        <!-- Contact info will be rendered here -->
+                    </div>
+                </div>
+                
+                <!-- Legal Agreement and Place Order -->
+                <div class="legal-agreement">
+                    When you click "Place Order" you are agreeing to the 
+                    <a href="#">Privacy Notice</a> and <a href="#">Terms of Use</a>.
+                </div>
+                
+                <div id="order-total-display">
+                    <!-- Order total will be rendered here -->
+                </div>
+                
+                <button class="place-order-btn" id="place-order-btn" onclick="handlePlaceOrder()">
+                    Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <img src="Image/Logo.png" class="footer-logo">
+            <p style="margin: 6px 0;">Matie Cake Co., Ltd.</p>
+            <p style="margin: 4px 0;">3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</p>
+            <p style="margin: 4px 0;">Phone: 0886804360</p>
+            <p style="margin: 4px 0;">Email: matiecake@gmail.com</p>
+
+            <div class="footer-links">
+                <a href="#">Shipping Policy</a>
+                <a href="#">Return & Refund Policy</a>
+                <a href="#">Payment Methods</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Personal Data Protection</a>
+                <a href="#">Contact Information</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 Matie Cake. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script type="module" src="js/review.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector(".menu-toggle")?.addEventListener("click", () => {
+            document.querySelector("nav").classList.toggle("nav-open");
+        });
+    </script>
+</body>
+</html>
+

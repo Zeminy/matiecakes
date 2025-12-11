@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,600,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           GLOBAL STYLE 
+        ========================================== */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ==========================================
+           HEADER 
+        ========================================== */
+        header {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            color: #fff;
+            padding: 0 40px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            height: 56px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 26px;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            font-weight: 600;
+            position: relative;
+        }
+
+        nav a {
+            color: #fff;
+            padding: 8px 0;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        nav li::after {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background: #ffe066;
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            transform: scaleX(0);
+            transition: .2s ease;
+        }
+
+        nav li:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* DROPDOWN */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            background: #2a2f95;
+            padding: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 220px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content li {
+            padding: 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: #fff;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffe066;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* MOBILE ICON */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        .nav-open {
+            display: flex !important;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        /* ==========================================
+           CHECKOUT PROGRESS BAR
+        ========================================== */
+        .checkout-progress {
+            background: #fff;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-steps {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .progress-step:hover {
+            background: #f5f5f5;
+        }
+
+        .progress-step-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .progress-step-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-step.active .progress-step-icon,
+        .progress-step.active .progress-step-number,
+        .progress-step.active .progress-step-text {
+            color: #1a1157;
+        }
+
+        .progress-step.completed .progress-step-icon,
+        .progress-step.completed .progress-step-number,
+        .progress-step.completed .progress-step-text {
+            color: #1a1157;
+        }
+
+        .progress-step.inactive .progress-step-icon,
+        .progress-step.inactive .progress-step-number,
+        .progress-step.inactive .progress-step-text {
+            color: #999;
+        }
+
+        .progress-step.active .progress-step-number,
+        .progress-step.completed .progress-step-number {
+            background: #1a1157;
+            color: #fff;
+        }
+
+        .progress-step.inactive .progress-step-number {
+            background: #e0e0e0;
+            color: #999;
+        }
+
+        .progress-connector {
+            flex: 1;
+            height: 2px;
+            background: #e0e0e0;
+            margin: 0 10px;
+        }
+
+        .progress-connector.completed {
+            background: #1a1157;
+        }
+
+        /* ==========================================
+           CHECKOUT PAGE
+        ========================================== */
+        .checkout-wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .checkout-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1157;
+            margin-bottom: 30px;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Form Sections */
+        .checkout-form-section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1157;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Payment Method Buttons */
+        .payment-method-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .payment-method-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .payment-method-btn:hover {
+            border-color: #1a1157;
+        }
+
+        .payment-method-btn.selected {
+            border-color: #1a1157;
+            background: #1a1157;
+            color: #fff;
+        }
+
+        .payment-method-btn .icon {
+            font-size: 1.2rem;
+        }
+
+        /* Card Logos */
+        .card-logos {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .card-logo {
+            height: 24px;
+            object-fit: contain;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group.required label::after {
+            content: "*";
+            color: #e91e63;
+            margin-left: 4px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-family: 'Roboto', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1a1157;
+        }
+
+        .form-group input.valid {
+            border-color: #4caf50;
+        }
+
+        .form-group input.invalid {
+            border-color: #f44336;
+        }
+
+        /* Validation Icon */
+        .validation-icon {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        .validation-icon.valid {
+            color: #4caf50;
+        }
+
+        .validation-icon.invalid {
+            color: #f44336;
+        }
+
+        /* Two Column Layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* CVV with Info Icon */
+        .cvv-group {
+            position: relative;
+        }
+
+        .info-icon {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #666;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            cursor: help;
+            font-weight: bold;
+        }
+
+        /* Add Company Link */
+        .add-company-link {
+            color: #1a1157;
+            font-size: 0.9rem;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .add-company-link:hover {
+            color: #3f53ae;
+        }
+
+        .company-field {
+            display: none;
+        }
+
+        .company-field.active {
+            display: block;
+        }
+
+        /* Checkbox Styles */
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .checkbox-group label::after {
+            content: none;
+        }
+
+        /* Helper Text */
+        .helper-text {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
+
+        /* Communication Preferences */
+        .communication-preferences {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Continue Button */
+        .continue-btn {
+            width: 100%;
+            padding: 16px;
+            background: #e91e63;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s;
+        }
+
+        .continue-btn:hover {
+            background: #c2185b;
+        }
+
+        .continue-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Order Summary Sidebar */
+        .order-summary-sidebar {
+            background: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 100px;
+        }
+
+        .order-summary-sidebar h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1157;
+            margin: 0 0 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-item-name {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .summary-item-value {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .summary-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #1a1157;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1157;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            height: 48px;
+            margin-bottom: 12px;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: #ffe066;
+            display: block;
+            margin: 6px 0;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 12px;
+            font-size: 0.9rem;
+            color: #ccc;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 900px) {
+            header {
+                padding: 14px 22px;
+                height: auto;
+                flex-wrap: wrap;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+            }
+
+            nav.nav-open {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                width: 100%;
+            }
+
+            nav li {
+                width: 100%;
+            }
+
+            nav a {
+                display: block;
+                padding: 12px 0;
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                border-radius: 0;
+                box-shadow: none;
+                background: #2a2f95;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-method-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <a href="index.html">
+            <img src="Image/Logo.png" alt="Matie Cake" class="logo">
+        </a>
+
+        <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+            ☰
+        </button>
+
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="index.html#new-products">New</a></li>
+                        <li><a href="index.html#favorite-products">Best Seller</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas</a></li>
+                        <li><a href="index.html#tet-gifts">Tet</a></li>
+                    </ul>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CHECKOUT PROGRESS BAR -->
+    <div class="checkout-progress">
+        <div class="progress-steps">
+            <div class="progress-step completed" style="cursor: default; pointer-events: none;">
+                <span class="progress-step-icon">🔒</span>
+                <span class="progress-step-text">Secure Checkout</span>
+            </div>
+            <div class="progress-connector completed"></div>
+            <div class="progress-step completed" onclick="window.location.href='cart.html'">
+                <span class="progress-step-number">1</span>
+                <span class="progress-step-text">Bag/Shipping</span>
+            </div>
+            <div class="progress-connector completed"></div>
+            <div class="progress-step active" onclick="window.location.href='checkout.html'">
+                <span class="progress-step-number">2</span>
+                <span class="progress-step-text">Payment</span>
+            </div>
+            <div class="progress-connector"></div>
+            <div class="progress-step inactive" onclick="window.location.href='review.html'">
+                <span class="progress-step-number">3</span>
+                <span class="progress-step-text">Review</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT CONTENT -->
+    <div class="checkout-wrapper">
+        <h1 class="checkout-title">Checkout</h1>
+
+        <div class="checkout-layout">
+            <!-- Checkout Form -->
+            <div class="checkout-form">
+                <!-- Payment Method Section -->
+                <div class="checkout-form-section">
+                    <h2 class="section-title">Payment Method:</h2>
+
+                    <div class="payment-method-buttons">
+                        <button class="payment-method-btn selected" data-method="card"
+                            onclick="selectPaymentMethod('card')">
+                            <span class="icon">💳</span>
+                            <span>Card</span>
+                        </button>
+                        <button class="payment-method-btn" data-method="paypal" onclick="selectPaymentMethod('paypal')">
+                            <span>PayPal</span>
+                        </button>
+                        <button class="payment-method-btn" data-method="momo" onclick="selectPaymentMethod('momo')">
+                            <span class="icon">📱</span>
+                            <span>MoMo</span>
+                        </button>
+                        <button class="payment-method-btn" data-method="vnpay" onclick="selectPaymentMethod('vnpay')">
+                            <span class="icon">🏦</span>
+                            <span>VNPay</span>
+                        </button>
+                    </div>
+
+                    <!-- Credit/Debit Card Form -->
+                    <div id="card-payment-form">
+                        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 15px;">Credit or Debit Card:</h3>
+
+                        <div class="card-logos">
+                            <span style="font-size: 0.8rem; color: #666; margin-right: 8px;">Accepted:</span>
+                            <span style="font-weight: 700; color: #1a1157; font-size: 0.85rem;">VISA</span>
+                            <span style="font-weight: 700; color: #0066cc; font-size: 0.85rem;">AMEX</span>
+                            <span style="font-weight: 700; color: #ff6000; font-size: 0.85rem;">DISCOVER</span>
+                            <span style="font-weight: 700; color: #eb001b; font-size: 0.85rem;">Mastercard</span>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="card-name">NAME ON CARD</label>
+                            <input type="text" id="card-name" name="card-name" placeholder="NAME ON CARD*">
+                            <span class="validation-icon" id="card-name-icon"></span>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="card-number">CARD NUMBER</label>
+                            <input type="text" id="card-number" name="card-number" placeholder="CARD NUMBER*"
+                                maxlength="19">
+                            <span class="validation-icon" id="card-number-icon"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group required">
+                                <label for="card-month">MONTH</label>
+                                <select id="card-month" name="card-month">
+                                    <option value="">MM</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <span class="validation-icon" id="card-month-icon"></span>
+                            </div>
+
+                            <div class="form-group required">
+                                <label for="card-year">YEAR</label>
+                                <select id="card-year" name="card-year">
+                                    <option value="">YYYY</option>
+                                </select>
+                                <span class="validation-icon" id="card-year-icon"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group required cvv-group">
+                            <label for="card-cvv">CVV</label>
+                            <input type="text" id="card-cvv" name="card-cvv" placeholder="CVV*" maxlength="4">
+                            <span class="info-icon" title="3-4 digit security code on the back of your card">i</span>
+                            <span class="validation-icon" id="card-cvv-icon"></span>
+                        </div>
+                    </div>
+
+                    <!-- MoMo Payment Form -->
+                    <div id="momo-payment-form" style="display: none;">
+                        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 15px;">MoMo Wallet:</h3>
+
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                            <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">
+                                Thanh toán nhanh chóng và an toàn qua ví điện tử MoMo
+                            </p>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 0.8rem; color: #666;">Được hỗ trợ bởi:</span>
+                                <span style="font-weight: 700; color: #a50064; font-size: 0.9rem;">MoMo</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="momo-phone">SỐ ĐIỆN THOẠI MoMo</label>
+                            <input type="text" id="momo-phone" name="momo-phone"
+                                placeholder="Nhập số điện thoại đã đăng ký MoMo*" maxlength="10">
+                            <span class="validation-icon" id="momo-phone-icon"></span>
+                            <p class="helper-text">Ví dụ: 0901234567 (10 chữ số)</p>
+                        </div>
+
+                        <div
+                            style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 12px; margin-top: 15px;">
+                            <p style="font-size: 0.85rem; color: #856404; margin: 0;">
+                                <strong>Lưu ý:</strong> Bạn sẽ nhận được thông báo xác nhận thanh toán trên ứng dụng
+                                MoMo. Vui lòng xác nhận để hoàn tất đơn hàng.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- VNPay Payment Form -->
+                    <div id="vnpay-payment-form" style="display: none;">
+                        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 15px;">VNPay:</h3>
+
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                            <p style="font-size: 0.85rem; color: #666; margin: 0 0 10px 0;">
+                                Thanh toán qua cổng thanh toán VNPay - Hỗ trợ hơn 40 ngân hàng tại Việt Nam
+                            </p>
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                <span style="font-size: 0.8rem; color: #666;">Được hỗ trợ bởi:</span>
+                                <span style="font-weight: 700; color: #134391; font-size: 0.9rem;">VNPay</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="vnpay-bank">CHỌN NGÂN HÀNG</label>
+                            <select id="vnpay-bank" name="vnpay-bank">
+                                <option value="">-- Chọn ngân hàng --</option>
+                                <option value="VCB">Vietcombank</option>
+                                <option value="TCB">Techcombank</option>
+                                <option value="VTB">VietinBank</option>
+                                <option value="BIDV">BIDV</option>
+                                <option value="ACB">ACB</option>
+                                <option value="VPB">VPBank</option>
+                                <option value="TPB">TPBank</option>
+                                <option value="MSB">MSB</option>
+                                <option value="HDB">HDBank</option>
+                                <option value="VIB">VIB</option>
+                                <option value="SHB">SHB</option>
+                                <option value="OCB">OCB</option>
+                                <option value="SCB">SCB</option>
+                                <option value="MB">MB Bank</option>
+                                <option value="VCCB">Viet Capital Bank</option>
+                                <option value="NAB">Nam A Bank</option>
+                            </select>
+                            <span class="validation-icon" id="vnpay-bank-icon"></span>
+                        </div>
+
+                        <div
+                            style="background: #e7f3ff; border: 1px solid #0066cc; border-radius: 4px; padding: 12px; margin-top: 15px;">
+                            <p style="font-size: 0.85rem; color: #004085; margin: 0 0 8px 0;">
+                                <strong>Hướng dẫn thanh toán:</strong>
+                            </p>
+                            <ul style="font-size: 0.85rem; color: #004085; margin: 0; padding-left: 20px;">
+                                <li>Bạn sẽ được chuyển hướng đến trang thanh toán VNPay</li>
+                                <li>Đăng nhập Internet Banking của ngân hàng đã chọn</li>
+                                <li>Xác nhận và hoàn tất thanh toán</li>
+                                <li>Hệ thống sẽ tự động quay lại sau khi thanh toán thành công</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- PayPal Payment Form -->
+                    <div id="paypal-payment-form" style="display: none;">
+                        <p style="font-size: 0.9rem; color: #666; margin: 15px 0;">
+                            Proceed to review order where you can complete your purchase with PayPal.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Billing Address Section -->
+                <div class="checkout-form-section">
+                    <h2 class="section-title">Billing Address:</h2>
+
+                    <div class="form-row">
+                        <div class="form-group required">
+                            <label for="billing-firstname">FIRST NAME</label>
+                            <input type="text" id="billing-firstname" name="billing-firstname"
+                                placeholder="FIRST NAME*">
+                            <span class="validation-icon" id="billing-firstname-icon"></span>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="billing-lastname">LAST NAME</label>
+                            <input type="text" id="billing-lastname" name="billing-lastname" placeholder="LAST NAME*">
+                            <span class="validation-icon" id="billing-lastname-icon"></span>
+                        </div>
+                    </div>
+
+                    <a href="#" class="add-company-link" id="add-company-link" onclick="toggleCompanyField(event)">+ Add
+                        Company</a>
+
+                    <div class="form-group company-field" id="company-field">
+                        <label for="billing-company">COMPANY</label>
+                        <input type="text" id="billing-company" name="billing-company" placeholder="Company name">
+                    </div>
+
+                    <div class="form-group required">
+                        <label for="billing-address">BILLING ADDRESS</label>
+                        <input type="text" id="billing-address" name="billing-address" placeholder="BILLING ADDRESS*">
+                        <span class="validation-icon" id="billing-address-icon"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="billing-apt">APT/SUITE/ROOM</label>
+                        <input type="text" id="billing-apt" name="billing-apt" placeholder="APT/SUITE/ROOM">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group required">
+                            <label for="billing-zip">ZIP CODE</label>
+                            <input type="text" id="billing-zip" name="billing-zip" placeholder="ZIP CODE*"
+                                maxlength="10">
+                            <span class="validation-icon" id="billing-zip-icon"></span>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="billing-city">CITY</label>
+                            <input type="text" id="billing-city" name="billing-city" placeholder="CITY*">
+                            <span class="validation-icon" id="billing-city-icon"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group required">
+                            <label for="billing-state">STATE</label>
+                            <select id="billing-state" name="billing-state">
+                                <option value="">Select State</option>
+                                <option value="AL">Alabama</option>
+                                <option value="AK">Alaska</option>
+                                <option value="AZ">Arizona</option>
+                                <option value="AR">Arkansas</option>
+                                <option value="CA">California</option>
+                                <option value="CO">Colorado</option>
+                                <option value="CT">Connecticut</option>
+                                <option value="DE">Delaware</option>
+                                <option value="FL">Florida</option>
+                                <option value="GA">Georgia</option>
+                                <option value="HI">Hawaii</option>
+                                <option value="ID">Idaho</option>
+                                <option value="IL">Illinois</option>
+                                <option value="IN">Indiana</option>
+                                <option value="IA">Iowa</option>
+                                <option value="KS">Kansas</option>
+                                <option value="KY">Kentucky</option>
+                                <option value="LA">Louisiana</option>
+                                <option value="ME">Maine</option>
+                                <option value="MD">Maryland</option>
+                                <option value="MA">Massachusetts</option>
+                                <option value="MI">Michigan</option>
+                                <option value="MN">Minnesota</option>
+                                <option value="MS">Mississippi</option>
+                                <option value="MO">Missouri</option>
+                                <option value="MT">Montana</option>
+                                <option value="NE">Nebraska</option>
+                                <option value="NV">Nevada</option>
+                                <option value="NH">New Hampshire</option>
+                                <option value="NJ">New Jersey</option>
+                                <option value="NM">New Mexico</option>
+                                <option value="NY">New York</option>
+                                <option value="NC">North Carolina</option>
+                                <option value="ND">North Dakota</option>
+                                <option value="OH">Ohio</option>
+                                <option value="OK">Oklahoma</option>
+                                <option value="OR">Oregon</option>
+                                <option value="PA">Pennsylvania</option>
+                                <option value="RI">Rhode Island</option>
+                                <option value="SC">South Carolina</option>
+                                <option value="SD">South Dakota</option>
+                                <option value="TN">Tennessee</option>
+                                <option value="TX">Texas</option>
+                                <option value="UT">Utah</option>
+                                <option value="VT">Vermont</option>
+                                <option value="VA">Virginia</option>
+                                <option value="WA">Washington</option>
+                                <option value="WV">West Virginia</option>
+                                <option value="WI">Wisconsin</option>
+                                <option value="WY">Wyoming</option>
+                            </select>
+                            <span class="validation-icon" id="billing-state-icon"></span>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="billing-country">COUNTRY</label>
+                            <select id="billing-country" name="billing-country">
+                                <option value="">Select Country</option>
+                                <option value="US" selected>United States</option>
+                                <option value="VN">Vietnam</option>
+                                <option value="CA">Canada</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                                <option value="FR">France</option>
+                                <option value="DE">Germany</option>
+                                <option value="JP">Japan</option>
+                                <option value="KR">South Korea</option>
+                                <option value="CN">China</option>
+                            </select>
+                            <span class="validation-icon" id="billing-country-icon"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="checkout-form-section">
+                    <h2 class="section-title">Contact Info:</h2>
+
+                    <div class="form-group required">
+                        <label for="contact-phone">YOUR PHONE NUMBER</label>
+                        <input type="tel" id="contact-phone" name="contact-phone" placeholder="(079) 762-1687">
+                        <p class="helper-text">Phone is required in case we need to contact you about an order.</p>
+                        <span class="validation-icon" id="contact-phone-icon"></span>
+                    </div>
+
+                    <div class="communication-preferences">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="sms-updates" name="sms-updates">
+                            <label for="sms-updates">Send me order status updates via text message</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="sms-offers" name="sms-offers">
+                            <label for="sms-offers">Get exclusive offers via text message</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="email-offers" name="email-offers" checked>
+                            <label for="email-offers">Email me promotions and special offers</label>
+                        </div>
+                    </div>
+
+                    <button class="continue-btn" id="continue-btn" onclick="handleContinueToReview()">Continue To Review
+                        Order</button>
+                </div>
+            </div>
+
+            <!-- Order Summary Sidebar -->
+            <div class="order-summary-sidebar" id="order-summary">
+                <!-- Summary will be rendered here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <img src="Image/Logo.png" class="footer-logo">
+            <p style="margin: 6px 0;">Matie Cake Co., Ltd.</p>
+            <p style="margin: 4px 0;">3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</p>
+            <p style="margin: 4px 0;">Phone: 0886804360</p>
+            <p style="margin: 4px 0;">Email: matiecake@gmail.com</p>
+
+            <div class="footer-links">
+                <a href="#">Shipping Policy</a>
+                <a href="#">Return & Refund Policy</a>
+                <a href="#">Payment Methods</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Personal Data Protection</a>
+                <a href="#">Contact Information</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 Matie Cake. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script type="module" src="js/checkout.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.querySelector(".menu-toggle")?.addEventListener("click", () => {
+            document.querySelector("nav").classList.toggle("nav-open");
+        });
+
+        // Toggle company field
+        window.toggleCompanyField = function (event) {
+            event.preventDefault();
+            const companyField = document.getElementById('company-field');
+            const addLink = document.getElementById('add-company-link');
+            if (companyField.classList.contains('active')) {
+                companyField.classList.remove('active');
+                addLink.textContent = '+ Add Company';
+            } else {
+                companyField.classList.add('active');
+                addLink.textContent = '- Remove Company';
+            }
+        };
+    </script>
+</body>
+
+</html>
