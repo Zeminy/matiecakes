@@ -10,12 +10,24 @@
     <link rel="stylesheet" href="src/styles/media query.css">
 
     <style>
-        /* CSS CHUNG VÀ CƠ BẢN (Đảm bảo tính liên kết với các trang khác) */
+        /* CSS CHUNG VÀ CƠ BẢN (Đảm bảo tính liên kết giữa các trang) */
         body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
         .nav-open { display: flex !important; flex-direction: column; align-items: flex-start; }
 
         /* HEADER & NAVIGATION */
-        header { background: #1a1157; color: #fff; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between; }
+        header {
+    background: linear-gradient(90deg, #1a1157, #3f53ae);
+    color: #fff;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
         .logo { height: 60px; margin-right: 40px; }
         nav { flex: 1; }
         nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; justify-content: flex-end; }
@@ -470,6 +482,13 @@
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>    
+                            <li class="dropdown">
+                <a href="#">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+
             </ul>
         </nav>
     </header>
@@ -498,7 +517,7 @@
                     <li><b>– Includes:</b> special cake for Tet season</li>
                     <li><b>– Size:</b> 20cm/cake</li>
                     <li><b>– Shelf life:</b> 1 month from date of manufacture</li>
-                    <li><b>– Storage instructions:</b> Keep at room temperature (about $25^\circ\text{C}$) and use within 3 days after opening the packaging.</li>
+                    <li><b>– Storage instructions:</b> Keep at room temperature (about 25°C) and use within 3 days after opening the packaging.</li>
                     <li><b>– Voucher:</b> Voucher to join the handmade Mid-Autumn cake workshop</li>
                 </ul>
                 <div class="order-controls">
@@ -579,11 +598,11 @@
                     <div class="review-date">15/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cake box is very beautiful and luxurious. The cakes are delicious, the filling is rich, and the sweet and savory flavors are harmonious. My family really liked the Premium Roasted Chicken Char Siu and White Lotus Seed flavors. The packaging was careful, and the delivery was fast. We will continue to support the shop next year!
+                    The box is beautiful, and the Tet cake theme is great! The cake itself is delicious, soft, and fragrant. Perfect centerpiece for a Tet gathering.
                 </div>
                 <div class="review-images">
-                    <img src="Image 2/Kim Bảo Phát Lộc 3.jpg" class="review-image" alt="Review image">
-                    <img src="Image 2/Kim Bảo Phát Lộc 1.jpg" class="review-image" alt="Review image">
+                    <img src="Image 2/Kim Ngân Phát Tài 3.jpg" class="review-image" alt="Review image">
+                    <img src="Image 2/Kim Ngân Phát Tài 1.jpg" class="review-image" alt="Review image">
                 </div>
             </div>
             <div class="review-item">
@@ -596,7 +615,7 @@
                     <div class="review-date">12/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cakes are very delicious! The crust is soft, and the filling is generous. The unique Golden Lava Mooncake (Kim Sa Nguyệt Bảo) flavor, with its flowing filling when bitten into, is very appealing. The Five-Spice Grilled Shrimp is also very special. The price is a bit high, but it's worth the quality. It's excellent for gifting to bosses and partners!
+                    The money bag shape is so festive and unique! The cream is light and the overall cake delivers a wonderful, sweet taste of prosperity. Great value for a holiday cake.
                 </div>
             </div>
             <div class="review-item">
@@ -609,7 +628,7 @@
                     <div class="review-date">08/09/2024</div>
                 </div>
                 <div class="review-content">
-                    I have bought many kinds of Mid-Autumn cakes from different shops, but Matie Cake's are the best! The cakes are not dry or greasy. Both the Mung Bean and White Lotus Seed are smooth. The voucher to join the cake-making workshop is also very interesting. I will definitely order again!
+                    Excellent gift choice. Everyone complimented the elegant design and the fresh taste. The cake is soft, and the symbolic meaning is perfect for New Year wishes.
                 </div>
                 <div class="review-images">
                     <img src="Image 2/Kim Ngân Phát Tài 2.jpg" class="review-image" alt="Review image">
@@ -625,7 +644,7 @@
                     <div class="review-date">05/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cakes are delicious, and the packaging is beautiful. However, I found it a bit too sweet compared to my family's preference. If the sweetness level could be adjusted, it would be more perfect. But overall, it is still a quality product and worth buying!
+                    The cake is delicious, and the packaging is beautiful. However, I found it a bit too sweet compared to my family's preference. If the sweetness level could be adjusted, it would be more perfect. But overall, it is still a quality product and worth buying!
                 </div>
             </div>
             <div class="review-item">
@@ -638,7 +657,7 @@
                     <div class="review-date">02/09/2024</div>
                 </div>
                 <div class="review-content">
-                    Very satisfied with the product! The cake box is luxurious, suitable for gifts. The cake is buttery and the sweet and savory flavors are balanced. My children really love eating it, and adults are also fond of it. I will continue to support Matie Cake on other holidays.
+                    Very satisfied with the product! The cake box is luxurious, suitable for gifts. The cream is buttery and the texture is perfectly balanced. Highly recommend for the Tet season.
                 </div>
             </div>
         </div>
@@ -663,7 +682,7 @@
                 <div class="related-price">190,000 ₫</div>
             </a>
             <a href="flan-cheese.html" class="related-card">
-                <img src="Image 2/Flancheese/Flancheese 1.png" alt="Flancheese">
+                <img src="Image 2/Flancheese/Flancheese5.jpg" alt="Flancheese">
                 <div class="related-name">Flancheese</div>
                 <div class="related-price">180,000 ₫</div>
             </a>
@@ -753,5 +772,6 @@
             }
         });
     </script>
+<script src="src/scripts/chat.js" defer></script>
 </body>
 </html>

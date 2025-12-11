@@ -1,48 +1,69 @@
-# My Static Website
 
-This is a simple static website project that includes HTML, CSS, and JavaScript files. Below are the details on how to set up and run the website.
+# Matie Cake - Premium Bakery Website with AI Chat
+
+A modern, responsive e-commerce website for Matie Cake, featuring a premium UI and an intelligent AI chatbot powered by RAG (Retrieval-Augmented Generation).
+
+## Features
+
+-   **Premium Design**: Glassmorphism UI, smooth animations, and responsive layout.
+-   **AI Chat Assistant**:
+    -   **Product Knowledge**: Answers questions based on website content (RAG).
+    -   **Clickable Images**: Suggests products with clickable images that link directly to product pages.
+    -   **Visual & Concise**: Optimized for short, helpful answers with visual cues.
+    -   **Image Upload**: Users can upload images for the AI to analyze (text-only fallback currently).
 
 ## Project Structure
 
+-   `index.html` & `*.html`: Frontend pages.
+-   `src/`: CSS styles and JavaScript logic.
+-   `backend/`: Python FastAPI server for the AI chat.
+
+## Setup Instructions
+
+### Prerequisites
+-   Python 3.10+
+-   Node.js (optional, for frontend dev tools if needed)
+
+### 1. Backend Setup (AI Chat)
+
+Navigate to the backend directory and set up the environment:
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
 ```
-my-static-website
-├── src
-│   ├── index.html        # Main HTML document
-│   ├── styles
-│   │   └── main.css      # CSS styles for the website
-│   ├── scripts
-│   │   └── main.js       # JavaScript functionality
-│   └── assets
-│       └── fonts         # Directory for font files
-├── package.json          # npm configuration file
-└── README.md             # Project documentation
+
+**Configuration**:
+Create a `.env` file in `backend/` with your Groq API key:
+```ini
+GROQ_API_KEY=your_api_key_here
+AI_KEY=your_api_key_here
 ```
 
-## Getting Started
+**Run the Server**:
+```bash
+uvicorn app:app --reload
+```
+The server will start at `http://127.0.0.1:8000`.
 
-To get started with this project, follow these steps:
+### 2. Frontend Setup
 
-1. **Clone the repository** (if applicable):
-   ```
-   git clone <repository-url>
-   cd my-static-website
-   ```
-
-2. **Install dependencies**:
-   If there are any dependencies listed in `package.json`, run:
-   ```
-   npm install
-   ```
-
-3. **Open the website**:
-   You can open the `src/index.html` file in your web browser to view the website.
+Simply open `index.html` in your browser.
+-   For best experience, use extensions like "Live Server" in VS Code.
+-   Ensure the backend is running for the Chat feature to work.
 
 ## Usage
 
-- Modify the `src/index.html` file to change the content of the webpage.
-- Update the `src/styles/main.css` file to change the styles.
-- Add functionality in the `src/scripts/main.js` file.
+-   Click the **Chat Bubble** in the bottom right corner.
+-   Ask about products (e.g., "Tell me about the Flan Gato").
+-   Click on product images in the chat to view details.
+
+## Contributors
+-   Matie Cake Team
 
 ## License
+
 
 This project is licensed under the MIT License.

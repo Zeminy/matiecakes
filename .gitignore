@@ -1,0 +1,20 @@
+# Environment Variables
+.env
+backend/.env
+
+# Dependencies
+node_modules/
+backend/venv/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# System Files
+.DS_Store
+.vscode/
+
+# Build artifacts
+dist/
+build/

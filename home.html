@@ -31,14 +31,18 @@
            HEADER (ĐỒNG BỘ VỚI INDEX)
         ============================ */
         header {
-            background: #1a1157;
-            padding: 14px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            z-index: 100;
-        }
+    background: linear-gradient(90deg, #1a1157, #3f53ae);
+    color: #fff;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
 
         .logo {
             height: 60px;
@@ -288,6 +292,13 @@
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>
+                            <li class="dropdown">
+                <a href="#">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+
             </ul>
         </nav>
     </header>
@@ -360,5 +371,6 @@
         });
     </script>
 
+<script src="src/scripts/chat.js" defer></script>
 </body>
 </html>

@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
 
 <style>
+    html { scroll-behavior: smooth; }
+
 
 /* ==========================================
    GLOBAL STYLE 
@@ -37,17 +39,22 @@ header {
     z-index: 1000;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
-.logo { height: 56px; }
+.logo { 
+        height: 60px; 
+        margin-right: 40px; 
+    }
+
+nav { flex: 1; }
 
 nav ul {
     list-style: none;
     display: flex;
-    gap: 26px;
+    gap: 32px;
     margin: 0;
     padding: 0;
 }
 nav li {
-    font-weight: 600;
+    font-weight: 700;
     position: relative;
 }
 nav a {
@@ -68,11 +75,20 @@ nav li::after {
 }
 nav li:hover::after { transform: scaleX(1); }
 
+nav li:last-child a {
+    background: #ffe066;
+    color: #1a1157;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
 /* DROPDOWN */
 .dropdown-content {
     display: none;
     position: absolute;
     top: 100%;
+    right: 0;
     background: #2a2f95;
     padding: 0;
     border-radius: 12px;
@@ -123,6 +139,30 @@ nav li:hover::after { transform: scaleX(1); }
     color: #555;
     max-width: 460px;
     line-height: 1.6;
+}
+
+.hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+.hero-meta span {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.hero-meta span::before {
+    content: "✓";
+    color: #40602b;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 1.1rem;
 }
 
 /* BUTTONS */
@@ -240,6 +280,40 @@ footer {
     margin-bottom: 12px;
 }
 
+.footer-content {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.footer-info {
+    color: #fff;
+    max-width: 60%;
+}
+.footer-info div,
+.footer-info img { margin-bottom: 8px; }
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 6px; }
+.footer-links a { color: #ffe066; display: block; }
+
+/* bottom line */
+.footer-bottom {
+    text-align: center;
+    margin-top: 24px;
+    padding: 12px 0;
+    font-size: .9rem;
+    color: #ccc;
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
     header {
@@ -263,7 +337,7 @@ footer {
 
 <!-- ========================= HEADER ========================= -->
 <header>
-    <img src="Image/Logo.png" class="logo">
+    <a href="index.html"><img src="Image/Logo.png" class="logo" alt="Matie Cake"></a>
 
     <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
         ☰
@@ -284,6 +358,13 @@ footer {
             <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
             <li><a href="general-policy.html">General Policy</a></li>
             <li><a href="work-shop.html">Workshop</a></li>
+            <!-- THÊM DÒNG NÀY -->
+            <li class="dropdown">
+                <a href="#">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
             <li><a href="cart.html">Cart</a></li>
         </ul>
     </nav>
@@ -429,7 +510,7 @@ footer {
         <a href="flan-cheese.html">
             <div class="product-card">
                 <span class="tag best">BEST SELLER</span>
-                <img src="Image 2/Flancheese/Flancheese 1.png" class="product-thumb">
+                <img src="Image 2/Flancheese/Flancheese5.jpg" class="product-thumb">
                 <div class="product-name">Flancheese</div>
             </div>
         </a>
@@ -524,26 +605,28 @@ footer {
 
 <!-- ========================= FOOTER ========================= -->
 <footer>
-    <div style="max-width:1100px; margin:auto; padding:0 20px;">
-
-        <img src="Image/Logo.png" class="footer-logo">
-        <p style="margin: 6px 0;">Matie Cake Co., Ltd.</p>
-        <p style="margin: 4px 0;">3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</p>
-        <p style="margin: 4px 0;">Phone: 0886804360</p>
-        <p style="margin: 4px 0;">Email: matiecake@gmail.com</p>
-
-        <div style="margin-top:20px;">
-            <a href="#" style="color:#ffe066; display:block; margin:6px 0;">Shipping Policy</a>
-            <a href="#" style="color:#ffe066; display:block; margin:6px 0;">Return & Refund Policy</a>
-            <a href="#" style="color:#ffe066; display:block; margin:6px 0;">Payment Methods</a>
-            <a href="#" style="color:#ffe066; display:block; margin:6px 0;">Terms & Conditions</a>
-            <a href="#" style="color:#ffe066; display:block; margin:6px 0;">Personal Data Protection</a>
-            <a href="#" style="color:#ffe066; display:block; margin:6px 0;">Contact Information</a>
+    <div class="footer-content">
+        <div class="footer-info">
+            <img src="Image/Logo.png" class="footer-logo" alt="Matie Cake">
+            <div>Matie Cake Co., Ltd.</div>
+            <div>Address: 3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</div>
+            <div>Phone: 0886804360</div>
+            <div>Email: matiecake@gmail.com</div>
         </div>
 
+        <div class="footer-links">
+            <ul>
+                <li><a href="#">Shipping Policy</a></li>
+                <li><a href="#">Return & Refund Policy</a></li>
+                <li><a href="#">Payment Methods</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="#">Personal Data Protection</a></li>
+                <li><a href="#">Contact Information</a></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="footer-bottom" style="text-align:center; margin-top:24px; padding:12px 0; font-size:.9rem; color:#ccc;">
+    <div class="footer-bottom">
         © 2025 Matie Cake. All rights reserved.
     </div>
 </footer>
@@ -558,6 +641,7 @@ document.querySelector(".menu-toggle").addEventListener("click", () => {
 });
 </script>
 
+<script src="src/scripts/chat.js" defer></script>
 </body>
 </html>
 

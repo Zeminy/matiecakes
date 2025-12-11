@@ -20,7 +20,7 @@
 
         /* ========== HEADER ========== */
         header {
-            background: #1a1157;
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
             color: #fff;
             padding: 12px 40px;
             display: flex;
@@ -31,7 +31,10 @@
 
         .logo {
             height: 60px;
+            margin-right: 40px; 
         }
+
+        nav { flex: 1; }
 
         nav ul {
             display: flex;
@@ -42,11 +45,28 @@
             justify-content: flex-end;
         }
 
+        nav li {
+    font-weight: 700;
+    position: relative;
+}
+
         nav a {
             color: #fff;
             font-weight: 700;
             transition: 0.25s;
         }
+
+        nav li::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    background: #ffe066;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0);
+    transition: .2s ease;
+}
 
         nav a:hover { color: #ffe066; }
 
@@ -61,16 +81,16 @@
         }
 
         /* Dropdown */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: #2a2f95;
-            min-width: 220px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-            border-radius: 0 0 8px 8px;
-            top: 100%;
-            right: 0;
-        }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #2a2f95;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
 
         .dropdown-content a {
             display: block;
@@ -220,15 +240,35 @@
             padding: 40px 0 25px;
             margin-top: 50px;
         }
+.footer-logo {
+    height: 48px;
+    margin-bottom: 12px;
+}
 
-        .footer-content {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            padding: 0 25px;
-        }
+.footer-content {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.footer-info {
+    color: #fff;
+    max-width: 60%;
+}
+.footer-info div,
+.footer-info img { margin-bottom: 8px; }
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 6px; }
+.footer-links a { color: #ffe066; display: block; }
 
         .footer-links a { color: #ffe066; }
 
@@ -278,6 +318,13 @@
             <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
             <li><a href="general-policy.html">General Policy</a></li>
             <li><a href="work-shop.html">Workshop</a></li>
+                        <li class="dropdown">
+                <a href="#">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+
         </ul>
     </nav>
 </header>
@@ -398,5 +445,6 @@ document.querySelector(".menu-toggle").addEventListener("click", function () {
 });
 </script>
 
+<script src="src/scripts/chat.js" defer></script>
 </body>
 </html>
