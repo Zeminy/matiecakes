@@ -1,8 +1,8 @@
 :root{
     /* Enhanced color palette */
-    --color-primary: #3f53ae;
-    --color-primary-light: #5468c4;
-    --color-primary-dark: #2a3888;
+    --color-primary: #c94e4e;
+    --color-primary-light: #c94e4e;
+    --color-primary-dark: #B00000;
     --color-accent: #a85b2b;
     --color-accent-light: #c47440;
     --color-accent-2: #40602b;
@@ -290,7 +290,7 @@ a[href^="#"] {
 
 /* Modern Header & Navigation */
 header {
-    background: linear-gradient(90deg, #1a1157, #3f53ae);
+    background: linear-gradient(90deg, #B00000, #c94e4e);
     color: #fff;
     display: flex;
     align-items: center;
