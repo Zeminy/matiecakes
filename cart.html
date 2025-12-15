@@ -70,6 +70,104 @@
             font-weight: 600;
         }
 
+        .cart-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .cart-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            transform: translateY(5.5px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            background: #d60b52;
+            color: #fff;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        /* Price breakdown inside each cart item */
+        .item-price-breakdown {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border: 1px solid #f0e0a0;
+            background: #fffbea;
+            border-radius: 8px;
+        }
+
+        .item-price-breakdown .break-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4px 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .item-price-breakdown .break-total {
+            font-weight: 700;
+            margin-top: 8px;
+            color: #1a1157;
+        }
+
+        /* Thumbnail list for items inside a cart line */
+        .thumb-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .thumb-item {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .thumb-qty {
+            position: absolute;
+            bottom: -6px;
+            right: -6px;
+            background: #1a1157;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 999px;
+            padding: 2px 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
         nav li::after {
             content: "";
             height: 2px;
@@ -358,12 +456,42 @@
             align-items: start;
         }
 
+        .cart-item-image-wrapper {
+            position: relative;
+            width: 124px;
+            height: 124px;
+        }
+
         .cart-item-image {
-            width: 120px;
-            height: 120px;
+            width: 125px;
+            height: 125px;
             object-fit: cover;
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 2px solid #dcd5ff;
+            display: block;
+        }
+
+        .box-thumb-badge {
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box-thumb-badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .cart-item-details {
@@ -654,6 +782,7 @@
             background: #e91e63;
             color: #fff;
         }
+
 
         /* Shipping Method Section */
         .shipping-method-section {
@@ -1072,11 +1201,31 @@
                         <li><a href="index.html#tet-gifts">Tet</a></li>
                     </ul>
                 </li>
+                <li><a href="customize.html">Customize</a></li>
                 <li><a href="home.html">Home</a></li>
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>
-                <li><a href="cart.html">Cart</a></li>
+                <li><a href="tracking.html">Tracking</a></li>
+                <li class="dropdown">
+                    <a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership-login.html">Login / Sign Up</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <span class="cart-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                                <path d="M6 8h12v11H6z" fill="none" stroke="#fff" stroke-width="1.4"
+                                    stroke-linejoin="round" />
+                                <path d="M9 8V7a3 3 0 0 1 6 0v1" fill="none" stroke="#fff" stroke-width="1.4"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <span class="cart-badge" id="header-cart-badge">0</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -1128,7 +1277,22 @@
 
             <!-- Order Summary Sidebar -->
             <div class="order-summary" id="cart-summary">
-                <!-- Summary will be rendered here by JavaScript -->
+                <div class="summary-header">
+                    <h2>Order Summary</h2>
+                    <div id="summary-items-count">0 items</div>
+                </div>
+                <div id="summary-item-list" class="summary-item-list">
+                    <!-- Item lines will be rendered here -->
+                </div>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="summary-subtotal">$0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="summary-total">$0.00</span>
+                </div>
+                <button class="btn-checkout" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
             </div>
         </div>
     </div>

@@ -5,64 +5,125 @@
 
 import { GIFT_OPTIONS, generateCartItemId } from './models.js';
 
-// Product data
+// Product data (default values, overridden by DOM selections)
 const PRODUCT = {
     id: 'cupcake-box-001',
-    name: 'Mooncake Gift Box (6 pieces)',
+    name: 'Heritage Assortment Box (4 pieces)',
     basePrice: 38.00,
-    image: 'Image/Tinh hoa đoàn viên 1.jpg',
+    image: 'sea.png',
     description: 'A beautiful box of premium handmade cupcakes, perfect for gifting on special occasions.'
 };
+
 
 // Assortment options with world-famous cakes (name + country) and images
 const ASSORTMENTS = [
     {
-        id: 'tiramisu-italy',
-        name: 'Tiramisu · Italy',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1626200412624-7ec771f4b01e?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'cake1',
+        name: 'Mooncake - VietNam',
+        extraPrice: 4.50,
+        image: 'cake1.png',
+        madeIn: 'Viet Nam',
+        description: 'Traditional baked mooncake with lotus seed and a touch of salted egg for a rich, aromatic finish.',
+        allergyInfo: 'May contain eggs, nuts, wheat.'
     },
     {
-        id: 'macaron-france',
-        name: 'Macaron · France',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'cake2',
+        name: 'Mooncake - China',
+        extraPrice: 5.00,
+        image: 'cake2.png',
+        madeIn: 'China',
+        description: 'Golden crust mooncake with red bean and citrus peel, inspired by Mid-Autumn classics.',
+        allergyInfo: 'May contain nuts, sesame, wheat.'
     },
     {
-        id: 'cheesecake-usa',
-        name: 'NY Cheesecake · USA',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1542826438-7a0deeaf3352?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'cake3',
+        name: 'Mooncake - Japan',
+        extraPrice: 5.50,
+        image: 'cake3.png',
+        madeIn: 'Japan',
+        description: 'Light mochi-style mooncake layered with matcha custard and white chocolate pearls.',
+        allergyInfo: 'May contain milk, soy, wheat.'
     },
     {
-        id: 'black-forest-germany',
-        name: 'Black Forest · Germany',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1611077543837-b1c7c8771e2f?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'cake4',
+        name: 'Mooncake - Korea',
+        extraPrice: 5.00,
+        image: 'cake4.png',
+        madeIn: 'Korea',
+        description: 'Soft rice cake crust filled with roasted chestnut and jujube for a gentle sweetness.',
+        allergyInfo: 'May contain nuts, soy, wheat.'
     },
     {
-        id: 'pavlova-australia',
-        name: 'Pavlova · Australia/NZ',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'cake5',
+        name: 'Mooncake - Thailand',
+        extraPrice: 4.50,
+        image: 'cake5.png',
+        madeIn: 'Thailand',
+        description: 'Pandan-scented mooncake with coconut custard, bright and fragrant in every bite.',
+        allergyInfo: 'May contain coconut, milk, eggs.'
     },
     {
-        id: 'pastel-nata-portugal',
-        name: 'Pastel de Nata · Portugal',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'tiramisu',
+        name: 'Tiramisu - Italy',
+        extraPrice: 6.50,
+        image: 'tiramisu.png',
+        madeIn: 'Italy',
+        description: 'Velvety mascarpone cream layered with espresso-soaked sponge and a dusting of cocoa.',
+        allergyInfo: 'Contains dairy, eggs, wheat.'
     },
     {
-        id: 'mille-crepe-japan',
-        name: 'Mille Crêpe · Japan',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1624353365286-3f8d741ae7c9?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'macaron',
+        name: 'Macaron - France',
+        extraPrice: 5.50,
+        image: 'macaron.png',
+        madeIn: 'France',
+        description: 'Crisp almond shells with a silky ganache center, inspired by Parisian patisseries.',
+        allergyInfo: 'Contains almond nuts, eggs.'
     },
     {
-        id: 'tres-leches-mexico',
-        name: 'Tres Leches · Mexico',
-        extraPrice: 0,
-        image: 'https://images.unsplash.com/photo-1603899122634-2fef2f8dd9b4?auto=format&fit=crop&w=520&h=520&q=80'
+        id: 'black forest cherry cake',
+        name: 'Black Forest Cherry Cake - Germany',
+        extraPrice: 6.00,
+        image: 'forest.png',
+        madeIn: 'Germany',
+        description: 'Layers of chocolate sponge, kirsch cherries, and whipped cream for a deep cocoa finish.',
+        allergyInfo: 'Contains dairy, eggs, wheat.'
+    },
+    {
+        id: 'pavlova',
+        name: 'Pavlova - Australia/NZ',
+        extraPrice: 5.50,
+        image: 'pavlova.png',
+        madeIn: 'Australia & New Zealand',
+        description: 'Crisp meringue with a marshmallow center, topped with bright seasonal berries.',
+        allergyInfo: 'Contains eggs.'
+    },
+    {
+        id: 'pastel-de-nata',
+        name: 'Pastel de Nata - Portugal',
+        extraPrice: 4.00,
+        image: 'tart.png',
+        madeIn: 'Portugal',
+        description: 'Flaky pastry tart with slow-cooked custard and a caramelized top, Lisbon style.',
+        allergyInfo: 'Contains dairy, eggs, wheat.'
+    },
+    {
+        id: 'pastel de tres leches',
+        name: 'Pastel de Tres Leches - Mexico',
+        extraPrice: 5.00,
+        image: 'mexico.png',
+        madeIn: 'Mexico',
+        description: 'Milky-soft sponge soaked in three milks, crowned with vanilla cream and cinnamon.',
+        allergyInfo: 'Contains dairy, eggs, wheat.'
+    },
+    {
+        id: 'mille-feuille',
+        name: 'Mille Feuille - France',
+        extraPrice: 6.00,
+        image: 'france.png',
+        madeIn: 'France',
+        description: 'Crisp puff pastry layers with vanilla bean pastry cream and powdered sugar.',
+        allergyInfo: 'Contains dairy, eggs, wheat.'
     }
 ];
 
@@ -84,6 +145,23 @@ function init() {
 /**
  * Render assortment selection tiles
  */
+function buildAssortmentTooltip(option, extraText) {
+    const origin = option.madeIn || (option.name.includes('-') ? option.name.split('-')[1].trim() : '');
+    const desc = option.description || `Sweet pick inspired by ${origin || 'global favorites'}.`;
+    const allergy = option.allergyInfo || 'May contain milk, eggs, wheat, peanuts, tree nuts.';
+    return `
+        <div class="assortment-tooltip">
+            ${option.image ? `<img class="tooltip-image" src="${option.image}" alt="${option.name}">` : ''}
+            <div class="tooltip-title">${option.name}</div>
+            <div class="tooltip-subtitle">${origin ? `Made in ${origin}` : 'Handcrafted with care'}</div>
+            <div class="tooltip-text">${desc}</div>
+            <div class="tooltip-heading">More Information</div>
+            <div class="tooltip-text"><strong>Price:</strong> ${extraText}</div>
+            <div class="tooltip-allergy"><strong>Allergy info:</strong> ${allergy}</div>
+        </div>
+    `;
+}
+
 function renderAssortments() {
     const container = document.getElementById('assortment-options');
     if (!container) return;
@@ -100,12 +178,45 @@ function renderAssortments() {
                 <img class="assortment-thumb" src="${option.image || ''}" alt="${option.name}">
                 <div class="assortment-name">${option.name}</div>
                 <span class="assortment-extra">${extraText}${qty > 0 ? ` · x${qty}` : ''}</span>
+                ${buildAssortmentTooltip(option, extraText)}
             </button>
         `;
     }).join('');
 
     container.querySelectorAll('.assortment-tile').forEach(btn => {
         btn.addEventListener('click', handleAssortmentAdd);
+
+        // Dynamic tooltip positioning to avoid overflow
+        const tooltip = btn.querySelector('.assortment-tooltip');
+        if (tooltip) {
+            btn.addEventListener('mouseenter', () => {
+                tooltip.style.display = 'block';
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.left = '50%';
+                tooltip.style.right = 'auto';
+                tooltip.style.transform = 'translateX(-50%)';
+
+                const rect = tooltip.getBoundingClientRect();
+                const vw = window.innerWidth;
+                const padding = 12;
+
+                if (rect.right > vw - padding) {
+                    tooltip.style.left = 'auto';
+                    tooltip.style.right = '0';
+                    tooltip.style.transform = 'none';
+                } else if (rect.left < padding) {
+                    tooltip.style.left = '0';
+                    tooltip.style.right = 'auto';
+                    tooltip.style.transform = 'none';
+                }
+
+                tooltip.style.visibility = 'visible';
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                tooltip.style.display = 'none';
+            });
+        }
     });
 }
 
@@ -237,14 +348,21 @@ function updatePrice() {
     const addonsBreakdown = document.getElementById('addons-breakdown');
     if (addonsBreakdown) {
         const picked = selectedGiftOptions.filter(opt => opt.quantity > 0);
-        const addonHtml = picked.length > 0 ? picked.map(option => `
-            <div class="price-breakdown-item">
-                <span>${option.name} x${option.quantity}:</span>
-                <span>+$${(option.price * option.quantity).toFixed(2)}</span>
-            </div>
-        `).join('') : '';
+        const addonHtml = picked.length > 0
+            ? picked.map(option => `
+                <div class="price-breakdown-item">
+                    <span>${option.name} x${option.quantity}:</span>
+                    <span>+$${(option.price * option.quantity).toFixed(2)}</span>
+                </div>
+            `).join('')
+            : `
+                <div class="price-breakdown-item muted">
+                    <span>Gift add-ons:</span>
+                    <span>$0.00</span>
+                </div>
+            `;
 
-        addonsBreakdown.innerHTML = addonHtml || '';
+        addonsBreakdown.innerHTML = addonHtml;
     }
 
     // Assortment breakdown
@@ -253,8 +371,11 @@ function updatePrice() {
         const lines = selectedAssortmentItems
             .filter(opt => opt.quantity > 0)
             .map(opt => `${opt.name} x${opt.quantity}: +$${(opt.extraPrice * opt.quantity).toFixed(2)}`);
-        const text = lines.length > 0 ? lines.join(' | ') : 'Assortment: $0.00';
-        assortmentBreakdown.textContent = text;
+        const detail = lines.length > 0 ? lines.join(' | ') : '$0.00';
+        assortmentBreakdown.innerHTML = `
+            <span>Assortment:</span>
+            <span>${detail}</span>
+        `;
     }
 
     // Update total price display
@@ -283,12 +404,23 @@ function handleAddToCart() {
     const pickedOptions = selectedGiftOptions.filter(opt => opt.quantity > 0);
     const pickedAssortments = selectedAssortmentItems.filter(opt => opt.quantity > 0);
 
+    // Capture current display name and image (box selection on page)
+    const productNameEl = document.getElementById('product-name');
+    const productImageEl = document.getElementById('product-image');
+    const selectedBoxEl = document.querySelector('.box-option.selected');
+    const productNameText = productNameEl ? productNameEl.textContent.trim() : PRODUCT.name;
+    const productImageSrc = productImageEl ? productImageEl.getAttribute('src') : PRODUCT.image;
+    const boxThumbSrc = selectedBoxEl
+        ? (selectedBoxEl.getAttribute('data-box-thumb') || selectedBoxEl.querySelector('img')?.getAttribute('src'))
+        : '';
+
     // Create cart item object
     const cartItem = {
         id: generateCartItemId(),
         productId: PRODUCT.id,
-        productName: PRODUCT.name,
-        productImage: PRODUCT.image,
+        productName: productNameText || PRODUCT.name,
+        productImage: productImageSrc || PRODUCT.image,
+        boxThumb: boxThumbSrc || productImageSrc || PRODUCT.image,
         itemNumber: `20269${Math.floor(Math.random() * 1000)}`,
         basePrice: PRODUCT.basePrice,
         quantity: 1,
@@ -330,6 +462,11 @@ function handleAddToCart() {
     // Save to localStorage
     try {
         localStorage.setItem('cart', JSON.stringify(cart));
+
+        // Immediately refresh cart badge on header (product page)
+        if (window.updateCartBadge && typeof window.updateCartBadge === 'function') {
+            window.updateCartBadge();
+        }
 
         // Show success message
         alert(`Added to cart! Total: $${finalPrice.toFixed(2)}`);

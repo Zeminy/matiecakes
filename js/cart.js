@@ -9,12 +9,46 @@ import { MOCK_ADDRESSES, SHIPPING_METHODS, calculateDeliveryDate, formatDelivery
 // State
 let cart = [];
 let isMultiShipMode = false;
+const DEFAULT_TRACKING_STEPS = [
+    {
+        code: 'prep',
+        title: 'Bakery is preparing your order',
+        time: '',
+        note: 'Kitchen is carefully preparing your treats.'
+    },
+    {
+        code: 'pickup_on_the_way',
+        title: 'Driver on the way to store',
+        time: '',
+        note: 'Your driver is heading to the bakery.'
+    },
+    {
+        code: 'pickup_waiting',
+        title: 'Driver arrived at store',
+        time: '',
+        note: 'Waiting for the order to be handed over.'
+    },
+    {
+        code: 'on_delivery',
+        title: 'Out for delivery',
+        time: '',
+        note: 'Your order is on the way to the destination.'
+    },
+    {
+        code: 'delivered',
+        title: 'Delivered successfully',
+        time: '',
+        note: 'Order has been delivered. Enjoy!'
+    }
+];
+const MULTI_SHIP_KEY = 'cart_multi_ship_mode';
 
 /**
  * Initialize the cart page
  */
 function init() {
     loadCart();
+    loadMultiShipMode();
     renderCart();
     attachEventListeners();
 }
@@ -34,15 +68,16 @@ function loadCart() {
                 if (!item.productImage) item.productImage = 'Image/Tinh hoa đoàn viên 1.jpg';
                 if (!item.itemNumber) item.itemNumber = `20269${Math.floor(Math.random() * 1000)}`;
                 if (!item.giftMessage) item.giftMessage = '';
-                if (!item.giftMessageType) item.giftMessageType = 'complimentary';
+                if (typeof item.giftMessageType === 'undefined') item.giftMessageType = null;
                 if (!item.shippingAddress) {
                     item.shippingAddress = {
                         name: '',
                         street: '',
                         city: '',
                         state: '',
-                        zip: '',
-                        phone: ''
+                        country: '',
+                        phone: '',
+                        locationType: ''
                     };
                 }
                 if (!item.recipientRelationship) item.recipientRelationship = '';
@@ -51,6 +86,7 @@ function loadCart() {
                 if (!item.deliveryDate) item.deliveryDate = null;
                 if (!item.pickDateSelected) item.pickDateSelected = null;
             });
+            updateHeaderCartBadge();
         } else {
             cart = [];
         }
@@ -61,13 +97,107 @@ function loadCart() {
 }
 
 /**
+ * Compute unit price of a cart item (base + addons + assortment)
+ * Falls back gracefully if finalPrice is missing.
+ */
+function computeUnitPrice(item) {
+    const base = item.basePrice || 0;
+    const addonsTotal = (item.selectedOptions || []).reduce(
+        (sum, opt) => sum + (opt.price || 0) * (opt.quantity || 1),
+        0
+    );
+    const assortmentTotal = (item.assortment || []).reduce(
+        (sum, opt) => sum + (opt.extraPrice || 0) * (opt.quantity || 1),
+        0
+    );
+    if (item.finalPrice && !Number.isNaN(item.finalPrice)) {
+        return item.finalPrice;
+    }
+    return base + addonsTotal + assortmentTotal;
+}
+
+function hasFilledAddress(addr) {
+    if (!addr) return false;
+    const { name, street, city, state, phone } = addr;
+    // Require at least street + city, and optionally name/phone
+    return Boolean((street && city) || (street && phone) || (street && name));
+}
+
+/**
+ * Build tracking payload for tracking.html from grouped shipments
+ * @param {Array<Object>} shipments
+ */
+function buildTrackingPayload(shipments) {
+    return shipments.map((shipment, idx) => {
+        const recipientName = shipment.address?.name || `Shipment ${idx + 1}`;
+        const recipientAddr = shipment.address?.fullAddress || [
+            shipment.address?.street,
+            shipment.address?.city,
+            shipment.address?.state,
+            shipment.address?.country
+        ].filter(Boolean).join(', ');
+        return {
+            id: shipment.address?.id ? `#SHIP-${shipment.address.id}` : `#SHIP-${idx + 1}`,
+            recipient: recipientAddr || recipientName,
+            steps: DEFAULT_TRACKING_STEPS,
+            activeIndex: 0,
+            shipper: {
+                name: 'Updating',
+                phone: '--',
+                status: 'Updating'
+            }
+        };
+    });
+}
+
+/**
+ * Derive a box thumbnail from main product image (e.g., red.png -> redBox.png)
+ * Falls back to the original image if no derivation available.
+ */
+function deriveBoxThumb(imageSrc = '') {
+    if (!imageSrc) return '';
+    try {
+        const lastSlash = imageSrc.lastIndexOf('/');
+        const dir = lastSlash >= 0 ? imageSrc.slice(0, lastSlash + 1) : '';
+        const file = lastSlash >= 0 ? imageSrc.slice(lastSlash + 1) : imageSrc;
+        const dot = file.lastIndexOf('.');
+        if (dot <= 0) return imageSrc;
+        const name = file.slice(0, dot);
+        const ext = file.slice(dot);
+        if (name.toLowerCase().includes('box')) return imageSrc;
+        const candidate = `${dir}${name}Box${ext}`;
+        return candidate;
+    } catch (e) {
+        return imageSrc;
+    }
+}
+
+/**
  * Save cart to localStorage
  */
 function saveCart() {
     try {
         localStorage.setItem('cart', JSON.stringify(cart));
+        updateHeaderCartBadge();
     } catch (error) {
         console.error('Error saving cart to localStorage:', error);
+    }
+}
+
+function saveMultiShipMode() {
+    try {
+        localStorage.setItem(MULTI_SHIP_KEY, isMultiShipMode ? 'true' : 'false');
+    } catch (e) {
+        console.error('Error saving multi-ship mode:', e);
+    }
+}
+
+function loadMultiShipMode() {
+    try {
+        const val = localStorage.getItem(MULTI_SHIP_KEY);
+        isMultiShipMode = val === 'true';
+    } catch (e) {
+        isMultiShipMode = false;
     }
 }
 
@@ -88,6 +218,7 @@ function attachEventListeners() {
  */
 function handleMultiShipToggle(event) {
     isMultiShipMode = event.target.checked;
+    saveMultiShipMode();
     renderCart();
 }
 
@@ -99,7 +230,7 @@ function handleMultiShipToggle(event) {
 function handleQuantityChange(itemId, delta) {
     const item = cart.find(item => item.id === itemId);
     if (!item) return;
-    
+
     const newQuantity = Math.max(1, item.quantity + delta);
     item.quantity = newQuantity;
     saveCart();
@@ -114,7 +245,7 @@ function handleQuantityChange(itemId, delta) {
 function handleQuantityInput(itemId, event) {
     const item = cart.find(item => item.id === itemId);
     if (!item) return;
-    
+
     const newQuantity = Math.max(1, parseInt(event.target.value) || 1);
     item.quantity = newQuantity;
     saveCart();
@@ -140,7 +271,7 @@ function handleRemoveItem(itemId) {
  */
 function handleShippingAddressChange(itemId, event) {
     const addressId = event.target.value;
-    
+
     // Update cart item's shippingAddressId
     const item = cart.find(item => item.id === itemId);
     if (item) {
@@ -157,7 +288,7 @@ function handleShippingAddressChange(itemId, event) {
 function handleGiftMessageToggle(itemId, event) {
     const item = cart.find(item => item.id === itemId);
     if (!item) return;
-    
+
     const textarea = document.getElementById(`gift-message-${itemId}`);
     if (textarea) {
         if (event.target.checked) {
@@ -191,6 +322,12 @@ function renderCart() {
     const container = document.getElementById('cart-items-container');
     if (!container) return;
 
+    // Sync toggle UI with stored state
+    const multiShipToggle = document.getElementById('multi-ship-toggle');
+    if (multiShipToggle) {
+        multiShipToggle.checked = isMultiShipMode;
+    }
+
     if (cart.length === 0) {
         container.innerHTML = `
             <div class="empty-cart">
@@ -213,14 +350,15 @@ function renderCart() {
             street: '',
             city: '',
             state: '',
-            zip: '',
-            phone: ''
+            country: '',
+            phone: '',
+            locationType: ''
         };
-        
+
         const commonAddressDisplay = commonAddress.street
-            ? `${commonAddress.name || ''}, ${commonAddress.street}, ${commonAddress.city}, ${commonAddress.state}, ${commonAddress.zip || ''}, ${commonAddress.phone || ''}`
+            ? `${commonAddress.name || ''}, ${commonAddress.street}, ${commonAddress.city}, ${commonAddress.state}, ${commonAddress.country || ''}, ${commonAddress.phone || ''}`
             : 'No address set';
-        
+
         // Get common delivery date (from first item)
         const commonShippingMethod = firstItem.shippingMethod || 'standard';
         // Use pickDateSelected if switching to pick-date and user has selected a date
@@ -235,7 +373,7 @@ function renderCart() {
         } else {
             commonDeliveryDate = firstItem.deliveryDate || '';
         }
-        
+
         commonAddressHTML = `
             <div class="cart-item-wrapper" id="common-address-section">
                 <div class="item-header">
@@ -254,23 +392,43 @@ function renderCart() {
                             <input type="text" id="common-addr-name" value="${commonAddress.name || ''}" placeholder="Recipient name">
                         </div>
                         <div class="form-group">
-                            <label>Street Address</label>
+                            <label>Location Type</label>
+                            <select id="common-addr-location">
+                                <option value="">Select</option>
+                                <option value="Residence" ${commonAddress.locationType === 'Residence' ? 'selected' : ''}>Residence</option>
+                                <option value="Business" ${commonAddress.locationType === 'Business' ? 'selected' : ''}>Business</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery Address</label>
                             <input type="text" id="common-addr-street" value="${commonAddress.street || ''}" placeholder="Street address">
                         </div>
                         <div class="form-group">
-                            <label>City</label>
-                            <input type="text" id="common-addr-city" value="${commonAddress.city || ''}" placeholder="City">
+                            <label>APT/SUITE/ROOM</label>
+                            <input type="text" id="common-addr-apt" value="${commonAddress.apt || ''}" placeholder="Apt/Suite/Room">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" id="common-addr-city" value="${commonAddress.city || ''}" placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <label>State/Province</label>
+                                <input type="text" id="common-addr-state" value="${commonAddress.state || ''}" placeholder="State">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>State/Province</label>
-                            <input type="text" id="common-addr-state" value="${commonAddress.state || ''}" placeholder="State">
+                            <label>Country</label>
+                            <select id="common-addr-country">
+                                <option value="">Select Country</option>
+                                <option value="US" ${commonAddress.country === 'US' ? 'selected' : ''}>United States</option>
+                                <option value="VN" ${commonAddress.country === 'VN' ? 'selected' : ''}>Vietnam</option>
+                                <option value="CA" ${commonAddress.country === 'CA' ? 'selected' : ''}>Canada</option>
+                                <option value="GB" ${commonAddress.country === 'GB' ? 'selected' : ''}>United Kingdom</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>ZIP/Postal Code</label>
-                            <input type="text" id="common-addr-zip" value="${commonAddress.zip || ''}" placeholder="ZIP code">
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
+                            <label>Recipient Phone Number</label>
                             <input type="tel" id="common-addr-phone" value="${commonAddress.phone || ''}" placeholder="Phone number">
                         </div>
                         <div class="form-actions">
@@ -283,22 +441,22 @@ function renderCart() {
                     <div class="shipping-method-section" style="margin-top: 20px;">
                         <div class="section-title">Shipping method</div>
                         ${SHIPPING_METHODS.map(method => {
-                            let methodDisplayName = method.name;
-                            let deliveryDateDisplay = '';
-                            
-                            if (method.id === 'standard') {
-                                const deliveryDate = calculateDeliveryDate('standard');
-                                const formattedDate = formatDeliveryDate(deliveryDate);
-                                methodDisplayName = 'Standard Shipping - Arrival Date';
-                                deliveryDateDisplay = `(Delivers: ${formattedDate})`;
-                            } else if (method.id === 'express') {
-                                const deliveryDate = calculateDeliveryDate('express');
-                                const formattedDate = formatDeliveryDate(deliveryDate);
-                                methodDisplayName = 'Express Shipping - Arrival by 12PM';
-                                deliveryDateDisplay = `(Delivers: ${formattedDate})`;
-                            }
-                            
-                            return `
+            let methodDisplayName = method.name;
+            let deliveryDateDisplay = '';
+
+            if (method.id === 'standard') {
+                const deliveryDate = calculateDeliveryDate('standard');
+                const formattedDate = formatDeliveryDate(deliveryDate);
+                methodDisplayName = 'Standard Shipping - Arrival Date';
+                deliveryDateDisplay = `(Delivers: ${formattedDate})`;
+            } else if (method.id === 'express') {
+                const deliveryDate = calculateDeliveryDate('express');
+                const formattedDate = formatDeliveryDate(deliveryDate);
+                methodDisplayName = 'Express Shipping - Arrival by 12PM';
+                deliveryDateDisplay = `(Delivers: ${formattedDate})`;
+            }
+
+            return `
                             <div class="shipping-method-option ${commonShippingMethod === method.id ? 'selected' : ''}">
                                 <label onclick="selectCommonShippingMethod('${method.id}')" style="cursor: pointer;">
                                     <input type="radio" name="common-shipping" value="${method.id}" ${commonShippingMethod === method.id ? 'checked' : ''} onchange="selectCommonShippingMethod('${method.id}')">
@@ -324,13 +482,13 @@ function renderCart() {
                                 ` : ''}
                             </div>
                             `;
-                        }).join('')}
+        }).join('')}
                     </div>
                 </div>
             </div>
         `;
     }
-    
+
     // Render cart items
     container.innerHTML = commonAddressHTML + cart.map((item, index) => renderCartItem(item, index)).join('');
 
@@ -343,7 +501,7 @@ function renderCart() {
                 document.getElementById('common-address-form').classList.add('active');
             });
         }
-        
+
         // Note: Pick a Date is handled individually for each item, not in common address section
     }
 
@@ -353,7 +511,7 @@ function renderCart() {
         const minusBtn = document.getElementById(`qty-minus-${item.id}`);
         const plusBtn = document.getElementById(`qty-plus-${item.id}`);
         const qtyInput = document.getElementById(`qty-input-${item.id}`);
-        
+
         if (minusBtn) {
             minusBtn.addEventListener('click', () => handleQuantityChange(item.id, -1));
         }
@@ -363,23 +521,23 @@ function renderCart() {
         if (qtyInput) {
             qtyInput.addEventListener('change', (e) => handleQuantityInput(item.id, e));
         }
-        
+
         // Remove button
         const removeBtn = document.getElementById(`remove-${item.id}`);
         if (removeBtn) {
             removeBtn.addEventListener('click', () => handleRemoveItem(item.id));
         }
-        
+
         // Shipping address
         const shippingSelect = document.getElementById(`shipping-select-${item.id}`);
         if (shippingSelect) {
             shippingSelect.addEventListener('change', (e) => handleShippingAddressChange(item.id, e));
         }
-        
+
         // Gift message
         const giftToggle = document.getElementById(`gift-toggle-${item.id}`);
         const giftTextarea = document.getElementById(`gift-message-${item.id}`);
-        
+
         if (giftToggle) {
             giftToggle.addEventListener('change', (e) => handleGiftMessageToggle(item.id, e));
             // Set checked state if message exists
@@ -391,11 +549,11 @@ function renderCart() {
                 }
             }
         }
-        
+
         if (giftTextarea) {
             giftTextarea.addEventListener('input', (e) => handleGiftMessageInput(item.id, e));
         }
-        
+
         // Edit address (only in multi-ship mode)
         if (isMultiShipMode) {
             const editAddressLink = document.getElementById(`edit-address-${item.id}`);
@@ -406,7 +564,7 @@ function renderCart() {
                 });
             }
         }
-        
+
         // Edit relationship
         const editRelationshipLink = document.getElementById(`edit-relationship-${item.id}`);
         if (editRelationshipLink) {
@@ -415,7 +573,7 @@ function renderCart() {
                 document.getElementById(`relationship-form-${item.id}`).classList.add('active');
             });
         }
-        
+
         // Edit occasion
         const editOccasionLink = document.getElementById(`edit-occasion-${item.id}`);
         if (editOccasionLink) {
@@ -424,18 +582,18 @@ function renderCart() {
                 document.getElementById(`occasion-form-${item.id}`).classList.add('active');
             });
         }
-        
+
         // Shipping method date picker - ensure it's interactive
         const deliveryDateInput = document.getElementById(`delivery-date-${item.id}`);
         if (deliveryDateInput) {
             // Make sure input is enabled
             deliveryDateInput.disabled = false;
             deliveryDateInput.readOnly = false;
-            
+
             // Remove any existing listeners to avoid duplicates
             const newInput = deliveryDateInput.cloneNode(true);
             deliveryDateInput.parentNode.replaceChild(newInput, deliveryDateInput);
-            
+
             // Attach change listener to new input
             const updatedInput = document.getElementById(`delivery-date-${item.id}`);
             if (updatedInput) {
@@ -449,7 +607,7 @@ function renderCart() {
                         // Don't re-render to avoid losing focus
                     }
                 });
-                
+
                 // Also listen to input event for real-time updates
                 updatedInput.addEventListener('input', (e) => {
                     const currentItem = cart.find(i => i.id === item.id);
@@ -465,9 +623,9 @@ function renderCart() {
     });
 
     // Render summary
-    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const total = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
-    renderCartSummary(itemCount, total);
+    const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const total = cart.reduce((sum, item) => sum + (computeUnitPrice(item) * (item.quantity || 1)), 0);
+    renderCartSummary(itemCount, total, cart);
 }
 
 /**
@@ -478,22 +636,31 @@ function renderCart() {
  */
 function renderCartItem(item, index) {
     const addonsText = item.selectedOptions && item.selectedOptions.length > 0
-        ? item.selectedOptions.map(opt => opt.name).join(', ')
+        ? item.selectedOptions.map(opt => `${opt.name}${opt.quantity > 1 ? ` x${opt.quantity}` : ''}`).join(', ')
         : 'No addons';
-    
-    const itemTotal = item.finalPrice * item.quantity;
-    const unitPrice = item.finalPrice;
+
+    const unitPrice = computeUnitPrice(item);
+    const qty = item.quantity || 1;
+    const itemTotal = unitPrice * qty;
     const itemNumber = index + 1;
     const totalItems = cart.length;
-    
+    const productImage = item.productImage || 'Image/Logo.png';
+    const boxThumb = item.boxThumb || deriveBoxThumb(productImage);
+    const mainImage = boxThumb || productImage;
+    const badgeImage = productImage;
+    const base = item.basePrice || 0;
+    const assortmentLines = (item.assortment || []).filter(opt => opt.quantity > 0);
+    const addonLines = (item.selectedOptions || []).filter(opt => opt.quantity > 0);
+    const thumbLines = assortmentLines.length > 0 ? assortmentLines : [];
+
     // Format address display
     const addressDisplay = item.shippingAddress && item.shippingAddress.street
-        ? `${item.shippingAddress.name || ''}, ${item.shippingAddress.street}, ${item.shippingAddress.city}, ${item.shippingAddress.state}, ${item.shippingAddress.zip || ''}, ${item.shippingAddress.phone || ''}`
+        ? `${item.shippingAddress.name || ''}, ${item.shippingAddress.street}, ${item.shippingAddress.city}, ${item.shippingAddress.state}, ${item.shippingAddress.country || ''}, ${item.shippingAddress.phone || ''}`
         : 'No address set';
-    
+
     // Get selected shipping method
     const selectedShippingMethod = item.shippingMethod || 'standard';
-    
+
     // Use pickDateSelected if pick-date is selected and user has chosen a date
     // For Standard/Express, recalculate based on current device time
     let deliveryDateValue = '';
@@ -506,7 +673,7 @@ function renderCartItem(item, index) {
     } else {
         deliveryDateValue = item.deliveryDate || '';
     }
-    
+
     return `
         <div class="cart-item-wrapper" data-item-id="${item.id}">
             <div class="item-header">
@@ -515,7 +682,12 @@ function renderCartItem(item, index) {
             </div>
             
             <div class="cart-item">
-                <img src="${item.productImage}" alt="${item.productName}" class="cart-item-image">
+                <div class="cart-item-image-wrapper">
+                    <img src="${mainImage}" alt="${item.productName}" class="cart-item-image">
+                    <div class="box-thumb-badge">
+                        <img src="${badgeImage}" alt="Item thumbnail">
+                    </div>
+                </div>
                 
                 <div class="cart-item-details">
                     <div class="cart-item-name">${item.productName}</div>
@@ -531,6 +703,41 @@ function renderCartItem(item, index) {
                     <div class="item-meta">
                         <strong>Qty:</strong> ${item.quantity}
                     </div>
+
+                    <div class="item-price-breakdown">
+                        <div class="break-row">
+                            <span>Base Price:</span>
+                            <span>$${base.toFixed(2)}</span>
+                        </div>
+                        ${assortmentLines.map(opt => `
+                            <div class="break-row">
+                                <span>${opt.name} x${opt.quantity}:</span>
+                                <span>+$${(opt.extraPrice * opt.quantity).toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                        ${addonLines.map(opt => `
+                            <div class="break-row">
+                                <span>${opt.name} x${opt.quantity}:</span>
+                                <span>+$${(opt.price * opt.quantity).toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                        <div class="break-row break-total">
+                            <span>Total (per item):</span>
+                            <span>$${unitPrice.toFixed(2)}</span>
+                        </div>
+                    </div>
+
+                    ${thumbLines.length > 0 ? `
+                        <div class="thumb-list">
+                            ${thumbLines.map(opt => `
+                                <div class="thumb-item">
+                                    <img src="${opt.image || 'Image/Logo.png'}" alt="${opt.name}">
+                                    <span class="thumb-qty">x${opt.quantity}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
                     <a href="#" class="send-additional-link" id="send-additional-${item.id}">Send to an additional recipient</a>
                     
                     <!-- Recipient Section -->
@@ -548,23 +755,43 @@ function renderCartItem(item, index) {
                                     <input type="text" id="addr-name-${item.id}" value="${item.shippingAddress?.name || ''}" placeholder="Recipient name">
                                 </div>
                                 <div class="form-group">
-                                    <label>Street Address</label>
+                                    <label>Location Type</label>
+                                    <select id="addr-location-${item.id}">
+                                        <option value="">Select</option>
+                                        <option value="Residence" ${item.shippingAddress?.locationType === 'Residence' ? 'selected' : ''}>Residence</option>
+                                        <option value="Business" ${item.shippingAddress?.locationType === 'Business' ? 'selected' : ''}>Business</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Delivery Address</label>
                                     <input type="text" id="addr-street-${item.id}" value="${item.shippingAddress?.street || ''}" placeholder="Street address">
                                 </div>
                                 <div class="form-group">
-                                    <label>City</label>
-                                    <input type="text" id="addr-city-${item.id}" value="${item.shippingAddress?.city || ''}" placeholder="City">
+                                    <label>APT/SUITE/ROOM</label>
+                                    <input type="text" id="addr-apt-${item.id}" value="${item.shippingAddress?.apt || ''}" placeholder="Apt/Suite/Room">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <input type="text" id="addr-city-${item.id}" value="${item.shippingAddress?.city || ''}" placeholder="City">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>State/Province</label>
+                                        <input type="text" id="addr-state-${item.id}" value="${item.shippingAddress?.state || ''}" placeholder="State">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>State/Province</label>
-                                    <input type="text" id="addr-state-${item.id}" value="${item.shippingAddress?.state || ''}" placeholder="State">
+                                    <label>Country</label>
+                                    <select id="addr-country-${item.id}">
+                                        <option value="">Select Country</option>
+                                        <option value="US" ${item.shippingAddress?.country === 'US' ? 'selected' : ''}>United States</option>
+                                        <option value="VN" ${item.shippingAddress?.country === 'VN' ? 'selected' : ''}>Vietnam</option>
+                                        <option value="CA" ${item.shippingAddress?.country === 'CA' ? 'selected' : ''}>Canada</option>
+                                        <option value="GB" ${item.shippingAddress?.country === 'GB' ? 'selected' : ''}>United Kingdom</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>ZIP/Postal Code</label>
-                                    <input type="text" id="addr-zip-${item.id}" value="${item.shippingAddress?.zip || ''}" placeholder="ZIP code">
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone</label>
+                                    <label>Recipient Phone Number</label>
                                     <input type="tel" id="addr-phone-${item.id}" value="${item.shippingAddress?.phone || ''}" placeholder="Phone number">
                                 </div>
                                 <div class="form-actions">
@@ -623,66 +850,74 @@ function renderCartItem(item, index) {
                     </div>
                     
                     <!-- Gift Message Section -->
-                    <div class="gift-message-section">
-                        <div class="section-title">Gift Message:</div>
-                        
-                        <div class="gift-message-option ${item.giftMessageType === 'printed' ? 'selected' : ''}" onclick="selectGiftMessageType('${item.id}', 'printed')">
-                            <label>
-                                <input type="radio" name="gift-type-${item.id}" value="printed" ${item.giftMessageType === 'printed' ? 'checked' : ''}>
-                                Personalized Printed Greeting Cards
-                                <span class="gift-option-price">Price: $5.99</span>
-                            </label>
-                            <div class="gift-option-description">
-                                Select from a wide range of designs created by independent artists or upload a photo. We will print your personalized message on a 4.5x6 folded cardstock greeting card.
-                            </div>
-                            ${item.giftMessageType === 'printed' ? `
-                                <textarea 
-                                    class="gift-message-textarea active"
-                                    id="gift-message-${item.id}"
-                                    placeholder="Enter your personal message here..."
-                                    maxlength="500"
-                                >${item.giftMessage || ''}</textarea>
-                                <button class="browse-cards-btn">Browse Cards</button>
-                            ` : ''}
-                        </div>
-                        
-                        <div class="gift-message-option ${item.giftMessageType === 'complimentary' ? 'selected' : ''}" onclick="selectGiftMessageType('${item.id}', 'complimentary')">
-                            <label>
-                                <input type="radio" name="gift-type-${item.id}" value="complimentary" ${item.giftMessageType === 'complimentary' ? 'checked' : ''}>
-                                Complimentary Greeting Message
-                            </label>
-                            ${item.giftMessageType === 'complimentary' ? `
-                                <textarea 
-                                    class="gift-message-textarea active"
-                                    id="gift-message-${item.id}"
-                                    placeholder="Enter your personal message here..."
-                                    maxlength="500"
-                                >${item.giftMessage || ''}</textarea>
-                            ` : ''}
-                        </div>
-                    </div>
+        <div class="gift-message-section">
+            <div class="section-title">Gift Message (optional):</div>
+            
+            <div class="gift-message-option ${item.giftMessageType === null || item.giftMessageType === 'none' ? 'selected' : ''}" onclick="selectGiftMessageType('${item.id}', 'none')">
+                <label>
+                    <input type="radio" name="gift-type-${item.id}" value="none" ${(item.giftMessageType === null || item.giftMessageType === 'none') ? 'checked' : ''}>
+                    Not a message
+                </label>
+            </div>
+
+            <div class="gift-message-option ${item.giftMessageType === 'printed' ? 'selected' : ''}" onclick="selectGiftMessageType('${item.id}', 'printed')">
+                <label>
+                    <input type="radio" name="gift-type-${item.id}" value="printed" ${item.giftMessageType === 'printed' ? 'checked' : ''}>
+                    Personalized Printed Greeting Cards
+                    <span class="gift-option-price">Price: $5.99</span>
+                </label>
+                <div class="gift-option-description">
+                    Select from a wide range of designs created by independent artists or upload a photo. We will print your personalized message on a 4.5x6 folded cardstock greeting card.
+                </div>
+                ${item.giftMessageType === 'printed' ? `
+                    <textarea 
+                        class="gift-message-textarea active"
+                        id="gift-message-${item.id}"
+                        placeholder="Enter your personal message here..."
+                        maxlength="500"
+                    >${item.giftMessage || ''}</textarea>
+                    <button class="browse-cards-btn">Browse Cards</button>
+                ` : ''}
+            </div>
+            
+            <div class="gift-message-option ${item.giftMessageType === 'complimentary' ? 'selected' : ''}" onclick="selectGiftMessageType('${item.id}', 'complimentary')">
+                <label>
+                    <input type="radio" name="gift-type-${item.id}" value="complimentary" ${item.giftMessageType === 'complimentary' ? 'checked' : ''}>
+                    Complimentary Greeting Message
+                </label>
+                ${item.giftMessageType === 'complimentary' ? `
+                    <textarea 
+                        class="gift-message-textarea active"
+                        id="gift-message-${item.id}"
+                        placeholder="Enter your personal message here..."
+                        maxlength="500"
+                    >${item.giftMessage || ''}</textarea>
+                ` : ''}
+            </div>
+        </div>
                     
                     <!-- Shipping Method Section -->
+                    ${isMultiShipMode ? `
                     <div class="shipping-method-section">
                         <div class="section-title">Shipping method</div>
                         
                         ${SHIPPING_METHODS.map(method => {
-                            let methodDisplayName = method.name;
-                            let deliveryDateDisplay = '';
-                            
-                            if (method.id === 'standard') {
-                                const deliveryDate = calculateDeliveryDate('standard');
-                                const formattedDate = formatDeliveryDate(deliveryDate);
-                                methodDisplayName = 'Standard Shipping - Arrival Date';
-                                deliveryDateDisplay = `(Delivers: ${formattedDate})`;
-                            } else if (method.id === 'express') {
-                                const deliveryDate = calculateDeliveryDate('express');
-                                const formattedDate = formatDeliveryDate(deliveryDate);
-                                methodDisplayName = 'Express Shipping - Arrival by 12PM';
-                                deliveryDateDisplay = `(Delivers: ${formattedDate})`;
-                            }
-                            
-                            return `
+        let methodDisplayName = method.name;
+        let deliveryDateDisplay = '';
+
+        if (method.id === 'standard') {
+            const deliveryDate = calculateDeliveryDate('standard');
+            const formattedDate = formatDeliveryDate(deliveryDate);
+            methodDisplayName = 'Standard Shipping - Arrival Date';
+            deliveryDateDisplay = `(Delivers: ${formattedDate})`;
+        } else if (method.id === 'express') {
+            const deliveryDate = calculateDeliveryDate('express');
+            const formattedDate = formatDeliveryDate(deliveryDate);
+            methodDisplayName = 'Express Shipping - Arrival by 12PM';
+            deliveryDateDisplay = `(Delivers: ${formattedDate})`;
+        }
+
+        return `
                             <div class="shipping-method-option ${selectedShippingMethod === method.id ? 'selected' : ''}">
                                 <label onclick="selectShippingMethod('${item.id}', '${method.id}')" style="cursor: pointer;">
                                     <input type="radio" name="shipping-${item.id}" value="${method.id}" ${selectedShippingMethod === method.id ? 'checked' : ''} onchange="selectShippingMethod('${item.id}', '${method.id}')">
@@ -708,8 +943,9 @@ function renderCartItem(item, index) {
                                 ` : ''}
                             </div>
                             `;
-                        }).join('')}
+    }).join('')}
                     </div>
+                    ` : ''}
                 </div>
             </div>
             
@@ -722,8 +958,9 @@ function renderCartItem(item, index) {
  * Render cart summary
  * @param {number} itemCount - Total number of items
  * @param {number} total - Total cart value
+ * @param {Array} items - Cart items
  */
-function renderCartSummary(itemCount, total) {
+function renderCartSummary(itemCount, total, items = []) {
     const summaryContainer = document.getElementById('cart-summary');
     if (!summaryContainer) return;
 
@@ -732,11 +969,28 @@ function renderCartSummary(itemCount, total) {
     const shipping = 0; // Can be calculated later
     const finalTotal = subtotal + shipping;
 
+    const listHTML = items.map(item => {
+        const unit = computeUnitPrice(item);
+        const qty = item.quantity || 1;
+        const lineTotal = unit * qty;
+        return `
+            <div class="summary-item-row">
+                <div class="summary-item-name">${item.productName || 'Item'}</div>
+                <div class="summary-item-qty">x${qty}</div>
+                <div class="summary-item-price">$${unit.toFixed(2)}</div>
+                <div class="summary-item-line">$${lineTotal.toFixed(2)}</div>
+            </div>
+        `;
+    }).join('');
+
     summaryContainer.innerHTML = `
         <h2>Order Summary</h2>
         <div class="summary-row">
             <span class="summary-row-label">Subtotal (${itemCount} ${itemText}):</span>
             <span class="summary-row-value">$${subtotal.toFixed(2)}</span>
+        </div>
+        <div class="summary-item-list">
+            ${listHTML}
         </div>
         <div class="summary-row">
             <span class="summary-row-label">Shipping:</span>
@@ -762,6 +1016,19 @@ function renderCartSummary(itemCount, total) {
     }
 }
 
+function updateHeaderCartBadge() {
+    try {
+        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        const badge = document.getElementById('header-cart-badge');
+        if (badge) {
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'inline-flex' : 'none';
+        }
+    } catch (e) {
+        console.error('Error updating header cart badge', e);
+    }
+}
+
 /**
  * Group cart items by shipping address
  * @returns {Array<Object>} Array of grouped shipments
@@ -770,13 +1037,20 @@ function groupOrdersByAddress() {
     const grouped = {};
 
     cart.forEach(item => {
-        const addressId = item.shippingAddressId || 'default';
-        
+        const addressId = item.shippingAddressId || JSON.stringify(item.shippingAddress || {});
+
         if (!grouped[addressId]) {
-            const address = addressId === 'default' 
-                ? { id: 'default', name: 'Default Address', fullAddress: 'No address selected' }
-                : MOCK_ADDRESSES.find(addr => addr.id === addressId) || { id: addressId, name: 'Unknown', fullAddress: '' };
-            
+            let address;
+            if (item.shippingAddressId) {
+                address = MOCK_ADDRESSES.find(addr => addr.id === addressId) || { id: addressId, name: 'Unknown', fullAddress: '' };
+            } else if (hasFilledAddress(item.shippingAddress)) {
+                const a = item.shippingAddress;
+                const full = [a.street, a.city, a.state, a.country, a.phone].filter(Boolean).join(', ');
+                address = { id: `custom-${Object.keys(grouped).length + 1}`, name: a.name || 'Custom Address', fullAddress: full };
+            } else {
+                address = { id: 'default', name: 'Default Address', fullAddress: 'No address selected' };
+            }
+
             grouped[addressId] = {
                 address: address,
                 items: [],
@@ -802,7 +1076,7 @@ function handleCheckout() {
 
     // If multi-ship mode is enabled, validate all items have addresses
     if (isMultiShipMode) {
-        const itemsWithoutAddress = cart.filter(item => !item.shippingAddressId);
+        const itemsWithoutAddress = cart.filter(item => !item.shippingAddressId && !hasFilledAddress(item.shippingAddress));
         if (itemsWithoutAddress.length > 0) {
             alert(`Please select shipping addresses for all items. ${itemsWithoutAddress.length} item(s) missing address.`);
             return;
@@ -818,7 +1092,7 @@ function handleCheckout() {
         const itemCount = shipment.items.reduce((sum, item) => sum + item.quantity, 0);
         const itemText = itemCount === 1 ? 'item' : 'items';
         const addressName = shipment.address.name;
-        
+
         console.log(
             `Shipment ${index + 1} (To ${addressName}): ${itemCount} ${itemText} - Total $${shipment.total.toFixed(2)}`
         );
@@ -832,43 +1106,55 @@ function handleCheckout() {
     }).join('\n');
 
     console.log(`Checkout Summary:\n\n${summaryText}\n\nCheck the console for detailed information.`);
-    
+
+    // Save tracking payload for tracking.html
+    try {
+        const trackingPayload = buildTrackingPayload(shipments);
+        localStorage.setItem('trackingShipments', JSON.stringify(trackingPayload));
+    } catch (e) {
+        console.error('Failed to save tracking payload', e);
+    }
+
     // Redirect to checkout page
     window.location.href = 'checkout.html';
 }
 
 // Global functions for inline event handlers
-window.saveAddress = function(itemId) {
+window.saveAddress = function (itemId) {
     const item = cart.find(i => i.id === itemId);
     if (!item) return;
-    
+
     item.shippingAddress = {
         name: document.getElementById(`addr-name-${itemId}`).value,
         street: document.getElementById(`addr-street-${itemId}`).value,
         city: document.getElementById(`addr-city-${itemId}`).value,
         state: document.getElementById(`addr-state-${itemId}`).value,
-        zip: document.getElementById(`addr-zip-${itemId}`).value,
-        phone: document.getElementById(`addr-phone-${itemId}`).value
+        country: document.getElementById(`addr-country-${itemId}`).value,
+        phone: document.getElementById(`addr-phone-${itemId}`).value,
+        apt: document.getElementById(`addr-apt-${itemId}`).value,
+        locationType: document.getElementById(`addr-location-${itemId}`).value
     };
-    
+
     saveCart();
     renderCart();
 };
 
-window.saveCommonAddress = function() {
+window.saveCommonAddress = function () {
     const commonAddress = {
         name: document.getElementById('common-addr-name').value,
         street: document.getElementById('common-addr-street').value,
         city: document.getElementById('common-addr-city').value,
         state: document.getElementById('common-addr-state').value,
-        zip: document.getElementById('common-addr-zip').value,
-        phone: document.getElementById('common-addr-phone').value
+        country: document.getElementById('common-addr-country').value,
+        phone: document.getElementById('common-addr-phone').value,
+        apt: document.getElementById('common-addr-apt').value,
+        locationType: document.getElementById('common-addr-location').value
     };
-    
+
     // Get delivery date if pick-date is selected
     const commonDeliveryDateInput = document.getElementById('common-delivery-date');
     const commonDeliveryDate = commonDeliveryDateInput ? commonDeliveryDateInput.value : null;
-    
+
     // Apply to all items
     cart.forEach(item => {
         item.shippingAddress = { ...commonAddress };
@@ -876,17 +1162,17 @@ window.saveCommonAddress = function() {
             item.deliveryDate = commonDeliveryDate;
         }
     });
-    
+
     saveCart();
     renderCart();
 };
 
-window.selectCommonShippingMethod = function(methodId) {
+window.selectCommonShippingMethod = function (methodId) {
     // Apply shipping method to all items
     cart.forEach(item => {
         const previousMethod = item.shippingMethod;
         item.shippingMethod = methodId;
-        
+
         // Only set date if:
         // 1. Switching to pick-date: restore pickDateSelected if exists, otherwise leave empty
         // 2. Switching away from pick-date: save current date to pickDateSelected if it was pick-date, then calculate estimated date
@@ -908,10 +1194,10 @@ window.selectCommonShippingMethod = function(methodId) {
             item.deliveryDate = deliveryDate.toISOString().split('T')[0];
         }
     });
-    
+
     saveCart();
     renderCart();
-    
+
     // Attach date picker listener after render
     setTimeout(() => {
         const commonDeliveryDateInput = document.getElementById('common-delivery-date');
@@ -919,11 +1205,11 @@ window.selectCommonShippingMethod = function(methodId) {
             // Make sure input is enabled
             commonDeliveryDateInput.disabled = false;
             commonDeliveryDateInput.readOnly = false;
-            
+
             // Remove any existing listeners
             const newInput = commonDeliveryDateInput.cloneNode(true);
             commonDeliveryDateInput.parentNode.replaceChild(newInput, commonDeliveryDateInput);
-            
+
             // Attach to new input
             const updatedInput = document.getElementById('common-delivery-date');
             if (updatedInput) {
@@ -935,7 +1221,7 @@ window.selectCommonShippingMethod = function(methodId) {
                     });
                     saveCart();
                 });
-                
+
                 updatedInput.addEventListener('input', (e) => {
                     const selectedDate = e.target.value;
                     cart.forEach(item => {
@@ -949,56 +1235,61 @@ window.selectCommonShippingMethod = function(methodId) {
     }, 100);
 };
 
-window.cancelEditCommonAddress = function() {
+window.cancelEditCommonAddress = function () {
     document.getElementById('common-address-form').classList.remove('active');
 };
 
-window.cancelEditAddress = function(itemId) {
+window.cancelEditAddress = function (itemId) {
     document.getElementById(`address-form-${itemId}`).classList.remove('active');
 };
 
-window.saveRelationship = function(itemId) {
+window.saveRelationship = function (itemId) {
     const item = cart.find(i => i.id === itemId);
     if (!item) return;
-    
+
     item.recipientRelationship = document.getElementById(`relationship-select-${itemId}`).value;
     saveCart();
     renderCart();
 };
 
-window.cancelEditRelationship = function(itemId) {
+window.cancelEditRelationship = function (itemId) {
     document.getElementById(`relationship-form-${itemId}`).classList.remove('active');
 };
 
-window.saveOccasion = function(itemId) {
+window.saveOccasion = function (itemId) {
     const item = cart.find(i => i.id === itemId);
     if (!item) return;
-    
+
     item.recipientOccasion = document.getElementById(`occasion-input-${itemId}`).value;
     saveCart();
     renderCart();
 };
 
-window.cancelEditOccasion = function(itemId) {
+window.cancelEditOccasion = function (itemId) {
     document.getElementById(`occasion-form-${itemId}`).classList.remove('active');
 };
 
-window.selectGiftMessageType = function(itemId, type) {
+window.selectGiftMessageType = function (itemId, type) {
     const item = cart.find(i => i.id === itemId);
     if (!item) return;
-    
-    item.giftMessageType = type;
+
+    if (type === 'none') {
+        item.giftMessageType = null;
+        item.giftMessage = '';
+    } else {
+        item.giftMessageType = type;
+    }
     saveCart();
     renderCart();
 };
 
-window.selectShippingMethod = function(itemId, methodId) {
+window.selectShippingMethod = function (itemId, methodId) {
     const item = cart.find(i => i.id === itemId);
     if (!item) return;
-    
+
     const previousMethod = item.shippingMethod;
     item.shippingMethod = methodId;
-    
+
     // Only calculate delivery date if:
     // 1. Switching to pick-date: restore pickDateSelected if exists, otherwise leave empty
     // 2. Switching away from pick-date: save current date to pickDateSelected if it was pick-date, then calculate estimated date
@@ -1019,10 +1310,10 @@ window.selectShippingMethod = function(itemId, methodId) {
         const deliveryDate = calculateDeliveryDate(methodId);
         item.deliveryDate = deliveryDate.toISOString().split('T')[0];
     }
-    
+
     saveCart();
     renderCart();
-    
+
     // After render, ensure date picker is interactive
     setTimeout(() => {
         const deliveryDateInput = document.getElementById(`delivery-date-${itemId}`);
@@ -1030,9 +1321,9 @@ window.selectShippingMethod = function(itemId, methodId) {
             // Make sure input is enabled and can be changed
             deliveryDateInput.disabled = false;
             deliveryDateInput.readOnly = false;
-            
+
             // Re-attach change listener
-            deliveryDateInput.addEventListener('change', function(e) {
+            deliveryDateInput.addEventListener('change', function (e) {
                 const currentItem = cart.find(i => i.id === itemId);
                 if (currentItem) {
                     const selectedDate = e.target.value;
@@ -1041,9 +1332,9 @@ window.selectShippingMethod = function(itemId, methodId) {
                     saveCart();
                 }
             });
-            
+
             // Also listen to input event
-            deliveryDateInput.addEventListener('input', function(e) {
+            deliveryDateInput.addEventListener('input', function (e) {
                 const currentItem = cart.find(i => i.id === itemId);
                 if (currentItem) {
                     const selectedDate = e.target.value;
@@ -1056,7 +1347,7 @@ window.selectShippingMethod = function(itemId, methodId) {
     }, 100);
 };
 
-window.saveItem = function(itemId) {
+window.saveItem = function (itemId) {
     // Save all changes for this item
     saveCart();
     alert('Item saved successfully!');

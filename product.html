@@ -81,6 +81,42 @@
             transform: scaleX(1);
         }
 
+        .cart-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .cart-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            transform: translateY(-3px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 2px;
+            background: #d60b52;
+            color: #fff;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
         /* DROPDOWN */
         .dropdown-content {
             display: none;
@@ -176,11 +212,11 @@
 
         .box-slot {
             position: absolute;
-            width: 28%;
-            height: 17%;
+            width: 34.6%;
+            height: 15.1%;
             background: transparent;
             border: none;
-            border-radius: 10px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -192,29 +228,34 @@
         }
 
         .box-slot.slot-1 {
-            top: 11.5%;
-            left: 18%;
+            top: 4.8%;
+            left: 10.5%;
         }
 
         .box-slot.slot-2 {
-            top: 11.5%;
-            left: 54%;
+            top: 4.8%;
+            left: 54.5%;
         }
 
         .box-slot.slot-3 {
-            top: 32%;
-            left: 18%;
+            top: 23%;
+            left: 10.5%;
         }
 
         .box-slot.slot-4 {
-            top: 32%;
-            left: 54%;
+            top: 23%;
+            left: 54.5%;
         }
 
         .box-slot.filled img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* Make the "+" sign transparent for empty slots */
+        .box-slot:not(.filled) {
+            color: transparent;
         }
 
         .box-overflow {
@@ -408,6 +449,15 @@
             justify-content: space-between;
             padding: 8px 0;
             color: #555;
+            gap: 0;
+        }
+
+        .price-breakdown-item span:last-child {
+            margin-left: auto;
+        }
+
+        .price-breakdown-item.muted {
+            color: #888;
         }
 
         .price-breakdown-item.total {
@@ -418,6 +468,13 @@
             padding-top: 16px;
             margin-top: 8px;
         }
+
+        .price-breakdown hr {
+            border: none;
+            border-top: 1px solid #e6e2da;
+            margin: 6px 0;
+        }
+
 
         /* Add to Cart Button */
         .add-to-cart-btn {
@@ -432,6 +489,106 @@
             cursor: pointer;
             margin-top: 24px;
             transition: all 0.3s ease;
+        }
+
+        /* Choose Your Box Section */
+        .box-selection-section {
+            margin: 24px 0;
+            padding: 24px 0;
+        }
+
+        .box-selection-title {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1a1157;
+            margin-bottom: 32px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .box-selection-title::before,
+        .box-selection-title::after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            background: #a0d2ff;
+            max-width: 200px;
+        }
+
+        .box-selection-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .box-option {
+            position: relative;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .box-option:hover {
+            transform: translateY(-4px);
+        }
+
+        .box-option.selected {
+            transform: translateY(-6px);
+        }
+
+        .box-option-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .box-option.selected .box-option-image {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+        }
+
+        .box-select-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #a0d2ff;
+            color: #1a1157;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .box-option:hover .box-select-btn,
+        .box-option.selected .box-select-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .box-option.selected .box-select-btn {
+            background: #ffe066;
+            color: #1a1157;
+        }
+
+        .box-option-name {
+            margin-top: 16px;
+            font-weight: 700;
+            color: #1a1157;
+            font-size: 0.95rem;
         }
 
         /* Assortment */
@@ -468,6 +625,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 12px;
+            overflow: visible;
         }
 
         .assortment-tile {
@@ -484,6 +642,82 @@
             font-weight: 700;
             transition: all 0.15s ease;
             color: #1a1157;
+        }
+
+        /* Hover detail tooltip for assortment */
+        .assortment-tile {
+            position: relative;
+            overflow: visible;
+        }
+
+        .assortment-tooltip {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px;
+            width: 360px;
+            max-width: 90vw;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+            padding: 16px;
+            z-index: 20;
+            display: none;
+            color: #1a1157;
+            overflow: hidden;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .assortment-tile:hover .assortment-tooltip {
+            display: block;
+        }
+
+        .tooltip-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tooltip-title {
+            font-size: 1.08rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            margin-bottom: 8px;
+            color: #1a1157;
+            text-transform: uppercase;
+        }
+
+        .tooltip-subtitle {
+            font-size: 0.9rem;
+            color: #1a8dbf;
+            margin-bottom: 12px;
+            font-style: italic;
+            border-bottom: 1px solid #d6ecf6;
+            padding-bottom: 6px;
+        }
+
+        .tooltip-text {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .tooltip-heading {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1a1157;
+            margin: 10px 0 6px;
+        }
+
+        .tooltip-allergy {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.5;
         }
 
         .assortment-tile:hover {
@@ -642,11 +876,31 @@
                         <li><a href="index.html#tet-gifts">Tet</a></li>
                     </ul>
                 </li>
+                <li><a href="customize.html">Customize</a></li>
                 <li><a href="home.html">Home</a></li>
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>
-                <li><a href="cart.html">Cart</a></li>
+                <li class="dropdown">
+                    <a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership-login.html">Login / Sign Up</a></li>
+                    </ul>
+                </li>
+                <li><a href="tracking.html">Tracking</a></li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <span class="cart-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                                <path d="M6 8h12v11H6z" fill="none" stroke="#fff" stroke-width="1.4"
+                                    stroke-linejoin="round" />
+                                <path d="M9 8V7a3 3 0 0 1 6 0v1" fill="none" stroke="#fff" stroke-width="1.4"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <span class="cart-badge" id="header-cart-badge">0</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -655,8 +909,7 @@
     <div class="product-container">
         <div class="product-detail">
             <div class="product-image-container">
-                <img src="https://www.sugarfina.com/media/catalog/product/b/e/bentobox_4pc_blue-2_edited-v2_2.jpg?quality=92&bg-color=255,255,255&fit=bounds&height=570&width=570&canvas=570:570"
-                    alt="Cupcake Box" class="product-image" id="product-image">
+                <img src="sea.png" alt="Cupcake Box" class="product-image" id="product-image">
                 <div class="box-preview" id="box-preview">
                     <div id="box-slots" class="box-slots"></div>
                     <div id="box-overflow" class="box-overflow"></div>
@@ -665,10 +918,47 @@
             </div>
 
             <div class="product-info">
-                <h1 id="product-name"> Mooncake Gift Box (4 pieces)</h1>
+                <h1 id="product-name"> Heritage Assortment Box (4 pieces)</h1>
                 <div class="product-price" id="display-price">$38.00</div>
                 <p class="product-description">A beautiful box of premium handmade cupcakes, perfect for gifting on
                     special occasions.</p>
+
+                <!-- Choose Your Box Section -->
+                <div class="box-selection-section">
+                    <div class="box-selection-title">CHOOSE YOUR BOX</div>
+                    <div class="box-selection-grid">
+                        <div class="box-option" data-box="red" data-box-image="red.png" data-box-thumb="redBox.png">
+                            <div style="position: relative;">
+                                <img src="redBox.png" alt="Red Box" class="box-option-image">
+                                <button class="box-select-btn">SELECT</button>
+                            </div>
+                            <div class="box-option-name">XOXO GIFT BOX WITH RIBBON</div>
+                        </div>
+                        <div class="box-option selected" data-box="sea" data-box-image="sea.png"
+                            data-box-thumb="seaBox.png">
+                            <div style="position: relative;">
+                                <img src="seaBox.png" alt="Sea Box" class="box-option-image">
+                                <button class="box-select-btn">SELECT</button>
+                            </div>
+                            <div class="box-option-name">SEA BREEZE BOX</div>
+                        </div>
+                        <div class="box-option" data-box="yellow" data-box-image="yellow.png"
+                            data-box-thumb="yellowBox.png">
+                            <div style="position: relative;">
+                                <img src="yellowBox.png" alt="Yellow Box" class="box-option-image">
+                                <button class="box-select-btn">SELECT</button>
+                            </div>
+                            <div class="box-option-name">HAPPY HOLIDAYS SNOWFLAKE BOX</div>
+                        </div>
+                        <div class="box-option" data-box="mix" data-box-image="mix.png" data-box-thumb="mixBox.png">
+                            <div style="position: relative;">
+                                <img src="mixBox.png" alt="Mix Box" class="box-option-image">
+                                <button class="box-select-btn">SELECT</button>
+                            </div>
+                            <div class="box-option-name">HAPPY BIRTHDAY BOX</div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Assortment Section -->
                 <div class="assortment-section">
@@ -698,7 +988,8 @@
                             <span id="base-price-display">$38.00</span>
                         </div>
                         <div class="price-breakdown-item" id="assortment-breakdown">
-                            Assortment: $0.00
+                            <span>Assortment:</span>
+                            <span>$0.00</span>
                         </div>
                         <div id="addons-breakdown">
                             <!-- Addon prices will be shown here -->
@@ -743,9 +1034,58 @@
     <!-- SCRIPTS -->
     <script type="module" src="js/product.js"></script>
     <script>
+        // Update cart badge count (available globally)
+        function updateCartBadge() {
+            try {
+                const cartData = localStorage.getItem('cart');
+                const cart = cartData ? JSON.parse(cartData) : [];
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const badge = document.getElementById('header-cart-badge');
+                if (badge) {
+                    badge.textContent = totalItems;
+                }
+            } catch (error) {
+                console.error('Error updating cart badge:', error);
+            }
+        }
+
+        // Make it available globally
+        window.updateCartBadge = updateCartBadge;
+
+        // Update cart badge on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+        });
+
         // Mobile menu toggle
         document.querySelector(".menu-toggle")?.addEventListener("click", () => {
             document.querySelector("nav").classList.toggle("nav-open");
+        });
+
+        // Box selection functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const boxOptions = document.querySelectorAll('.box-option');
+            const productImage = document.getElementById('product-image');
+            let selectedBox = 'sea'; // Default selection
+
+            boxOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    boxOptions.forEach(opt => opt.classList.remove('selected'));
+
+                    // Add selected class to clicked option
+                    option.classList.add('selected');
+
+                    // Get the box image filename
+                    const boxImage = option.getAttribute('data-box-image');
+                    selectedBox = option.getAttribute('data-box');
+
+                    // Update main product image
+                    if (productImage && boxImage) {
+                        productImage.src = boxImage;
+                    }
+                });
+            });
         });
     </script>
 </body>

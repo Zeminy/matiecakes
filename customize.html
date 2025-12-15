@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,600,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand: #1a1157;
+            --accent: #ff4f87;
+            --bg: #f7f3f0;
+            --muted: #666;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #fff;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            color: #fff;
+            padding: 0 40px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            height: 52px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 26px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav li {
+            position: relative;
+        }
+
+        nav li::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 100%;
+            height: 2px;
+            background: #ffe066;
+            transform: scaleX(0);
+            transition: transform .2s ease;
+        }
+
+        nav li:hover::after {
+            transform: scaleX(1);
+        }
+
+        .cart-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        .cart-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            transform: translateY(-2px);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -10px;
+            right: -8px;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 4px;
+            background: #d60b52;
+            color: #fff;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #2a2f95;
+            padding: 10px 0;
+            border-radius: 10px;
+            min-width: 160px;
+            z-index: 20;
+        }
+
+        .dropdown-content li {
+            padding: 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 8px 14px;
+            color: #fff;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hero {
+            padding: 0;
+        }
+
+        .hero-wrapper {
+            max-width: 1220px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .hero img {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 440px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            max-width: 1220px;
+            margin: 14px auto 10px;
+            padding: 0 16px;
+            font-size: 18px;
+            color: #6a6a6a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .breadcrumb a {
+            color: #1a1157;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb .sep {
+            color: #9a9a9a;
+        }
+
+        .sizes {
+            max-width: 1200px;
+            margin: 40px auto 60px;
+            padding: 0 24px;
+        }
+
+        .sizes-title {
+            text-align: center;
+            font-size: 1.6rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .size-card {
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            background: #fff;
+            transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .size-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.09);
+            border-color: #d8d8d8;
+        }
+
+        .size-thumb {
+            width: 100%;
+            object-fit: contain;
+            max-height: 140px;
+            display: block;
+            margin: 0 auto 12px;
+        }
+
+        /* Make the first (3-piece) image larger for emphasis */
+        .size-card:first-child .size-thumb {
+            max-height: 400px;
+        }
+
+        /* Make the second (4-piece) image larger as well */
+        .size-card:nth-child(2) .size-thumb {
+            max-height: 400px;
+        }
+
+        .size-card:nth-child(3) .size-thumb {
+            max-height: 400px;
+        }
+
+        .size-card:nth-child(4) .size-thumb {
+            max-height: 400px;
+        }
+
+        .size-name {
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .size-price {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        /* Push text lower on the third card (6-piece) */
+        .size-card:nth-child(3) .size-name {
+            margin-top: 72px;
+        }
+
+        .size-card:nth-child(3) .size-price {
+            margin-top: 6px;
+        }
+
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-inner img {
+            height: 44px;
+        }
+
+        .footer-copy {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+
+        @media (max-width: 768px) {
+            header {
+                padding: 14px 24px;
+                height: auto;
+            }
+
+            nav ul {
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+
+            .hero {
+                padding: 20px;
+            }
+
+            .sizes {
+                padding: 0 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><img src="Image/Logo.png" class="logo" alt="Matie Cake"></a>
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="index.html#new-products">New</a></li>
+                        <li><a href="index.html#favorite-products">Best Seller</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas</a></li>
+                        <li><a href="index.html#tet-gifts">Tet</a></li>
+                    </ul>
+                </li>
+                <li><a href="product.html">Customize</a></li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+                <li><a href="tracking.html">Tracking</a></li>
+                <li>
+                    <a href="cart.html" class="cart-link">
+                        <span class="cart-icon" aria-hidden="true">
+                            <svg width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                                <path d="M6 8h12v11H6z" fill="none" stroke="#fff" stroke-width="1.4"
+                                    stroke-linejoin="round" />
+                                <path d="M9 8V7a3 3 0 0 1 6 0v1" fill="none" stroke="#fff" stroke-width="1.4"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <span class="cart-badge" id="header-cart-badge">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        <span>Design Your Own Custom Cake Box</span>
+    </div>
+
+    <section class="hero">
+        <div class="hero-wrapper">
+            <img src="customize.png" alt="Custom Candy Bento Box">
+        </div>
+    </section>
+
+    <section class="sizes">
+        <div class="sizes-title">Select a Size</div>
+        <div class="size-grid">
+            <div class="size-card">
+                <img src="https://www.sugarfina.com/media/catalog/product/c/o/congrats_dyo.jpg?quality=92&bg-color=255,255,255&fit=bounds&height=290&width=290&canvas=290:290"
+                    class="size-thumb" alt="3-Piece Signature Box">
+                <div class="size-name">3-Piece Signature Box</div>
+                <div class="size-price">$32</div>
+            </div>
+            <a class="size-card" href="product.html">
+                <img src="https://www.sugarfina.com/media/wysiwyg/bento-box/4pc_Sugarfina_DYO_Closed_300dpi.jpg"
+                    class="size-thumb" alt="4 Piece Signature Box">
+                <div class="size-name">4-Piece Signature Box</div>
+                <div class="size-price">$40</div>
+            </a>
+            <div class="size-card">
+                <img src="https://cdnv2.tgdd.vn/bhx-static/bhx/Products/Images/7718/342531/bhx/hop-6-banh-trung-thu-boni-momoyama-vi-tra-thuong-hang-300g_202508191651403665.jpg"
+                    class="size-thumb" alt="6-Piece Signature Box">
+                <div class="size-name">6-Piece Signature Box</div>
+                <div class="size-price">$60</div>
+            </div>
+            <div class="size-card">
+                <img src="https://www.sugarfina.com/media/catalog/product/8/p/8pc_happy_birthday_01-angle-web_2.jpg?quality=92&bg-color=255,255,255&fit=bounds&height=290&width=290&canvas=290:290"
+                    class="size-thumb" alt="8-Piece Signature Box">
+                <div class="size-name">8-Piece Signature Box</div>
+                <div class="size-price">$78</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <img src="Image/Logo.png" alt="Matie Cake">
+            <div class="footer-copy">© 2025 Matie Cake. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Update cart badge count
+        function updateCartBadge() {
+            try {
+                const cartData = localStorage.getItem('cart');
+                const cart = cartData ? JSON.parse(cartData) : [];
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const badge = document.getElementById('header-cart-badge');
+                if (badge) {
+                    badge.textContent = totalItems;
+                }
+            } catch (error) {
+                console.error('Error updating cart badge:', error);
+            }
+        }
+
+        // Update cart badge on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+        });
+    </script>
+</body>
+
+</html>

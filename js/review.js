@@ -35,6 +35,7 @@ function loadData() {
         const cartData = localStorage.getItem('cart');
         if (cartData) {
             cart = JSON.parse(cartData);
+            updateHeaderCartBadge();
         } else {
             cart = [];
         }
@@ -47,6 +48,19 @@ function loadData() {
         console.error('Error loading data:', error);
         cart = [];
         checkoutData = null;
+    }
+}
+
+function updateHeaderCartBadge() {
+    try {
+        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        const badge = document.getElementById('header-cart-badge');
+        if (badge) {
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'inline-flex' : 'none';
+        }
+    } catch (e) {
+        console.error('Error updating header cart badge', e);
     }
 }
 

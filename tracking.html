@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking | Matie Cake</title>
+    <link rel="icon" type="image/png" href="Image/Logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #12132f;
+            --accent: #d99c2b;
+            --muted: #666;
+            --bg: #f6f5f2;
+            --card: #ffffff;
+            --border: #e4dfd8;
+            --shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg);
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            color: #fff;
+            padding: 0 36px;
+            height: 83px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+        }
+
+        .logo {
+            height: 60px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            color: var(--primary);
+            letter-spacing: 0.2px;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .tracking-header {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #fff7e9;
+            color: var(--primary);
+            font-weight: 700;
+            border: 1px solid #f2d8a6;
+            letter-spacing: 0.2px;
+        }
+
+        .timeline {
+            margin-top: 18px;
+            position: relative;
+            /* extra left space so line & bullets sit visually centered */
+            padding-left: 57px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            /* center the vertical line under the step bullets */
+            left: 24px;
+            top: 8px;
+            bottom: 8px;
+            width: 4px;
+            border-radius: 999px;
+            background: #d5d1ff;
+        }
+
+        .step {
+            position: relative;
+            padding: 12px 14px 12px 24px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #ffffff, #faf9f7);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step::before {
+            content: "";
+            position: absolute;
+            /* align bullet with vertical line (centered at 24px from container) */
+            left: -25px;
+            top: 35px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #c7c4ff;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #d9d6ff;
+        }
+
+        .step.active {
+            border-color: #c6a25a;
+            background: linear-gradient(180deg, #fffaf2, #fff6e6);
+        }
+
+        .step.active::before {
+            background: #d99c2b;
+            box-shadow: 0 0 0 2px #f1d4a3;
+        }
+
+        .step .title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .step .time {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .step .note {
+            margin-top: 6px;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .shipper-card {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #e6e2d6;
+            background: linear-gradient(180deg, #fffdfa, #f9f5ed);
+            display: grid;
+            gap: 6px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Shipment list */
+        .shipments-wrap {
+            margin: 10px 0 14px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .shipment-pill {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: #333;
+            cursor: pointer;
+            min-width: 180px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .shipment-pill.active {
+            border-color: #b37dff;
+            background: #f9f7ff;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .pill-id {
+            font-weight: 700;
+            display: block;
+        }
+
+        .pill-recipient {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .shipper-card .label {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .shipper-card .value {
+            font-weight: 700;
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <div class="tracking-header">
+                <h1 style="margin:0;">Track Your Order</h1>
+                <span class="order-id" id="order-id">#ORDER-12345</span>
+                <span class="status-badge" id="status-badge">Updating...</span>
+            </div>
+            <div class="muted" id="status-desc">Fetching live status from our delivery partner...</div>
+
+            <div class="shipments-wrap" id="shipments-list"></div>
+
+            <div class="timeline" id="timeline"></div>
+
+            <div class="shipper-card" id="shipper-card" style="display:none;">
+                <div class="label">Driver</div>
+                <div class="value" id="shipper-name">--</div>
+                <div class="label">Phone</div>
+                <div class="value" id="shipper-phone">--</div>
+                <div class="label">Status</div>
+                <div class="value" id="shipper-status">--</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/tracking.js"></script>
+</body>
+
+</html>
