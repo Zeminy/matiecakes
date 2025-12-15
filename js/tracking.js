@@ -44,6 +44,24 @@ function enrichShipments(rawShipments = []) {
 
 let shipments = [];
 let activeShipmentIndex = 0;
+let dismissedMap = {};
+
+function loadDismissedMap() {
+    try {
+        const raw = localStorage.getItem('trackingDismissedMap');
+        return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function saveDismissedMap() {
+    try {
+        localStorage.setItem('trackingDismissedMap', JSON.stringify(dismissedMap));
+    } catch (e) {
+        // ignore
+    }
+}
 
 function loadShipmentsFromStorage() {
     let rawShipments = [];
@@ -71,7 +89,11 @@ function loadShipmentsFromStorage() {
         ];
     }
 
-    shipments = enrichShipments(rawShipments);
+    dismissedMap = loadDismissedMap();
+    shipments = enrichShipments(rawShipments).map(s => ({
+        ...s,
+        dismissed: !!dismissedMap[s.id]
+    }));
     activeShipmentIndex = 0;
 }
 
@@ -79,7 +101,7 @@ function renderShipmentsList() {
     const list = document.getElementById('shipments-list');
     if (!list) return;
     list.innerHTML = shipments.map((s, idx) => `
-        <div class="shipment-pill ${idx === activeShipmentIndex ? 'active' : ''}" data-idx="${idx}">
+        <div class="shipment-pill ${idx === activeShipmentIndex ? 'active' : ''} ${s.dismissed ? 'dismissed' : ''}" data-idx="${idx}">
             <span class="pill-id">${s.id}</span>
             <span class="pill-recipient">${s.recipient}</span>
         </div>
@@ -139,9 +161,29 @@ function updateView() {
     if (!shipments.length) return;
     const shipment = shipments[activeShipmentIndex];
     renderShipmentsList();
+    const timeline = document.getElementById('timeline');
+    const shipperCard = document.getElementById('shipper-card');
+    const completeBtn = document.getElementById('complete-btn');
+    if (shipment.dismissed) {
+        // Hide timeline & driver info for this order
+        if (timeline) timeline.innerHTML = '';
+        if (shipperCard) shipperCard.style.display = 'none';
+        const badge = document.getElementById('status-badge');
+        const desc = document.getElementById('status-desc');
+        if (badge) badge.textContent = 'Tracking completed';
+        if (desc) desc.textContent = 'You have marked tracking as completed for this order.';
+        if (completeBtn) completeBtn.style.display = 'none';
+        return;
+    }
+
     renderTimeline(shipment.steps, shipment.activeIndex);
     updateStatus(shipment);
     updateShipper(shipment);
+    if (completeBtn) {
+        completeBtn.style.display = shipments.length ? 'inline-flex' : 'none';
+        completeBtn.disabled = false;
+        completeBtn.textContent = 'Complete';
+    }
 }
 
 function tickProgress() {
@@ -156,6 +198,17 @@ function tickProgress() {
 document.addEventListener('DOMContentLoaded', () => {
     loadShipmentsFromStorage();
     updateView();
+    const completeBtn = document.getElementById('complete-btn');
+    if (completeBtn) {
+        completeBtn.addEventListener('click', () => {
+            const s = shipments[activeShipmentIndex];
+            if (!s) return;
+            s.dismissed = true;
+            dismissedMap[s.id] = true;
+            saveDismissedMap();
+            updateView();
+        });
+    }
     // Simulate live status updates every 2.5 seconds
     setInterval(() => tickProgress(), 2500);
 });

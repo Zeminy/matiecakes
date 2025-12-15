@@ -205,6 +205,10 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
+        .shipment-pill.dismissed {
+            opacity: 0.55;
+        }
+
         .pill-id {
             font-weight: 700;
             display: block;
@@ -224,6 +228,34 @@
             font-weight: 700;
             color: var(--primary);
         }
+
+        .complete-btn {
+            margin: 12px 0 8px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid #b37dff;
+            background: linear-gradient(180deg, #f9f7ff);
+            color: #12132f;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .complete-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .complete-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 
@@ -240,6 +272,8 @@
                 <span class="status-badge" id="status-badge">Updating...</span>
             </div>
             <div class="muted" id="status-desc">Fetching live status from our delivery partner...</div>
+
+            <button id="complete-btn" class="complete-btn">Complete</button>
 
             <div class="shipments-wrap" id="shipments-list"></div>
 
