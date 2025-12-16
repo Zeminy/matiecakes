@@ -8,6 +8,7 @@ import { MOCK_ADDRESSES, SHIPPING_METHODS, calculateDeliveryDate, formatDelivery
 
 // State
 let cart = [];
+let activePromo = null; // { code: string, discountRate: number }
 let isMultiShipMode = false;
 const DEFAULT_TRACKING_STEPS = [
     {
@@ -859,26 +860,6 @@ function renderCartItem(item, index) {
                     Not a message
                 </label>
             </div>
-
-            <div class="gift-message-option ${item.giftMessageType === 'printed' ? 'selected' : ''}" onclick="selectGiftMessageType('${item.id}', 'printed')">
-                <label>
-                    <input type="radio" name="gift-type-${item.id}" value="printed" ${item.giftMessageType === 'printed' ? 'checked' : ''}>
-                    Personalized Printed Greeting Cards
-                    <span class="gift-option-price">Price: $5.99</span>
-                </label>
-                <div class="gift-option-description">
-                    Select from a wide range of designs created by independent artists or upload a photo. We will print your personalized message on a 4.5x6 folded cardstock greeting card.
-                </div>
-                ${item.giftMessageType === 'printed' ? `
-                    <textarea 
-                        class="gift-message-textarea active"
-                        id="gift-message-${item.id}"
-                        placeholder="Enter your personal message here..."
-                        maxlength="500"
-                    >${item.giftMessage || ''}</textarea>
-                    <button class="browse-cards-btn">Browse Cards</button>
-                ` : ''}
-            </div>
             
             <div class="gift-message-option ${item.giftMessageType === 'complimentary' ? 'selected' : ''}" onclick="selectGiftMessageType('${item.id}', 'complimentary')">
                 <label>
@@ -960,6 +941,14 @@ function renderCartItem(item, index) {
  * @param {number} total - Total cart value
  * @param {Array} items - Cart items
  */
+function getPromoDiscount(subtotal) {
+    if (!activePromo) return 0;
+    // Only one simple code for now: MATIE10 -> 10% off
+    const rate = activePromo.discountRate || 0;
+    const discount = subtotal * rate;
+    return Math.max(0, discount);
+}
+
 function renderCartSummary(itemCount, total, items = []) {
     const summaryContainer = document.getElementById('cart-summary');
     if (!summaryContainer) return;
@@ -967,7 +956,8 @@ function renderCartSummary(itemCount, total, items = []) {
     const itemText = itemCount === 1 ? 'item' : 'items';
     const subtotal = total;
     const shipping = 0; // Can be calculated later
-    const finalTotal = subtotal + shipping;
+    const promoDiscount = getPromoDiscount(subtotal);
+    const finalTotal = Math.max(0, subtotal - promoDiscount + shipping);
 
     const listHTML = items.map(item => {
         const unit = computeUnitPrice(item);
@@ -992,6 +982,25 @@ function renderCartSummary(itemCount, total, items = []) {
         <div class="summary-item-list">
             ${listHTML}
         </div>
+        <div class="promo-row">
+            <label for="promo-code-input">Promo code</label>
+            <div class="promo-input-group">
+                <input 
+                    id="promo-code-input" 
+                    type="text" 
+                    placeholder="Enter code (e.g., MATIE10)" 
+                    value="${activePromo ? activePromo.code : ''}"
+                >
+                <button type="button" id="apply-promo-btn">Apply</button>
+            </div>
+            <div id="promo-message" class="promo-message ${activePromo ? 'promo-message--success' : ''}">
+                ${activePromo ? `Code <strong>${activePromo.code}</strong> applied: ${Math.round((activePromo.discountRate || 0) * 100)}% off` : ''}
+            </div>
+        </div>
+        <div class="summary-row" id="summary-discount-row" style="${promoDiscount > 0 ? '' : 'display:none;'}">
+            <span class="summary-row-label">Discount${activePromo ? ` (${activePromo.code})` : ''}:</span>
+            <span class="summary-row-value">- $${promoDiscount.toFixed(2)}</span>
+        </div>
         <div class="summary-row">
             <span class="summary-row-label">Shipping:</span>
             <span class="summary-row-value">Calculated at checkout</span>
@@ -1013,6 +1022,44 @@ function renderCartSummary(itemCount, total, items = []) {
     const checkoutBtn = document.getElementById('checkout-btn');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', handleCheckout);
+    }
+
+    // Promo apply handler
+    const applyPromoBtn = document.getElementById('apply-promo-btn');
+    if (applyPromoBtn) {
+        applyPromoBtn.addEventListener('click', () => {
+            const input = document.getElementById('promo-code-input');
+            const messageEl = document.getElementById('promo-message');
+            const rawCode = (input?.value || '').trim().toUpperCase();
+
+            // Simple rule: MATIE10 -> 10% off subtotal
+            if (!rawCode) {
+                activePromo = null;
+                if (messageEl) {
+                    messageEl.textContent = 'Promo code cleared.';
+                    messageEl.className = 'promo-message promo-message--success';
+                }
+                // Re-render to remove discount
+                renderCartSummary(itemCount, subtotal, items);
+                return;
+            }
+
+            if (rawCode === 'MATIE10') {
+                activePromo = { code: rawCode, discountRate: 0.10 };
+                if (messageEl) {
+                    messageEl.innerHTML = 'Code <strong>MATIE10</strong> applied: 10% off your cart subtotal.';
+                    messageEl.className = 'promo-message promo-message--success';
+                }
+                renderCartSummary(itemCount, subtotal, items);
+            } else {
+                activePromo = null;
+                if (messageEl) {
+                    messageEl.textContent = 'This promo code is not valid.';
+                    messageEl.className = 'promo-message promo-message--error';
+                }
+                renderCartSummary(itemCount, subtotal, items);
+            }
+        });
     }
 }
 

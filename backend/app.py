@@ -4,6 +4,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from rag_engine import rag_engine
 import uvicorn
 import os
+import warnings
+
+# Suppress numpy warnings on Windows (float128 not fully supported)
+warnings.filterwarnings("ignore", category=RuntimeWarning, module="numpy")
 
 app = FastAPI()
 

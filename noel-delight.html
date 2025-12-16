@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -17,7 +21,10 @@
             color: #333;
             position: relative;
         }
-        a { text-decoration: none; }
+
+        a {
+            text-decoration: none;
+        }
 
         /* ===================== SNOW EFFECT ===================== */
         .snow-layer {
@@ -27,22 +34,32 @@
             overflow: hidden;
             z-index: 50;
         }
+
         .snowflake {
             position: absolute;
             top: -10px;
             width: 14px;
             height: 14px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,1), rgba(255,255,255,0) 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0) 70%);
             animation: snow 12s linear infinite;
             opacity: 0.9;
         }
+
         .snowflake.mint {
-            background: radial-gradient(circle, rgba(210,255,240,1), rgba(210,255,240,0) 70%);
+            background: radial-gradient(circle, rgba(210, 255, 240, 1), rgba(210, 255, 240, 0) 70%);
         }
+
         @keyframes snow {
-            0% { transform: translateY(-10px) translateX(0); opacity: .7; }
-            100% { transform: translateY(110vh) translateX(25px); opacity: 1; }
+            0% {
+                transform: translateY(-10px) translateX(0);
+                opacity: .7;
+            }
+
+            100% {
+                transform: translateY(110vh) translateX(25px);
+                opacity: 1;
+            }
         }
 
         /* header */
@@ -52,12 +69,15 @@
             display: flex;
             align-items: center;
             gap: 30px;
-            box-shadow: 0 5px 20px rgba(150,220,200,0.4);
+            box-shadow: 0 5px 20px rgba(150, 220, 200, 0.4);
             position: sticky;
             top: 0;
             z-index: 99;
         }
-        .logo { height: 60px; }
+
+        .logo {
+            height: 60px;
+        }
 
         nav ul {
             list-style: none;
@@ -66,24 +86,33 @@
             display: flex;
             gap: 30px;
         }
+
         nav a {
             color: #ff7da8;
             font-weight: 700;
             position: relative;
         }
-        nav a:hover { color: #8fe8d5; }
+
+        nav a:hover {
+            color: #8fe8d5;
+        }
 
         /* underline */
         nav a::after {
             content: "";
             position: absolute;
-            width: 100%; height: 2px;
+            width: 100%;
+            height: 2px;
             background: linear-gradient(90deg, #ff9fc0, #8fe8d5);
-            left: 0; bottom: -5px;
+            left: 0;
+            bottom: -5px;
             transform: scaleX(0);
             transition: .2s;
         }
-        nav a:hover::after { transform: scaleX(1); }
+
+        nav a:hover::after {
+            transform: scaleX(1);
+        }
 
         /* banner */
         .banner {
@@ -93,16 +122,19 @@
             overflow: hidden;
             background: linear-gradient(120deg, #ffe5f1, #e5fff7);
         }
+
         .banner img {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
+
         .banner-tag {
             position: absolute;
             bottom: 18px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255,255,255,0.85);
+            background: rgba(255, 255, 255, 0.85);
             padding: 10px 22px;
             border-radius: 999px;
             color: #ff7da8;
@@ -113,28 +145,32 @@
         }
 
         .dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: #2a2f95;
-    padding: 0;
-    border-radius: 12px;
-    overflow: hidden;
-}
-.dropdown:hover .dropdown-content { display: block; }
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #2a2f95;
+            padding: 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
         /* main block */
         .product-main {
             max-width: 1200px;
             margin: 30px auto;
             padding: 34px;
-            background: rgba(255,255,255,0.85);
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 26px;
-            box-shadow: 0 8px 30px rgba(150,220,200,0.4);
+            box-shadow: 0 8px 30px rgba(150, 220, 200, 0.4);
             position: relative;
             z-index: 2;
         }
+
         .columns {
             display: flex;
             gap: 40px;
@@ -147,8 +183,9 @@
             border-radius: 22px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 6px 20px rgba(150,150,150,0.2);
+            box-shadow: 0 6px 20px rgba(150, 150, 150, 0.2);
         }
+
         .slide {
             position: absolute;
             width: 100%;
@@ -157,20 +194,33 @@
             opacity: 0;
             transition: opacity .4s;
         }
-        .slide.active { opacity: 1; position: relative; }
-        .prev, .next {
+
+        .slide.active {
+            opacity: 1;
+            position: relative;
+        }
+
+        .prev,
+        .next {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 38px; height: 38px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 1px solid #ffd6e7;
             background: #fff;
             cursor: pointer;
             z-index: 10;
         }
-        .prev { left: 10px; }
-        .next { right: 10px; }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
 
         /* text */
         .title {
@@ -181,22 +231,26 @@
             color: transparent;
             margin-bottom: 10px;
         }
+
         .price {
             color: #ff7da8;
             font-size: 1.6rem;
             font-weight: 700;
             margin-bottom: 12px;
         }
+
         .info-list {
             list-style: none;
             padding: 0;
             margin: 0 0 16px;
         }
+
         .info-list li {
             margin-bottom: 8px;
             padding-left: 18px;
             position: relative;
         }
+
         .info-list li::before {
             content: "✦";
             position: absolute;
@@ -210,18 +264,23 @@
             margin-bottom: 14px;
             align-items: center;
         }
-        .order-minus, .order-plus {
-            width: 32px; height: 32px;
+
+        .order-minus,
+        .order-plus {
+            width: 32px;
+            height: 32px;
             border-radius: 10px;
             border: 1px solid #ffd6e7;
             background: #fff1f8;
         }
+
         .order-qty {
             width: 52px;
             text-align: center;
             border-radius: 8px;
             border: 1px solid #ffd6e7;
         }
+
         .order-btn {
             background: linear-gradient(90deg, #ff9fc0, #ff7da8);
             padding: 10px 30px;
@@ -230,19 +289,24 @@
             font-weight: 700;
         }
 
-                /* description */
+        /* description */
         .desc-area {
             margin-top: 24px;
             border-top: 1px dashed #ffd6e7;
             padding-top: 18px;
         }
+
         .desc-title {
             font-size: 1.25rem;
             font-weight: 700;
             color: #ff7da8;
             margin-bottom: 8px;
         }
-        .desc-title::before { content: "❄ "; }
+
+        .desc-title::before {
+            content: "❄ ";
+        }
+
         .desc-content {
             font-size: 1.05rem;
             line-height: 1.7;
@@ -253,11 +317,12 @@
         .reviews-section {
             max-width: 1200px;
             margin: 30px auto;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             padding: 32px 40px;
             border-radius: 26px;
-            box-shadow: 0 6px 26px rgba(150,220,200,0.45);
+            box-shadow: 0 6px 26px rgba(150, 220, 200, 0.45);
         }
+
         .reviews-title {
             font-size: 1.6rem;
             font-weight: 800;
@@ -266,7 +331,10 @@
             border-bottom: 1px solid #ffd6e7;
             padding-bottom: 8px;
         }
-        .reviews-title::after { content: " ✨"; }
+
+        .reviews-title::after {
+            content: " ✨";
+        }
 
         .review-item {
             padding: 16px;
@@ -274,15 +342,18 @@
             border-radius: 16px;
             margin-bottom: 14px;
             background: #fff7fc;
-            box-shadow: 0 4px 14px rgba(255,180,210,0.4);
+            box-shadow: 0 4px 14px rgba(255, 180, 210, 0.4);
         }
+
         .review-header {
             display: flex;
             align-items: center;
             margin-bottom: 6px;
         }
+
         .avatar {
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #ff9fc0, #8fe8d5);
             display: flex;
@@ -292,9 +363,22 @@
             color: #fff;
             margin-right: 10px;
         }
-        .review-name { font-weight: 700; color: #444; }
-        .review-stars { color: #ffd86b; font-size: 1rem; }
-        .review-date { font-size: .8rem; color: #777; margin-left: auto; }
+
+        .review-name {
+            font-weight: 700;
+            color: #444;
+        }
+
+        .review-stars {
+            color: #ffd86b;
+            font-size: 1rem;
+        }
+
+        .review-date {
+            font-size: .8rem;
+            color: #777;
+            margin-left: auto;
+        }
 
         .review-content {
             font-size: 0.95rem;
@@ -307,17 +391,21 @@
             max-width: 1200px;
             margin: 30px auto 40px;
             padding: 26px;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 26px;
-            box-shadow: 0 6px 24px rgba(150,220,200,0.45);
+            box-shadow: 0 6px 24px rgba(150, 220, 200, 0.45);
         }
+
         .related-title {
             font-size: 1.4rem;
             font-weight: 800;
             color: #7ac8b3;
             margin-bottom: 16px;
         }
-        .related-title::before { content: "🎄 "; }
+
+        .related-title::before {
+            content: "🎄 ";
+        }
 
         .related-list {
             display: flex;
@@ -332,14 +420,15 @@
             border-radius: 22px;
             padding: 14px;
             border: 1px solid #ffd6e7;
-            box-shadow: 0 6px 18px rgba(255,180,210,0.5);
+            box-shadow: 0 6px 18px rgba(255, 180, 210, 0.5);
             transition: .2s;
             text-decoration: none;
             color: #333;
         }
+
         .related-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 26px rgba(255,180,210,0.65);
+            box-shadow: 0 10px 26px rgba(255, 180, 210, 0.65);
         }
 
         .related-card img {
@@ -349,8 +438,17 @@
             border-radius: 14px;
             margin-bottom: 8px;
         }
-        .related-name { font-weight: 600; font-size: 1rem; margin-bottom: 4px; }
-        .related-price { color: #ff7da8; font-weight: 700; }
+
+        .related-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .related-price {
+            color: #ff7da8;
+            font-weight: 700;
+        }
 
         /* footer */
         footer {
@@ -360,7 +458,12 @@
             color: #4a5a60;
             border-top: 2px solid #a3d9c9;
         }
-        .footer-logo { height: 46px; margin-bottom: 10px; }
+
+        .footer-logo {
+            height: 46px;
+            margin-bottom: 10px;
+        }
+
         .footer-bottom {
             font-size: .9rem;
             margin-top: 10px;
@@ -369,256 +472,369 @@
 
         /* responsive */
         @media (max-width: 900px) {
-            .columns { flex-direction: column; }
-            .slider { height: 300px; }
-            .slide { height: 300px; }
-            .related-card { width: 46%; }
+            .columns {
+                flex-direction: column;
+            }
+
+            .slider {
+                height: 300px;
+            }
+
+            .slide {
+                height: 300px;
+            }
+
+            .related-card {
+                width: 46%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- SNOW -->
-<div class="snow-layer">
-    <!-- 36 bông tuyết pastel -->
-    <div class="snowflake"></div><div class="snowflake mint"></div><div class="snowflake"></div>
-    <div class="snowflake mint"></div><div class="snowflake"></div><div class="snowflake mint"></div>
-    <div class="snowflake"></div><div class="snowflake mint"></div><div class="snowflake"></div>
-    <div class="snowflake mint"></div><div class="snowflake"></div><div class="snowflake mint"></div>
-    <div class="snowflake"></div><div class="snowflake mint"></div><div class="snowflake"></div>
-    <div class="snowflake mint"></div><div class="snowflake"></div><div class="snowflake mint"></div>
-    <div class="snowflake"></div><div class="snowflake mint"></div><div class="snowflake"></div>
-    <div class="snowflake mint"></div><div class="snowflake"></div><div class="snowflake mint"></div>
-    <div class="snowflake"></div><div class="snowflake mint"></div><div class="snowflake"></div>
-    <div class="snowflake mint"></div><div class="snowflake"></div><div class="snowflake mint"></div>
-</div>
-
-<!-- HEADER -->
-<header>
-    <a href="index.html"><img src="Image/Logo.png" class="logo" alt="Matie Cake"></a>
-
-    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
-        ☰
-    </button>
-
-    <nav>
-        <ul>
-            <li class="dropdown">
-                <a href="#">Cake Menu</a>
-                <ul class="dropdown-content">
-                    <li><a href="#new-products">New</a></li>
-                    <li><a href="#favorite-products">Best Seller</a></li>
-                    <li><a href="#christmas-gifts">Christmas</a></li>
-                    <li><a href="#tet-gifts">Tet</a></li>
-                </ul>
-            </li>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
-            <li><a href="general-policy.html">General Policy</a></li>
-            <li><a href="work-shop.htm  l">Workshop</a></li>
-            <!-- THÊM DÒNG NÀY -->
-            <li class="dropdown">
-                <a href="#">Membership</a>
-                <ul class="dropdown-content">
-                    <li><a href="membership-login.html">Login / Sign Up</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</header>
-
-<!-- BANNER -->
-<!-- BANNER -->
-<section class="banner">
-    <div class="banner-overlay"></div>
-    <img src="Image 3/noel delight 6.jpg" alt="Noel Delight Banner" class="banner-img">
-    
-    <div class="banner-tag">
-        <span>✨</span>
-        Noel Delight – Christmas Cookie Box
-        <span>❄️</span>
+    <!-- SNOW -->
+    <div class="snow-layer">
+        <!-- 36 bông tuyết pastel -->
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
+        <div class="snowflake"></div>
+        <div class="snowflake mint"></div>
     </div>
-</section>
 
+    <!-- HEADER -->
+    <header>
+        <a href="index.html"><img src="Image/Logo.png" class="logo" alt="Matie Cake"></a>
 
+        <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+            ☰
+        </button>
 
-<!-- MAIN -->
-<div class="product-main">
-    <div class="columns">
-
-        <!-- SLIDER -->
-        <div class="slider" id="slider">
-            <img src="Image 3/noel delight 6.jpg" class="slide active">
-            <img src="Image 3/Noel Delight 4.JPG" class="slide">
-            <img src="Image 3/Noel Delight 5.JPG" class="slide">
-
-            <button class="prev">❮</button>
-            <button class="next">❯</button>
-        </div>
-
-        <!-- TEXT -->
-        <div>
-            <h1 class="title">Noel Delight</h1>
-            <div class="price">330,000 ₫</div>
-
-            <ul class="info-list">
-                <li><b>Includes:</b> Assorted Christmas cookies & decorated treats</li>
-                <li><b>Weight:</b> approx. 300–350g</li>
-                <li><b>Shelf life:</b> 1 month</li>
-                <li><b>Storage:</b> Cool dry place, use within 3 days after opening</li>
-                <li><b>Gift:</b> Workshop voucher</li>
+        <nav>
+            <ul>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="#new-products">New</a></li>
+                        <li><a href="#favorite-products">Best Seller</a></li>
+                        <li><a href="#christmas-gifts">Christmas</a></li>
+                        <li><a href="#tet-gifts">Tet</a></li>
+                    </ul>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.htm  l">Workshop</a></li>
+                <!-- THÊM DÒNG NÀY -->
+                <li class="dropdown">
+                    <a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership-login.html">Login / Sign Up</a></li>
+                    </ul>
+                </li>
             </ul>
+        </nav>
+    </header>
 
-            <div class="order-box">
-                <button class="order-minus">-</button>
-                <input type="number" class="order-qty" value="1">
-                <button class="order-plus">+</button>
-                <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank" class="order-btn">Order Now</a>
+    <!-- BANNER -->
+    <!-- BANNER -->
+    <section class="banner">
+        <div class="banner-overlay"></div>
+        <img src="Image 3/noel delight 6.jpg" alt="Noel Delight Banner" class="banner-img">
+
+        <div class="banner-tag">
+            <span>✨</span>
+            Noel Delight – Christmas Cookie Box
+            <span>❄️</span>
+        </div>
+    </section>
+
+
+
+    <!-- MAIN -->
+    <div class="product-main">
+        <div class="columns">
+
+            <!-- SLIDER -->
+            <div class="slider" id="slider">
+                <img src="Image 3/noel delight 6.jpg" class="slide active">
+                <img src="Image 3/Noel Delight 4.JPG" class="slide">
+                <img src="Image 3/Noel Delight 5.JPG" class="slide">
+
+                <button class="prev">❮</button>
+                <button class="next">❯</button>
             </div>
 
-            <div style="color:#777;">Category: <a href="index.html#christmas-gifts" style="color:#ff7da8;">Christmas Gifts</a></div>
+            <!-- TEXT -->
+            <div>
+                <h1 class="title">Noel Delight</h1>
+                <div class="price">330,000 ₫</div>
+
+                <ul class="info-list">
+                    <li><b>Includes:</b> Assorted Christmas cookies & decorated treats</li>
+                    <li><b>Weight:</b> approx. 300–350g</li>
+                    <li><b>Shelf life:</b> 1 month</li>
+                    <li><b>Storage:</b> Cool dry place, use within 3 days after opening</li>
+                    <li><b>Gift:</b> Workshop voucher</li>
+                </ul>
+
+                <div class="order-box">
+                    <button class="order-minus">-</button>
+                    <input type="number" class="order-qty" value="1">
+                    <button class="order-plus">+</button>
+                    <button type="button" class="order-btn">Add to Cart</button>
+                </div>
+
+                <div style="color:#777;">Category: <a href="index.html#christmas-gifts" style="color:#ff7da8;">Christmas
+                        Gifts</a></div>
+            </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="desc-area">
+            <h2 class="desc-title">Description</h2>
+            <div class="desc-content">
+                <b>Noel Delight</b> is a festive Christmas cookie box crafted to bring warmth and joy
+                during the holiday season. Each cookie is decorated by hand with pastel icing, soft tones,
+                and charming winter motifs—perfect for gifting or sharing with loved ones.
+                <br><br>
+                The flavors are balanced, lightly sweet and fragrant, giving you that cozy “winter bakery”
+                feeling. With its adorable presentation and elegant packaging, Noel Delight is a
+                heartwarming gift for family, friends, colleagues or partners during Christmas time.
+            </div>
         </div>
     </div>
 
-    <!-- DESCRIPTION -->
-    <div class="desc-area">
-        <h2 class="desc-title">Description</h2>
-        <div class="desc-content">
-            <b>Noel Delight</b> is a festive Christmas cookie box crafted to bring warmth and joy 
-            during the holiday season. Each cookie is decorated by hand with pastel icing, soft tones,
-            and charming winter motifs—perfect for gifting or sharing with loved ones.
-            <br><br>
-            The flavors are balanced, lightly sweet and fragrant, giving you that cozy “winter bakery” 
-            feeling. With its adorable presentation and elegant packaging, Noel Delight is a 
-            heartwarming gift for family, friends, colleagues or partners during Christmas time.
+    <!-- REVIEWS -->
+    <div class="reviews-section">
+        <h2 class="reviews-title">Product Reviews</h2>
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="avatar">M</div>
+                <div class="review-name">Minh Anh</div>
+                <div class="review-date">12/12/2024</div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-content">
+                Beautifully packed and tastes amazing! The pastel theme is adorable and perfect for Christmas gifting.
+            </div>
+        </div>
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="avatar">H</div>
+                <div class="review-name">Hà My</div>
+                <div class="review-date">10/12/2024</div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-content">
+                Very festive and cute. Cookies are not too sweet, my kids love them!
+            </div>
         </div>
     </div>
-</div>
 
-<!-- REVIEWS -->
-<div class="reviews-section">
-    <h2 class="reviews-title">Product Reviews</h2>
+    <!-- RELATED -->
+    <div class="related-section">
+        <h2 class="related-title">Related Products</h2>
 
-    <div class="review-item">
-        <div class="review-header">
-            <div class="avatar">M</div>
-            <div class="review-name">Minh Anh</div>
-            <div class="review-date">12/12/2024</div>
-        </div>
-        <div class="review-stars">★★★★★</div>
-        <div class="review-content">
-            Beautifully packed and tastes amazing! The pastel theme is adorable and perfect for Christmas gifting.
+        <div class="related-list">
+            <a class="related-card" href="merry-croissant.html">
+                <img src="Image 3/Merry Croissant 1.JPG">
+                <div class="related-name">Merry Croissant</div>
+                <div class="related-price">480,000 ₫</div>
+            </a>
+
+            <a class="related-card" href="ginger-noel.html">
+                <img src="Image 2/Ginger Noel 1.JPG">
+                <div class="related-name">Ginger Noel</div>
+                <div class="related-price">350,000 ₫</div>
+            </a>
+
+            <a class="related-card" href="flan-gato.html">
+                <img src="Image 2/Flan gato/Flan Gato1.png">
+                <div class="related-name">Flan Gato</div>
+                <div class="related-price">190,000 ₫</div>
+            </a>
+
+            <a class="related-card" href="flan-cheese.html">
+                <img src="Image 2/Flancheese/Flancheese5.jpg">
+                <div class="related-name">Flancheese</div>
+                <div class="related-price">180,000 ₫</div>
+            </a>
         </div>
     </div>
 
-    <div class="review-item">
-        <div class="review-header">
-            <div class="avatar">H</div>
-            <div class="review-name">Hà My</div>
-            <div class="review-date">10/12/2024</div>
-        </div>
-        <div class="review-stars">★★★★★</div>
-        <div class="review-content">
-            Very festive and cute. Cookies are not too sweet, my kids love them!
-        </div>
-    </div>
-</div>
+    <!-- FOOTER -->
+    <footer>
+        <img src="Image/Logo.png" class="footer-logo" alt="Matie Cake">
+        <p>Matie Cake Co., Ltd.</p>
+        <p>3636 Hai Bà Trưng, Phường Võ Thị Sáu, Quận 3, TP.HCM</p>
+        <p>Phone: 0886804360 — Email: matiecake@gmail.com</p>
 
-<!-- RELATED -->
-<div class="related-section">
-    <h2 class="related-title">Related Products</h2>
-
-    <div class="related-list">
-        <a class="related-card" href="merry-croissant.html">
-            <img src="Image 3/Merry Croissant 1.JPG">
-            <div class="related-name">Merry Croissant</div>
-            <div class="related-price">480,000 ₫</div>
-        </a>
-
-        <a class="related-card" href="ginger-noel.html">
-            <img src="Image 2/Ginger Noel 1.JPG">
-            <div class="related-name">Ginger Noel</div>
-            <div class="related-price">350,000 ₫</div>
-        </a>
-
-        <a class="related-card" href="flan-gato.html">
-            <img src="Image 2/Flan gato/Flan Gato1.png">
-            <div class="related-name">Flan Gato</div>
-            <div class="related-price">190,000 ₫</div>
-        </a>
-
-        <a class="related-card" href="flan-cheese.html">
-            <img src="Image 2/Flancheese/Flancheese5.jpg">
-            <div class="related-name">Flancheese</div>
-            <div class="related-price">180,000 ₫</div>
-        </a>
-    </div>
-</div>
- 
-<!-- FOOTER -->
-<footer>
-    <img src="Image/Logo.png" class="footer-logo" alt="Matie Cake">
-    <p>Matie Cake Co., Ltd.</p>
-    <p>3636 Hai Bà Trưng, Phường Võ Thị Sáu, Quận 3, TP.HCM</p>
-    <p>Phone: 0886804360 — Email: matiecake@gmail.com</p>
-
-    <div class="footer-bottom">© 2025 Matie Cake.</div>
-</footer>
+        <div class="footer-bottom">© 2025 Matie Cake.</div>
+    </footer>
 
 
-<!-- SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
+    <!-- SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
 
-    /* ========== SLIDER ========== */
-    const slides = document.querySelectorAll(".slide");
-    const nextBtn = document.querySelector(".next");
-    const prevBtn = document.querySelector(".prev");
-    let current = 0;
+            /* ========== SLIDER ========== */
+            const slides = document.querySelectorAll(".slide");
+            const nextBtn = document.querySelector(".next");
+            const prevBtn = document.querySelector(".prev");
+            let current = 0;
 
-    function showSlide(i) {
-        slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
-    }
+            function showSlide(i) {
+                slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
+            }
 
-    nextBtn.addEventListener("click", () => {
-        current = (current + 1) % slides.length;
-        showSlide(current);
-    });
+            nextBtn.addEventListener("click", () => {
+                current = (current + 1) % slides.length;
+                showSlide(current);
+            });
 
-    prevBtn.addEventListener("click", () => {
-        current = (current - 1 + slides.length) % slides.length;
-        showSlide(current);
-    });
+            prevBtn.addEventListener("click", () => {
+                current = (current - 1 + slides.length) % slides.length;
+                showSlide(current);
+            });
 
-    /* ========== QUANTITY BUTTONS ========== */
-    const minus = document.querySelector(".order-minus");
-    const plus = document.querySelector(".order-plus");
-    const qty = document.querySelector(".order-qty");
+            /* ========== QUANTITY BUTTONS ========== */
+            const minus = document.querySelector(".order-minus");
+            const plus = document.querySelector(".order-plus");
+            const qty = document.querySelector(".order-qty");
 
-    minus.addEventListener("click", () => {
-        let val = parseInt(qty.value) || 1;
-        if (val > 1) qty.value = val - 1;
-    });
+            minus.addEventListener("click", () => {
+                let val = parseInt(qty.value) || 1;
+                if (val > 1) qty.value = val - 1;
+            });
 
-    plus.addEventListener("click", () => {
-        let val = parseInt(qty.value) || 1;
-        qty.value = val + 1;
-    });
+            plus.addEventListener("click", () => {
+                let val = parseInt(qty.value) || 1;
+                qty.value = val + 1;
+            });
 
-    /* ========== MOBILE MENU (LEFT) ========== */
-    const menuToggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector("nav");
+            /* ========== MOBILE MENU (LEFT) ========== */
+            const menuToggle = document.querySelector(".menu-toggle");
+            const nav = document.querySelector("nav");
 
-    if (menuToggle) {
-        menuToggle.addEventListener("click", () => {
-            nav.classList.toggle("nav-open");
+            if (menuToggle) {
+                menuToggle.addEventListener("click", () => {
+                    nav.classList.toggle("nav-open");
+                });
+            }
         });
-    }
-});
-</script>
+    </script>
 
-<script src="src/scripts/chat.js" defer></script>
+    <script>
+        // Simple add-to-cart flow: store in localStorage then redirect to cart
+        document.addEventListener('DOMContentLoaded', function () {
+            const orderBtn = document.querySelector('.order-btn');
+            const qtyInput = document.querySelector('.order-qty');
+            if (!orderBtn || !qtyInput) return;
+
+            orderBtn.textContent = 'Add to Cart';
+
+            orderBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+                const nameEl = document.querySelector('.product-title');
+                const priceEl = document.querySelector('.product-price');
+                const imageEl =
+                    document.querySelector('.product-main-img') ||
+                    document.querySelector('.product-image img') ||
+                    document.querySelector('.slide.active') ||
+                    document.querySelector('.slide');
+
+                const productName = nameEl ? nameEl.textContent.trim() : 'Product';
+                const priceText = priceEl ? priceEl.textContent : '0';
+                const numeric = priceText.replace(/[^\d]/g, '');
+                const basePrice = numeric ? parseFloat(numeric) : 0;
+                const productImage = imageEl ? imageEl.getAttribute('src') : 'Image/Logo.png';
+
+                const cartItem = {
+                    id: 'simple-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+                    productId: 'simple-' + productName.toLowerCase().replace(/\s+/g, '-'),
+                    productName: productName,
+                    productImage: productImage,
+                    boxThumb: productImage,
+                    itemNumber: 'SKU-' + Math.floor(Math.random() * 100000),
+                    basePrice: basePrice,
+                    quantity: quantity,
+                    selectedOptions: [],
+                    assortment: [],
+                    finalPrice: basePrice,
+                    shippingAddressId: null,
+                    shippingAddress: {
+                        name: '',
+                        street: '',
+                        city: '',
+                        state: '',
+                        country: '',
+                        phone: '',
+                        apt: '',
+                        locationType: ''
+                    },
+                    recipientRelationship: '',
+                    recipientOccasion: '',
+                    giftMessage: '',
+                    giftMessageType: 'complimentary',
+                    shippingMethod: 'standard',
+                    deliveryDate: null,
+                    pickDateSelected: null
+                };
+
+                let cart = [];
+                try {
+                    const stored = localStorage.getItem('cart');
+                    cart = stored ? JSON.parse(stored) : [];
+                } catch (err) {
+                    cart = [];
+                }
+
+                cart.push(cartItem);
+
+                try {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                } catch (err) {
+                    alert('Có lỗi khi lưu giỏ hàng, vui lòng thử lại.');
+                    return;
+                }
+
+                window.location.href = 'cart.html';
+            });
+        });
+    </script>
+
+    <script src="src/scripts/chat.js" defer></script>
 </body>
-</html>
 
+</html>

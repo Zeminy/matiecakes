@@ -1,11 +1,15 @@
 import os
 import glob
 import traceback
+import warnings
 from typing import List
 from dotenv import load_dotenv
 
 # Suppress tokenizer warning
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+# Suppress numpy warnings on Windows (float128 not fully supported)
+warnings.filterwarnings("ignore", category=RuntimeWarning, module="numpy")
 
 from langchain_community.document_loaders import BSHTMLLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter

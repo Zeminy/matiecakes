@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,127 +12,135 @@
 
     <style>
         .related-products-section {
-    margin: 56px auto 0 auto;
-    max-width: 1200px;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-    padding: 32px 24px;
-}
+            margin: 56px auto 0 auto;
+            max-width: 1200px;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+            padding: 32px 24px;
+        }
 
-.related-title {
-    font-size: 1.5rem;
-    color: #40602b;
-    font-weight: 700;
-    margin-bottom: 24px;
-    text-align: left;
-}
+        .related-title {
+            font-size: 1.5rem;
+            color: #40602b;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: left;
+        }
 
-.related-products {
-    display: flex;
-    gap: 32px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-}
+        .related-products {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
 
-.related-card {
-    display: block;
-    width: 210px;
-    background: #faf7f2;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    text-align: center;
-    text-decoration: none;
-    color: #222;
-    padding: 18px 12px;
-    transition: box-shadow 0.2s;
-}
+        .related-card {
+            display: block;
+            width: 210px;
+            background: #faf7f2;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            text-align: center;
+            text-decoration: none;
+            color: #222;
+            padding: 18px 12px;
+            transition: box-shadow 0.2s;
+        }
 
-.related-card:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-}
+        .related-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+        }
 
-.related-card img {
-    width: 100%;
-    aspect-ratio: 1 / 1;   /* KHÔNG MÉO HÌNH */
-    object-fit: cover;
-    border-radius: 10px;
-    display: block;
-}
+        .related-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            /* KHÔNG MÉO HÌNH */
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
 
-.related-name {
-    font-weight: 600;
-    font-size: 1.05rem;
-    margin-top: 12px;
-}
+        .related-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-top: 12px;
+        }
 
-.related-price {
-    color: #a85b2b;
-    font-weight: 700;
-    font-size: 1rem;
-    margin-top: 4px;
-}
+        .related-price {
+            color: #a85b2b;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
 
         /* ========== GLOBAL CSS ========== */
-        body { 
-            font-family: 'Roboto', sans-serif; 
-            margin: 0; padding: 0; 
-            background-color: #f4f4f4; 
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
 
         /* ========== HEADER ========== */
-        header { 
-    background: linear-gradient(90deg, #1a1157, #3f53ae);
-    color: #fff;
-    padding: 0 40px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        header {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            color: #fff;
+            padding: 0 40px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
         }
 
-        .logo { 
-            height: 60px; 
-            margin-right: 40px; 
+        .logo {
+            height: 60px;
+            margin-right: 40px;
         }
 
-nav { flex: 1; }
-
-
-        nav ul { 
-            list-style: none; 
-            display: flex; 
-            gap: 32px; 
-            margin: 0; 
-            padding: 0; 
+        nav {
+            flex: 1;
         }
 
-        nav li { 
-            font-weight: 700; 
-            position: relative; 
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
         }
 
-nav a {
-    color: #fff;
-    padding: 8px 0;
-    display: inline-block;
-}
-nav li::after {
-    content: "";
-    height: 2px;
-    width: 100%;
-    background: #ffe066;
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    transform: scaleX(0);
-    transition: .2s ease;
-}
-nav li:hover::after { transform: scaleX(1); }
+        nav li {
+            font-weight: 700;
+            position: relative;
+        }
+
+        nav a {
+            color: #fff;
+            padding: 8px 0;
+            display: inline-block;
+        }
+
+        nav li::after {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background: #ffe066;
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            transform: scaleX(0);
+            transition: .2s ease;
+        }
+
+        nav li:hover::after {
+            transform: scaleX(1);
+        }
 
         /* DROPDOWN */
         .dropdown-content {
@@ -141,7 +150,7 @@ nav li:hover::after { transform: scaleX(1); }
             right: 0;
             background: #2a2f95;
             min-width: 220px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
             border-radius: 0 0 8px 8px;
             z-index: 10;
         }
@@ -159,7 +168,9 @@ nav li:hover::after { transform: scaleX(1); }
             color: #ffe066;
         }
 
-        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
         /* MOBILE MENU BUTTON */
         .menu-toggle {
@@ -188,14 +199,14 @@ nav li:hover::after { transform: scaleX(1); }
             object-fit: cover;
         }
 
-                /* ========== PRODUCT MAIN ========== */
+        /* ========== PRODUCT MAIN ========== */
         .product-main {
             max-width: 1200px;
             margin: 40px auto;
             background: #fff;
             border-radius: 24px;
             padding: 40px 48px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
         }
 
         .product-columns {
@@ -225,23 +236,25 @@ nav li:hover::after { transform: scaleX(1); }
             height: 480px;
             object-fit: cover;
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             opacity: 0;
             border-radius: 20px;
             transition: opacity 0.4s ease;
         }
 
-        .slide.active { 
-            opacity: 1; 
-            position: relative; 
+        .slide.active {
+            opacity: 1;
+            position: relative;
         }
 
         /* SLIDER BUTTONS */
-        .slider .prev, .slider .next {
+        .slider .prev,
+        .slider .next {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.75);
+            background: rgba(255, 255, 255, 0.75);
             border: none;
             font-size: 1.8rem;
             cursor: pointer;
@@ -254,12 +267,18 @@ nav li:hover::after { transform: scaleX(1); }
             transition: 0.2s;
         }
 
-        .slider .prev:hover, .slider .next:hover {
-            background: rgba(255,255,255,0.95);
+        .slider .prev:hover,
+        .slider .next:hover {
+            background: rgba(255, 255, 255, 0.95);
         }
 
-        .slider .prev { left: 12px; }
-        .slider .next { right: 12px; }
+        .slider .prev {
+            left: 12px;
+        }
+
+        .slider .next {
+            right: 12px;
+        }
 
         /* RIGHT — PRODUCT INFORMATION */
         .product-info-area {
@@ -290,7 +309,9 @@ nav li:hover::after { transform: scaleX(1); }
             color: #222;
         }
 
-        .product-quick-info li { margin-bottom: 8px; }
+        .product-quick-info li {
+            margin-bottom: 8px;
+        }
 
         /* QUANTITY SELECTOR */
         .order-controls {
@@ -300,8 +321,10 @@ nav li:hover::after { transform: scaleX(1); }
             margin-bottom: 18px;
         }
 
-        .order-minus, .order-plus {
-            width: 32px; height: 32px;
+        .order-minus,
+        .order-plus {
+            width: 32px;
+            height: 32px;
             background: #eee;
             border: none;
             border-radius: 6px;
@@ -329,7 +352,9 @@ nav li:hover::after { transform: scaleX(1); }
             transition: 0.2s;
         }
 
-        .order-btn:hover { background: #40602b; }
+        .order-btn:hover {
+            background: #40602b;
+        }
 
         .product-category {
             color: #777;
@@ -356,423 +381,529 @@ nav li:hover::after { transform: scaleX(1); }
             line-height: 1.7;
             color: #222;
         }
-/* FOOTER */
-footer {
-    background: #1a1157;
-    color: #fff;
-    padding: 40px 0;
-}
-.footer-logo {
-    height: 48px;
-    margin-bottom: 12px;
-}
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    header {
-        flex-direction: column;
-        padding: 14px 22px;
-        height: auto;
-    }
-    .menu-toggle { display: block; }
-    nav { display: none; width: 100%; }
-    nav.nav-open { display: block; }
-    nav ul { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-}
-@media (max-width: 600px) {
-    .hero-title { font-size: 1.7rem; }
-    .product-card { padding: 14px; }
-}
+        /* FOOTER */
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 40px 0;
+        }
 
+        .footer-logo {
+            height: 48px;
+            margin-bottom: 12px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                padding: 14px 22px;
+                height: auto;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+            }
+
+            nav.nav-open {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 1.7rem;
+            }
+
+            .product-card {
+                padding: 14px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-<!-- ========================= HEADER ========================= -->
-<header>
-    <a href="index.html"><img src="Image/Logo.png" class="logo" alt="Matie Cake"></a>
+    <!-- ========================= HEADER ========================= -->
+    <header>
+        <a href="index.html"><img src="Image/Logo.png" class="logo" alt="Matie Cake"></a>
 
-    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+        <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
 
-    <nav id="main-nav">
-        <ul>
-            <li class="dropdown">
-                <a href="#">Cake Menu</a>
-                <ul class="dropdown-content">
-                    <li><a href="index.html#new-products">New Products</a></li>
-                    <li><a href="index.html#favorite-products">Favorite Products</a></li>
-                    <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
-                    <li><a href="index.html#tet-gifts">Tet Gifts</a></li>
-                </ul>
-            </li>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
-            <li><a href="general-policy.html">General Policy</a></li>
-            <li><a href="work-shop.html">Workshop</a></li>
-                        <li class="dropdown">
-                <a href="#">Membership</a>
-                <ul class="dropdown-content">
-                    <li><a href="membership-login.html">Login / Sign Up</a></li>
-                </ul>
-            </li>
-
-        </ul>
-    </nav>
-</header>
-
-<section class="banner">
-    <img src="Image/Giới thiệu.jpg" class="banner-img" alt="Mid Autumn Banner">
-</section>
-
-<!-- PRODUCT MAIN START -->
-<div class="product-main">
-    <div class="product-columns">
-
-        <!-- LEFT: SLIDER -->
-        <div class="product-image-area">
-            <div class="slider" id="slider">
-                <img src="Image 2/Flan Gato Donut/Flan Gato Donut 1.png" class="slide active" alt="Flan Gato Donut 1">
-                <img src="Image 2/Flan Gato Donut/FlanGato Donut 2.JPG" class="slide" alt="Flan Gato Donut 2">
-                <img src="Image 2/Flan Gato Donut/FlanGato Donut 3.JPG" class="slide" alt="Flan Gato Donut 3">
-                <img src="Image 2/Flan Gato Donut/FlanGato Donut 4.JPG" class="slide" alt="Flan Gato Donut 4">
-
-                <button class="prev">&#10094;</button>
-                <button class="next">&#10095;</button>
-            </div>
-        </div>
-
-        <!-- RIGHT: PRODUCT INFO -->
-        <div class="product-info-area">
-            <h1 class="product-title">Flan Gato Donut</h1>
-            <div class="product-price">140,000 ₫</div>
-
-            <ul class="product-quick-info">
-                <li><b>– Includes:</b> Soft sponge cake and creamy flan layer</li>
-                <li><b>– Weight:</b> 500g/cake</li>
-                <li><b>– Shelf life:</b> 1 month from date of manufacture</li>
-                <li><b>– Storage:</b> Store at room temperature (25°C) and consume within 3 days after opening</li>
-                <li><b>– Voucher:</b> Mid-Autumn cake workshop voucher</li>
-            </ul>
-
-            <div class="order-controls">
-                <button class="order-minus">-</button>
-                <input type="number" value="1" min="1" class="order-qty">
-                <button class="order-plus">+</button>
-                <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank" class="order-btn">Order</a>
-            </div>
-
-            <div class="product-category">
-                Category: <a href="index.html#favorite-products">Favorite Products</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- DESCRIPTION -->
-    <div class="product-desc-area">
-        <h2 class="desc-title">Description</h2>
-
-        <div class="desc-content">
-            <b>Flan Gato Donut</b> is a harmonious combination of fluffy sponge cake and silky smooth flan.  
-            A balanced sweetness, modern taste, and beautifully round donut form make this cake perfect for gifts, parties, or relaxing tea time.
-            <br><br>
-            Sweetness + creaminess + softness = a dessert that never disappoints.
-        </div>
-    </div>
-</div>
-
-<!-- ========================================= -->
-<!-- ============ REVIEWS SECTION ============ -->
-<!-- ========================================= -->
-
-<div class="reviews-section">
-    <h2 class="reviews-title">Product Reviews</h2>
-    
-    <div class="rating-summary">
-        <div class="rating-score">
-            <div class="rating-number">4.8</div>
-            <div class="rating-stars">★★★★★</div>
-            <div class="rating-count">128 reviews</div>
-        </div>
-
-        <div class="rating-bars">
-            <div class="rating-bar-item">
-                <span class="rating-bar-label">5 stars</span>
-                <div class="rating-bar-bg">
-                    <div class="rating-bar-fill" style="width: 85%;"></div>
-                </div>
-                <span class="rating-bar-count">109</span>
-            </div>
-
-            <div class="rating-bar-item">
-                <span class="rating-bar-label">4 stars</span>
-                <div class="rating-bar-bg">
-                    <div class="rating-bar-fill" style="width: 10%;"></div>
-                </div>
-                <span class="rating-bar-count">13</span>
-            </div>
-
-            <div class="rating-bar-item">
-                <span class="rating-bar-label">3 stars</span>
-                <div class="rating-bar-bg">
-                    <div class="rating-bar-fill" style="width: 3%;"></div>
-                </div>
-                <span class="rating-bar-count">4</span>
-            </div>
-
-            <div class="rating-bar-item">
-                <span class="rating-bar-label">2 stars</span>
-                <div class="rating-bar-bg">
-                    <div class="rating-bar-fill" style="width: 1%;"></div>
-                </div>
-                <span class="rating-bar-count">1</span>
-            </div>
-
-            <div class="rating-bar-item">
-                <span class="rating-bar-label">1 star</span>
-                <div class="rating-bar-bg">
-                    <div class="rating-bar-fill" style="width: 1%;"></div>
-                </div>
-                <span class="rating-bar-count">1</span>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="reviews-list">
-
-        <!-- REVIEW 1 -->
-        <div class="review-item">
-            <div class="review-header">
-                <div class="review-avatar">M</div>
-                <div class="review-user-info">
-                    <div class="review-user-name">Mai Phuong</div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <div class="review-date">15/09/2024</div>
-            </div>
-            <div class="review-content">
-                The <b>Flan Gato</b> cake is both beautiful and delicious.  
-                The sponge layer is soft, the flan is creamy, and the taste is balanced.  
-                My family really enjoyed it!
-            </div>
-            <div class="review-images">
-                <img src="Image 2/Flan Gato Donut/Flan Gato Donut 1.png" 
-                     class="review-image" alt="Review photo">
-            </div>
-        </div>
-
-        <!-- REVIEW 2 -->
-        <div class="review-item">
-            <div class="review-header">
-                <div class="review-avatar">T</div>
-                <div class="review-user-info">
-                    <div class="review-user-name">Tuan Anh</div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <div class="review-date">12/09/2024</div>
-            </div>
-            <div class="review-content">
-                Very delicious!  
-                Soft sponge + smooth flan = perfect combination.  
-                Not too sweet, extremely good as a birthday gift!
-            </div>
-        </div>
-
-        <!-- REVIEW 3 -->
-        <div class="review-item">
-            <div class="review-header">
-                <div class="review-avatar">H</div>
-                <div class="review-user-info">
-                    <div class="review-user-name">Huong Giang</div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <div class="review-date">08/09/2024</div>
-            </div>
-            <div class="review-content">
-                The <b>Flan Gato</b> here is the best!  
-                Soft base, creamy flan, perfect balance.  
-                Highly recommended!
-            </div>
-        </div>
-
-        <!-- REVIEW 4 -->
-        <div class="review-item">
-            <div class="review-header">
-                <div class="review-avatar">N</div>
-                <div class="review-user-info">
-                    <div class="review-user-name">Nam Khanh</div>
-                    <div class="review-stars">★★★★☆</div>
-                </div>
-                <div class="review-date">05/09/2024</div>
-            </div>
-            <div class="review-content">
-                The cake is delicious and packaged beautifully.  
-                A bit sweet for my family’s preference, but still worth buying!
-            </div>
-        </div>
-
-        <!-- REVIEW 5 -->
-        <div class="review-item">
-            <div class="review-header">
-                <div class="review-avatar">L</div>
-                <div class="review-user-info">
-                    <div class="review-user-name">Linh Chi</div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <div class="review-date">02/09/2024</div>
-            </div>
-            <div class="review-content">
-                Very satisfied!  
-                The cake is beautiful and delicious.  
-                Perfect for small parties and gifts.
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-<!-- ========================================= -->
-<!-- ======= RELATED PRODUCTS SECTION ======== -->
-<!-- ========================================= -->
-
-<div class="related-products-section">
-    <h2 class="related-title">Related Products</h2>
-    <div class="related-products">
-
-        <a href="set-tasty.html" class="related-card">
-            <img src="Image 2/Tasty 3/SetTasty3 1.png" alt="Set Tasty 3">
-            <div class="related-name">Set Tasty 3</div>
-            <div class="related-price">129,000 ₫</div>
-        </a>
-
-        <a href="hoang-kim-bong-lan.html" class="related-card">
-            <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png" alt="Golden Sponge Cake">
-            <div class="related-name">Golden Sponge Cake</div>
-            <div class="related-price">890,000 ₫</div>
-        </a>
-
-        <a href="flan-gato.html" class="related-card">
-            <img src="Image 2/Flan gato/Flan Gato1.png" alt="Flan Gato">
-            <div class="related-name">Flan Gato</div>
-            <div class="related-price">190,000 ₫</div>
-        </a>
-
-        <a href="flan-cheese.html" class="related-card">
-            <img src="Image 2/Flancheese/Flancheese5.jpg" alt="Flancheese">
-            <div class="related-name">Flancheese</div>
-            <div class="related-price">180,000 ₫</div>
-        </a>
-
-    </div>
-</div>
-
-
-    </div>
-</div>
-
-<!-- ========================================= -->
-<!-- ================= FOOTER ================ -->
-<!-- ========================================= -->
-
-<footer>
-    <div class="footer-content">
-        <div class="footer-info">
-            <img src="Image/Logo.png" alt="Matie Cake" class="footer-logo">
-            <div>Matie Cake Co., Ltd.</div>
-            <div>Address: 3636 Hai Ba Trung, Vo Thi Sau Ward, 3 district, Ho Chi Minh City</div>
-            <div>Phone: 0886804360</div>
-            <div>Email: matiecake@gmail.com</div>
-        </div>
-
-        <div class="footer-links">
+        <nav id="main-nav">
             <ul>
-                <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Shipping Policy</a></li>
-                <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Return & Refund Policy</a></li>
-                <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Payment Methods</a></li>
-                <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Terms & Conditions</a></li>
-                <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Personal Data Protection</a></li>
-                <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Contact Information</a></li>
-                <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Store</a></li>
+                <li class="dropdown">
+                    <a href="#">Cake Menu</a>
+                    <ul class="dropdown-content">
+                        <li><a href="index.html#new-products">New Products</a></li>
+                        <li><a href="index.html#favorite-products">Favorite Products</a></li>
+                        <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
+                        <li><a href="index.html#tet-gifts">Tet Gifts</a></li>
+                    </ul>
+                </li>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+                <li><a href="general-policy.html">General Policy</a></li>
+                <li><a href="work-shop.html">Workshop</a></li>
+                <li class="dropdown">
+                    <a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership-login.html">Login / Sign Up</a></li>
+                    </ul>
+                </li>
+
             </ul>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <img src="Image/Giới thiệu.jpg" class="banner-img" alt="Mid Autumn Banner">
+    </section>
+
+    <!-- PRODUCT MAIN START -->
+    <div class="product-main">
+        <div class="product-columns">
+
+            <!-- LEFT: SLIDER -->
+            <div class="product-image-area">
+                <div class="slider" id="slider">
+                    <img src="Image 2/Flan Gato Donut/Flan Gato Donut 1.png" class="slide active"
+                        alt="Flan Gato Donut 1">
+                    <img src="Image 2/Flan Gato Donut/FlanGato Donut 2.JPG" class="slide" alt="Flan Gato Donut 2">
+                    <img src="Image 2/Flan Gato Donut/FlanGato Donut 3.JPG" class="slide" alt="Flan Gato Donut 3">
+                    <img src="Image 2/Flan Gato Donut/FlanGato Donut 4.JPG" class="slide" alt="Flan Gato Donut 4">
+
+                    <button class="prev">&#10094;</button>
+                    <button class="next">&#10095;</button>
+                </div>
+            </div>
+
+            <!-- RIGHT: PRODUCT INFO -->
+            <div class="product-info-area">
+                <h1 class="product-title">Flan Gato Donut</h1>
+                <div class="product-price">$50</div>
+
+                <ul class="product-quick-info">
+                    <li><b>– Includes:</b> Soft sponge cake and creamy flan layer</li>
+                    <li><b>– Weight:</b> 500g/cake</li>
+                    <li><b>– Shelf life:</b> 1 month from date of manufacture</li>
+                    <li><b>– Storage:</b> Store at room temperature (25°C) and consume within 3 days after opening</li>
+                    <li><b>– Voucher:</b> Mid-Autumn cake workshop voucher</li>
+                </ul>
+
+                <div class="order-controls">
+                    <button class="order-minus">-</button>
+                    <input type="number" value="1" min="1" class="order-qty">
+                    <button class="order-plus">+</button>
+                    <button type="button" class="order-btn">Add to Cart</button>
+                </div>
+
+                <div class="product-category">
+                    Category: <a href="index.html#favorite-products">Favorite Products</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="product-desc-area">
+            <h2 class="desc-title">Description</h2>
+
+            <div class="desc-content">
+                <b>Flan Gato Donut</b> is a harmonious combination of fluffy sponge cake and silky smooth flan.
+                A balanced sweetness, modern taste, and beautifully round donut form make this cake perfect for gifts,
+                parties, or relaxing tea time.
+                <br><br>
+                Sweetness + creaminess + softness = a dessert that never disappoints.
+            </div>
         </div>
     </div>
 
-    <div class="footer-bottom">
-        © 2025 Matie Cake. All rights reserved.
+    <!-- ========================================= -->
+    <!-- ============ REVIEWS SECTION ============ -->
+    <!-- ========================================= -->
+
+    <div class="reviews-section">
+        <h2 class="reviews-title">Product Reviews</h2>
+
+        <div class="rating-summary">
+            <div class="rating-score">
+                <div class="rating-number">4.8</div>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-count">128 reviews</div>
+            </div>
+
+            <div class="rating-bars">
+                <div class="rating-bar-item">
+                    <span class="rating-bar-label">5 stars</span>
+                    <div class="rating-bar-bg">
+                        <div class="rating-bar-fill" style="width: 85%;"></div>
+                    </div>
+                    <span class="rating-bar-count">109</span>
+                </div>
+
+                <div class="rating-bar-item">
+                    <span class="rating-bar-label">4 stars</span>
+                    <div class="rating-bar-bg">
+                        <div class="rating-bar-fill" style="width: 10%;"></div>
+                    </div>
+                    <span class="rating-bar-count">13</span>
+                </div>
+
+                <div class="rating-bar-item">
+                    <span class="rating-bar-label">3 stars</span>
+                    <div class="rating-bar-bg">
+                        <div class="rating-bar-fill" style="width: 3%;"></div>
+                    </div>
+                    <span class="rating-bar-count">4</span>
+                </div>
+
+                <div class="rating-bar-item">
+                    <span class="rating-bar-label">2 stars</span>
+                    <div class="rating-bar-bg">
+                        <div class="rating-bar-fill" style="width: 1%;"></div>
+                    </div>
+                    <span class="rating-bar-count">1</span>
+                </div>
+
+                <div class="rating-bar-item">
+                    <span class="rating-bar-label">1 star</span>
+                    <div class="rating-bar-bg">
+                        <div class="rating-bar-fill" style="width: 1%;"></div>
+                    </div>
+                    <span class="rating-bar-count">1</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="reviews-list">
+
+            <!-- REVIEW 1 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-avatar">M</div>
+                    <div class="review-user-info">
+                        <div class="review-user-name">Mai Phuong</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <div class="review-date">15/09/2024</div>
+                </div>
+                <div class="review-content">
+                    The <b>Flan Gato</b> cake is both beautiful and delicious.
+                    The sponge layer is soft, the flan is creamy, and the taste is balanced.
+                    My family really enjoyed it!
+                </div>
+                <div class="review-images">
+                    <img src="Image 2/Flan Gato Donut/Flan Gato Donut 1.png" class="review-image" alt="Review photo">
+                </div>
+            </div>
+
+            <!-- REVIEW 2 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-avatar">T</div>
+                    <div class="review-user-info">
+                        <div class="review-user-name">Tuan Anh</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <div class="review-date">12/09/2024</div>
+                </div>
+                <div class="review-content">
+                    Very delicious!
+                    Soft sponge + smooth flan = perfect combination.
+                    Not too sweet, extremely good as a birthday gift!
+                </div>
+            </div>
+
+            <!-- REVIEW 3 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-avatar">H</div>
+                    <div class="review-user-info">
+                        <div class="review-user-name">Huong Giang</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <div class="review-date">08/09/2024</div>
+                </div>
+                <div class="review-content">
+                    The <b>Flan Gato</b> here is the best!
+                    Soft base, creamy flan, perfect balance.
+                    Highly recommended!
+                </div>
+            </div>
+
+            <!-- REVIEW 4 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-avatar">N</div>
+                    <div class="review-user-info">
+                        <div class="review-user-name">Nam Khanh</div>
+                        <div class="review-stars">★★★★☆</div>
+                    </div>
+                    <div class="review-date">05/09/2024</div>
+                </div>
+                <div class="review-content">
+                    The cake is delicious and packaged beautifully.
+                    A bit sweet for my family’s preference, but still worth buying!
+                </div>
+            </div>
+
+            <!-- REVIEW 5 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="review-avatar">L</div>
+                    <div class="review-user-info">
+                        <div class="review-user-name">Linh Chi</div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <div class="review-date">02/09/2024</div>
+                </div>
+                <div class="review-content">
+                    Very satisfied!
+                    The cake is beautiful and delicious.
+                    Perfect for small parties and gifts.
+                </div>
+            </div>
+
+        </div>
     </div>
-</footer>
 
 
-<!-- ========================================= -->
-<!-- =============== JAVASCRIPT ============== -->
-<!-- ========================================= -->
+    <!-- ========================================= -->
+    <!-- ======= RELATED PRODUCTS SECTION ======== -->
+    <!-- ========================================= -->
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
+    <div class="related-products-section">
+        <h2 class="related-title">Related Products</h2>
+        <div class="related-products">
 
-    /* ===================== SLIDER ===================== */
-    var slider = document.getElementById('slider');
-    if (slider) {
-        var slides = slider.querySelectorAll('.slide');
-        var current = 0;
-        var prev = slider.querySelector('.prev');
-        var next = slider.querySelector('.next');
+            <a href="set-tasty.html" class="related-card">
+                <img src="Image 2/Tasty 3/SetTasty3 1.png" alt="Set Tasty 3">
+                <div class="related-name">Set Tasty 3</div>
+                <div class="related-price">129,000 ₫</div>
+            </a>
 
-        function showSlide(i) {
-            slides.forEach((s, index) => {
-                s.classList.toggle('active', index === i);
+            <a href="hoang-kim-bong-lan.html" class="related-card">
+                <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png" alt="Golden Sponge Cake">
+                <div class="related-name">Golden Sponge Cake</div>
+                <div class="related-price">890,000 ₫</div>
+            </a>
+
+            <a href="flan-gato.html" class="related-card">
+                <img src="Image 2/Flan gato/Flan Gato1.png" alt="Flan Gato">
+                <div class="related-name">Flan Gato</div>
+                <div class="related-price">190,000 ₫</div>
+            </a>
+
+            <a href="flan-cheese.html" class="related-card">
+                <img src="Image 2/Flancheese/Flancheese5.jpg" alt="Flancheese">
+                <div class="related-name">Flancheese</div>
+                <div class="related-price">180,000 ₫</div>
+            </a>
+
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+
+    <!-- ========================================= -->
+    <!-- ================= FOOTER ================ -->
+    <!-- ========================================= -->
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <img src="Image/Logo.png" alt="Matie Cake" class="footer-logo">
+                <div>Matie Cake Co., Ltd.</div>
+                <div>Address: 3636 Hai Ba Trung, Vo Thi Sau Ward, 3 district, Ho Chi Minh City</div>
+                <div>Phone: 0886804360</div>
+                <div>Email: matiecake@gmail.com</div>
+            </div>
+
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Shipping Policy</a></li>
+                    <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Return & Refund Policy</a></li>
+                    <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Payment Methods</a></li>
+                    <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Terms & Conditions</a></li>
+                    <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Personal Data Protection</a>
+                    </li>
+                    <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Contact Information</a></li>
+                    <li><a href="#" style="color:#ffe066; display:block; margin:6px 0;">Store</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © 2025 Matie Cake. All rights reserved.
+        </div>
+    </footer>
+
+
+    <!-- ========================================= -->
+    <!-- =============== JAVASCRIPT ============== -->
+    <!-- ========================================= -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            /* ===================== SLIDER ===================== */
+            var slider = document.getElementById('slider');
+            if (slider) {
+                var slides = slider.querySelectorAll('.slide');
+                var current = 0;
+                var prev = slider.querySelector('.prev');
+                var next = slider.querySelector('.next');
+
+                function showSlide(i) {
+                    slides.forEach((s, index) => {
+                        s.classList.toggle('active', index === i);
+                    });
+                }
+
+                prev.onclick = () => {
+                    current = (current - 1 + slides.length) % slides.length;
+                    showSlide(current);
+                };
+
+                next.onclick = () => {
+                    current = (current + 1) % slides.length;
+                    showSlide(current);
+                };
+
+                showSlide(current);
+            }
+
+
+            /* ============ QUANTITY BUTTONS ============ */
+            const minusBtn = document.querySelector('.order-minus');
+            const plusBtn = document.querySelector('.order-plus');
+            const qtyInput = document.querySelector('.order-qty');
+
+            if (minusBtn && plusBtn && qtyInput) {
+                minusBtn.addEventListener('click', function () {
+                    let value = parseInt(qtyInput.value, 10);
+                    if (value > 1) qtyInput.value = value - 1;
+                });
+
+                plusBtn.addEventListener('click', function () {
+                    let value = parseInt(qtyInput.value, 10);
+                    qtyInput.value = value + 1;
+                });
+            }
+
+
+            /* ============ MOBILE MENU TOGGLE ============ */
+            const menuToggle = document.querySelector('.menu-toggle');
+            const nav = document.getElementById('main-nav');
+
+            if (menuToggle && nav) {
+                menuToggle.addEventListener('click', function () {
+                    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                    menuToggle.setAttribute('aria-expanded', !expanded);
+                    nav.classList.toggle('nav-open');
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        // Simple add-to-cart flow: store in localStorage then redirect to cart
+        document.addEventListener('DOMContentLoaded', function () {
+            const orderBtn = document.querySelector('.order-btn');
+            const qtyInput = document.querySelector('.order-qty');
+            if (!orderBtn || !qtyInput) return;
+
+            orderBtn.textContent = 'Add to Cart';
+
+            orderBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+                const nameEl = document.querySelector('.product-title');
+                const priceEl = document.querySelector('.product-price');
+                const imageEl =
+                    document.querySelector('.product-main-img') ||
+                    document.querySelector('.product-image-area img') ||
+                    document.querySelector('.slide.active') ||
+                    document.querySelector('.slide');
+
+                const productName = nameEl ? nameEl.textContent.trim() : 'Product';
+                const priceText = priceEl ? priceEl.textContent : '0';
+                const numeric = priceText.replace(/[^\d]/g, '');
+                const basePrice = numeric ? parseFloat(numeric) : 0;
+                const productImage = imageEl ? imageEl.getAttribute('src') : 'Image/Logo.png';
+
+                const cartItem = {
+                    id: 'simple-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+                    productId: 'simple-' + productName.toLowerCase().replace(/\s+/g, '-'),
+                    productName: productName,
+                    productImage: productImage,
+                    boxThumb: productImage,
+                    itemNumber: 'SKU-' + Math.floor(Math.random() * 100000),
+                    basePrice: basePrice,
+                    quantity: quantity,
+                    selectedOptions: [],
+                    assortment: [],
+                    finalPrice: basePrice,
+                    shippingAddressId: null,
+                    shippingAddress: {
+                        name: '',
+                        street: '',
+                        city: '',
+                        state: '',
+                        country: '',
+                        phone: '',
+                        apt: '',
+                        locationType: ''
+                    },
+                    recipientRelationship: '',
+                    recipientOccasion: '',
+                    giftMessage: '',
+                    giftMessageType: 'complimentary',
+                    shippingMethod: 'standard',
+                    deliveryDate: null,
+                    pickDateSelected: null
+                };
+
+                let cart = [];
+                try {
+                    const stored = localStorage.getItem('cart');
+                    cart = stored ? JSON.parse(stored) : [];
+                } catch (err) {
+                    cart = [];
+                }
+
+                cart.push(cartItem);
+
+                try {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                } catch (err) {
+                    alert('Có lỗi khi lưu giỏ hàng, vui lòng thử lại.');
+                    return;
+                }
+
+                window.location.href = 'cart.html';
             });
-        }
-
-        prev.onclick = () => {
-            current = (current - 1 + slides.length) % slides.length;
-            showSlide(current);
-        };
-
-        next.onclick = () => {
-            current = (current + 1) % slides.length;
-            showSlide(current);
-        };
-
-        showSlide(current);
-    }
-
-
-    /* ============ QUANTITY BUTTONS ============ */
-    const minusBtn = document.querySelector('.order-minus');
-    const plusBtn = document.querySelector('.order-plus');
-    const qtyInput = document.querySelector('.order-qty');
-
-    if (minusBtn && plusBtn && qtyInput) {
-        minusBtn.addEventListener('click', function () {
-            let value = parseInt(qtyInput.value, 10);
-            if (value > 1) qtyInput.value = value - 1;
         });
+    </script>
 
-        plusBtn.addEventListener('click', function () {
-            let value = parseInt(qtyInput.value, 10);
-            qtyInput.value = value + 1;
-        });
-    }
-
-
-    /* ============ MOBILE MENU TOGGLE ============ */
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.getElementById('main-nav');
-
-    if (menuToggle && nav) {
-        menuToggle.addEventListener('click', function() {
-            const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !expanded);
-            nav.classList.toggle('nav-open');
-        });
-    }
-
-});
-</script>
-
-<script src="src/scripts/chat.js" defer></script>
+    <script src="src/scripts/chat.js" defer></script>
 </body>
+
 </html>

@@ -769,7 +769,7 @@
             </div>
             <div class="product-info-area">
                 <h1 class="product-title">Tasty 3 Set</h1>
-                <div class="product-price">129,000 ₫</div>
+                <div class="product-price">$45</div>
                 <ul class="product-quick-info">
                     <li><b>– Includes:</b>
                         <ul class="flavor-list">
@@ -789,8 +789,7 @@
                     <button class="order-minus" aria-label="Decrease quantity">-</button>
                     <input type="number" value="1" min="1" class="order-qty" aria-label="Quantity">
                     <button class="order-plus" aria-label="Increase quantity">+</button>
-                    <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank"
-                        class="order-btn">Order</a>
+                    <button type="button" class="order-btn">Add to Cart</button>
                 </div>
                 <div class="product-category">Category: <a href="index.html#favorite-products">Favorite Products</a>
                 </div>
@@ -1056,6 +1055,86 @@
                     nav.classList.toggle('nav-open');
                 });
             }
+        });
+    </script>
+    <script>
+        // Simple add-to-cart flow: store in localStorage then redirect to cart
+        document.addEventListener('DOMContentLoaded', function () {
+            const orderBtn = document.querySelector('.order-btn');
+            const qtyInput = document.querySelector('.order-qty');
+            if (!orderBtn || !qtyInput) return;
+
+            orderBtn.textContent = 'Add to Cart';
+
+            orderBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+                const nameEl = document.querySelector('.product-title');
+                const priceEl = document.querySelector('.product-price');
+                const imageEl =
+                    document.querySelector('.product-main-img') ||
+                    document.querySelector('.product-image-area img') ||
+                    document.querySelector('.slide.active') ||
+                    document.querySelector('.slide');
+
+                const productName = nameEl ? nameEl.textContent.trim() : 'Product';
+                const priceText = priceEl ? priceEl.textContent : '0';
+                const numeric = priceText.replace(/[^\d]/g, '');
+                const basePrice = numeric ? parseFloat(numeric) : 0;
+                const productImage = imageEl ? imageEl.getAttribute('src') : 'Image/Logo.png';
+
+                const cartItem = {
+                    id: 'simple-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+                    productId: 'simple-' + productName.toLowerCase().replace(/\s+/g, '-'),
+                    productName: productName,
+                    productImage: productImage,
+                    boxThumb: productImage,
+                    itemNumber: 'SKU-' + Math.floor(Math.random() * 100000),
+                    basePrice: basePrice,
+                    quantity: quantity,
+                    selectedOptions: [],
+                    assortment: [],
+                    finalPrice: basePrice,
+                    shippingAddressId: null,
+                    shippingAddress: {
+                        name: '',
+                        street: '',
+                        city: '',
+                        state: '',
+                        country: '',
+                        phone: '',
+                        apt: '',
+                        locationType: ''
+                    },
+                    recipientRelationship: '',
+                    recipientOccasion: '',
+                    giftMessage: '',
+                    giftMessageType: 'complimentary',
+                    shippingMethod: 'standard',
+                    deliveryDate: null,
+                    pickDateSelected: null
+                };
+
+                let cart = [];
+                try {
+                    const stored = localStorage.getItem('cart');
+                    cart = stored ? JSON.parse(stored) : [];
+                } catch (err) {
+                    cart = [];
+                }
+
+                cart.push(cartItem);
+
+                try {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                } catch (err) {
+                    alert('Có lỗi khi lưu giỏ hàng, vui lòng thử lại.');
+                    return;
+                }
+
+                window.location.href = 'cart.html';
+            });
         });
     </script>
     <script src="src/scripts/chat.js" defer></script>

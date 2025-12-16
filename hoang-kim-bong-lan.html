@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,20 +12,61 @@
 
     <style>
         /* CSS CHUNG CHO CÁC PHẦN TỬ (TÍCH HỢP VÀ SỬA ĐỔI) */
-        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        header { 
-            background: linear-gradient(90deg, #1a1157, #3f53ae);; color: #fff; padding: 10px 40px; display: flex; align-items: center; justify-content: space-between;
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            ;
+            color: #fff;
+            padding: 10px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
- }
-        .logo { height: 60px; margin-right: 40px; }
-        nav { flex: 1; }
-        nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; justify-content: flex-end; }
-        nav li { font-weight: 700; position: relative; }
-        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
-        nav a:hover { color: #ffe066; }
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            height: 60px;
+            margin-right: 40px;
+        }
+
+        nav {
+            flex: 1;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            justify-content: flex-end;
+        }
+
+        nav li {
+            font-weight: 700;
+            position: relative;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #ffe066;
+        }
+
         .dropdown-content {
             display: none;
             position: absolute;
@@ -32,13 +74,17 @@
             right: 0;
             background: #2a2f95;
             min-width: 220px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
             border-radius: 0 0 8px 8px;
             z-index: 10;
             padding: 0;
             margin-top: 0;
         }
-        .dropdown-content li { padding: 0; }
+
+        .dropdown-content li {
+            padding: 0;
+        }
+
         .dropdown-content a {
             display: block;
             padding: 12px 24px;
@@ -48,12 +94,24 @@
             border-bottom: 1px solid #4e6b2b;
             white-space: nowrap;
         }
+
         .dropdown-content a:hover {
             background: #2e3d1b;
             color: #ffe066;
         }
-        .dropdown:hover .dropdown-content { display: block; }
-        .menu-toggle { display: none; background: none; border: none; color: #fff; cursor: pointer; padding: 0; }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 0;
+        }
 
         .banner {
             background: #fbeee0;
@@ -66,6 +124,7 @@
             justify-content: center;
             overflow: hidden;
         }
+
         .banner-img {
             width: 100%;
             height: 100%;
@@ -81,26 +140,30 @@
             margin: 40px auto;
             background: #fff;
             border-radius: 24px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
             padding: 40px 48px;
         }
+
         .product-columns {
             display: flex;
             gap: 48px;
             align-items: flex-start;
         }
+
         .product-image-area {
             flex: 1.2;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .product-info-area {
             flex: 1.5;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
         }
+
         .product-title {
             font-size: 2.2rem;
             font-weight: 700;
@@ -108,6 +171,7 @@
             margin-bottom: 18px;
             text-align: left;
         }
+
         .product-price {
             color: #a85b2b;
             font-size: 1.5rem;
@@ -115,6 +179,7 @@
             margin-bottom: 16px;
             text-align: left;
         }
+
         .product-quick-info {
             font-size: 1.08rem;
             color: #222;
@@ -122,15 +187,22 @@
             list-style: none;
             padding: 0;
         }
-        .product-quick-info li { margin-bottom: 8px; }
+
+        .product-quick-info li {
+            margin-bottom: 8px;
+        }
+
         .order-controls {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 18px;
         }
-        .order-minus, .order-plus {
-            width: 32px; height: 32px;
+
+        .order-minus,
+        .order-plus {
+            width: 32px;
+            height: 32px;
             font-size: 1.3rem;
             background: #eee;
             border: none;
@@ -138,6 +210,7 @@
             cursor: pointer;
             line-height: 1;
         }
+
         .order-qty {
             width: 48px;
             text-align: center;
@@ -146,6 +219,7 @@
             border-radius: 6px;
             padding: 4px;
         }
+
         .order-btn {
             background: #a85b2b;
             color: #fff;
@@ -158,29 +232,36 @@
             margin-left: 12px;
             display: inline-block;
         }
-        .order-btn:hover { background: #40602b; }
+
+        .order-btn:hover {
+            background: #40602b;
+        }
+
         .product-category {
             font-size: 1rem;
             color: #888;
             margin-bottom: 8px;
         }
+
         .product-desc-area {
             margin-top: 48px;
             border-top: 1px solid #eee;
             padding-top: 32px;
         }
+
         .desc-title {
             font-size: 1.3rem;
             color: #a85b2b;
             font-weight: 700;
             margin-bottom: 12px;
         }
+
         .desc-content {
             font-size: 1.08rem;
             color: #222;
             line-height: 1.7;
         }
-        
+
         /* SLIDER CSS */
         .slider {
             position: relative;
@@ -190,36 +271,48 @@
             margin-bottom: 24px;
             border-radius: 12px;
         }
+
         .slide {
             width: 100%;
             height: 500px;
             object-fit: cover;
             border-radius: 12px;
             position: absolute;
-            left: 0; top: 0;
+            left: 0;
+            top: 0;
             opacity: 0;
             transition: opacity 0.5s;
         }
+
         .slide.active {
             opacity: 1;
             position: relative;
         }
-        .slider .prev, .slider .next {
+
+        .slider .prev,
+        .slider .next {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.7);
             border: none;
             font-size: 1.8rem;
             cursor: pointer;
             border-radius: 50%;
-            width: 40px; height: 40px;
+            width: 40px;
+            height: 40px;
             line-height: 40px;
             text-align: center;
             z-index: 2;
         }
-        .slider .prev { left: 12px; }
-        .slider .next { right: 12px; }
+
+        .slider .prev {
+            left: 12px;
+        }
+
+        .slider .next {
+            right: 12px;
+        }
 
         /* REVIEWS SECTION CSS (Dựa trên cấu trúc đã dùng) */
         .reviews-section {
@@ -227,9 +320,10 @@
             margin: 40px auto;
             background: #fff;
             border-radius: 24px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
             padding: 40px 48px;
         }
+
         .reviews-title {
             font-size: 1.8rem;
             font-weight: 700;
@@ -238,6 +332,7 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 12px;
         }
+
         .rating-summary {
             display: flex;
             gap: 40px;
@@ -246,6 +341,7 @@
             padding-bottom: 20px;
             border-bottom: 1px solid #f4f4f4;
         }
+
         .rating-score {
             text-align: center;
             padding: 15px 30px;
@@ -254,6 +350,7 @@
             min-width: 150px;
             background: #fbeee0;
         }
+
         .rating-number {
             font-size: 3rem;
             font-weight: 700;
@@ -261,31 +358,37 @@
             line-height: 1;
             margin-bottom: 5px;
         }
+
         .rating-stars {
             color: gold;
             font-size: 1.5rem;
             margin-bottom: 5px;
         }
+
         .rating-count {
             font-size: 0.9rem;
             color: #666;
         }
+
         .rating-bars {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
+
         .rating-bar-item {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .rating-bar-label {
             width: 60px;
             font-size: 0.95rem;
             color: #444;
         }
+
         .rating-bar-bg {
             flex-grow: 1;
             height: 10px;
@@ -293,29 +396,34 @@
             border-radius: 5px;
             overflow: hidden;
         }
+
         .rating-bar-fill {
             height: 100%;
             background: #a85b2b;
             border-radius: 5px;
         }
+
         .rating-bar-count {
             width: 30px;
             text-align: right;
             font-size: 0.95rem;
             color: #444;
         }
+
         .review-item {
             border: 1px solid #eee;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
         }
+
         .review-header {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
+
         .review-avatar {
             width: 40px;
             height: 40px;
@@ -327,32 +435,39 @@
             font-weight: 700;
             margin-right: 15px;
         }
+
         .review-user-info {
             flex-grow: 1;
         }
+
         .review-user-name {
             font-weight: 600;
             color: #222;
             margin-bottom: 3px;
         }
+
         .review-stars {
             color: gold;
             font-size: 1rem;
         }
+
         .review-date {
             font-size: 0.9rem;
             color: #888;
         }
+
         .review-content {
             font-size: 1rem;
             color: #444;
             line-height: 1.6;
         }
+
         .review-images {
             margin-top: 10px;
             display: flex;
             gap: 10px;
         }
+
         .review-image {
             width: 100px;
             height: 100px;
@@ -367,9 +482,10 @@
             max-width: 1200px;
             background: #fff;
             border-radius: 18px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
             padding: 32px 24px;
         }
+
         .related-title {
             font-size: 1.5rem;
             color: #40602b;
@@ -377,27 +493,31 @@
             margin-bottom: 24px;
             text-align: left;
         }
+
         .related-products {
             display: flex;
             gap: 32px;
             flex-wrap: wrap;
             justify-content: flex-start;
         }
+
         .related-card {
             display: block;
             width: 210px;
             background: #faf7f2;
             border-radius: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
             text-align: center;
             text-decoration: none;
             color: #222;
             padding: 18px 12px;
             transition: box-shadow 0.2s;
         }
+
         .related-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
         }
+
         .related-card img {
             width: 100%;
             height: 120px;
@@ -405,11 +525,13 @@
             border-radius: 10px;
             margin-bottom: 12px;
         }
+
         .related-name {
             font-weight: 600;
             font-size: 1.05rem;
             margin-bottom: 6px;
         }
+
         .related-price {
             color: #a85b2b;
             font-weight: 700;
@@ -417,45 +539,176 @@
         }
 
         /* FOOTER CSS */
-        footer { background: #1a1157; color: #fff; padding: 40px 0 20px 0; }
-        .footer-content { max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 32px; padding: 0 20px; }
-        .footer-info { flex: 2; }
-        .footer-logo { height: 48px; margin-bottom: 16px; }
-        .footer-links { flex: 1; }
-        .footer-links ul { list-style: none; padding: 0; }
-        .footer-links li { margin-bottom: 8px; }
-        .footer-links a { color: #ffe066; text-decoration: none; }
-        .footer-bottom { text-align: center; margin-top: 32px; font-size: 0.95rem; color: #bbb; border-top: 1px solid #2e246e; padding-top: 20px; }
+        footer {
+            background: #1a1157;
+            color: #fff;
+            padding: 40px 0 20px 0;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            padding: 0 20px;
+        }
+
+        .footer-info {
+            flex: 2;
+        }
+
+        .footer-logo {
+            height: 48px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            flex: 1;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #ffe066;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 0.95rem;
+            color: #bbb;
+            border-top: 1px solid #2e246e;
+            padding-top: 20px;
+        }
 
 
         /* MOBILE/RESPONSIVE CSS */
-        .nav-open { display: flex !important; flex-direction: column; align-items: flex-start; }
-        @media (max-width: 900px) {
-            header { padding: 10px 20px; }
-            .logo { margin-right: 20px; height: 50px; }
-            .menu-toggle { display: block; }
-            nav { position: absolute; top: 70px; left: 0; width: 100%; background: #1a1157; z-index: 50; display: none; }
-            nav ul { flex-direction: column; align-items: flex-start; gap: 0; padding: 10px 0; }
-            nav a { padding: 10px 20px; display: block; width: 100%; }
-            .dropdown-content { position: static; min-width: 100%; box-shadow: none; border-radius: 0; background: #2e3d1b; }
-            .dropdown-content a { padding: 10px 40px; border-bottom: none; }
-            .dropdown:hover .dropdown-content { display: none; } 
-            
-            .banner { height: 200px; }
-            .product-main { border-radius: 0; padding: 12px 2vw; }
-            .product-columns { flex-direction: column; gap: 18px; }
-            .product-image-area, .product-info-area { padding: 0; }
-            .slider { height: 300px; } 
-            .slide { height: 300px; } 
-            .related-products { gap: 12px; justify-content: center; }
-            .related-card { width: 45vw; min-width: 140px; }
-            .footer-content { flex-direction: column; align-items: center; text-align: center; }
+        .nav-open {
+            display: flex !important;
+            flex-direction: column;
+            align-items: flex-start;
+        }
 
-            .reviews-section { border-radius: 0; padding: 12px 2vw; }
-            .rating-summary { flex-direction: column; gap: 20px; align-items: stretch; }
+        @media (max-width: 900px) {
+            header {
+                padding: 10px 20px;
+            }
+
+            .logo {
+                margin-right: 20px;
+                height: 50px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: #1a1157;
+                z-index: 50;
+                display: none;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 10px 0;
+            }
+
+            nav a {
+                padding: 10px 20px;
+                display: block;
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                min-width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                background: #2e3d1b;
+            }
+
+            .dropdown-content a {
+                padding: 10px 40px;
+                border-bottom: none;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: none;
+            }
+
+            .banner {
+                height: 200px;
+            }
+
+            .product-main {
+                border-radius: 0;
+                padding: 12px 2vw;
+            }
+
+            .product-columns {
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .product-image-area,
+            .product-info-area {
+                padding: 0;
+            }
+
+            .slider {
+                height: 300px;
+            }
+
+            .slide {
+                height: 300px;
+            }
+
+            .related-products {
+                gap: 12px;
+                justify-content: center;
+            }
+
+            .related-card {
+                width: 45vw;
+                min-width: 140px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .reviews-section {
+                border-radius: 0;
+                padding: 12px 2vw;
+            }
+
+            .rating-summary {
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
+            }
         }
     </style>
 </head>
+
 <body>
     <header>
         <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a>
@@ -481,61 +734,75 @@
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>    
-                            <li class="dropdown">
-                <a href="#">Membership</a>
-                <ul class="dropdown-content">
-                    <li><a href="membership-login.html">Login / Sign Up</a></li>
-                </ul>
-            </li>
+                <li class="dropdown">
+                    <a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership-login.html">Login / Sign Up</a></li>
+                    </ul>
+                </li>
 
             </ul>
         </nav>
     </header>
-    
+
     <section class="banner">
         <img src="Image/Giới thiệu.jpg" alt="Mid-Autumn Cake" class="banner-img">
     </section>
-    
+
     <div class="product-main">
         <div class="product-columns">
             <div class="product-image-area">
                 <div class="slider" id="slider">
-                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png" class="slide active" alt="Golden Sponge Cake 1">
-                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 2.JPG" class="slide" alt="Golden Sponge Cake 2">
-                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 3.PNG" class="slide" alt="Golden Sponge Cake 3">
-                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 4.JPG" class="slide" alt="Golden Sponge Cake 4">                    
-                    
+                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png" class="slide active"
+                        alt="Golden Sponge Cake 1">
+                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 2.JPG" class="slide"
+                        alt="Golden Sponge Cake 2">
+                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 3.PNG" class="slide"
+                        alt="Golden Sponge Cake 3">
+                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 4.JPG" class="slide"
+                        alt="Golden Sponge Cake 4">                    
+
                     <button class="prev" aria-label="Previous slide">&#10094;</button>
                     <button class="next" aria-label="Next slide">&#10095;</button>
                 </div>
             </div>
             <div class="product-info-area">
                 <h1 class="product-title">Golden Sponge Cake</h1>
-                <div class="product-price">89,000 ₫</div>
+                <div class="product-price">$42.00</div>
                 <ul class="product-quick-info">
                     <li><b>– Includes:</b> Sweet sponge cake blended with a touch of savory pork floss</li>
                     <li><b>– Weight:</b> 250g/cake</li>
                     <li><b>– Shelf life:</b> 1 month from date of manufacture</li>
-                    <li><b>– Storage instructions:</b> Keep at room temperature (about $25^\circ\text{C}$) and use within 3 days after opening the packaging.</li>
+                    <li><b>– Storage instructions:</b> Keep at room temperature (about 25°C) and use within 3 days after
+                        opening the packaging.</li>
                     <li><b>– Voucher:</b> Voucher to join the handmade Mid-Autumn cake workshop</li>
                 </ul>
                 <div class="order-controls">
                     <button class="order-minus" aria-label="Decrease quantity">-</button>
                     <input type="number" value="1" min="1" class="order-qty" aria-label="Quantity">
                     <button class="order-plus" aria-label="Increase quantity">+</button>
-                    <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank" class="order-btn">Order</a>
+                    <button type="button" class="order-btn">Add to Cart</button>
                 </div>
-                <div class="product-category">Category: <a href="index.html#favorite-products">Favorite Products</a></div>
+                <div class="product-category">Category: <a href="index.html#favorite-products">Favorite Products</a>
+                </div>
             </div>
         </div>
         <div class="product-desc-area">
             <h2 class="desc-title">Description</h2>
             <div class="desc-content">
-                <b>Golden Sponge Cake</b> is a soft salted egg sponge cake, delicately blended between the rich flavor of cheese, the distinctive savory taste of golden salted egg, and the gentle fluffiness of the cake base. Each cake is handmade with a balanced recipe, preserving the familiar traditional taste while adding a touch of modern sophistication.
+                <b>Golden Sponge Cake</b> is a soft salted egg sponge cake, delicately blended between the rich flavor
+                of cheese, the distinctive savory taste of golden salted egg, and the gentle fluffiness of the cake
+                base. Each cake is handmade with a balanced recipe, preserving the familiar traditional taste while
+                adding a touch of modern sophistication.
                 <br>
-                The soft sponge layer embraces the savory cheese filling, topped with bright red salted egg and selected pork floss, creating a harmonious flavor profile: sweet, salty, rich, and fragrant. When enjoyed, you can feel each distinct layer: the salty taste of salted egg, the gentle sweetness of sponge cake, and the rich aftertaste melting like golden lava.
+                The soft sponge layer embraces the savory cheese filling, topped with bright red salted egg and selected
+                pork floss, creating a harmonious flavor profile: sweet, salty, rich, and fragrant. When enjoyed, you
+                can feel each distinct layer: the salty taste of salted egg, the gentle sweetness of sponge cake, and
+                the rich aftertaste melting like golden lava.
                 <br>
-                Not only a daily treat, Golden Sponge Cake is also a perfect choice for gifting, expressing appreciation and connection. With Matie Cake's elegant packaging design, the cake is not only delicious but also aesthetically pleasing, luxurious, and meaningful for every occasion.
+                Not only a daily treat, Golden Sponge Cake is also a perfect choice for gifting, expressing appreciation
+                and connection. With Matie Cake's elegant packaging design, the cake is not only delicious but also
+                aesthetically pleasing, luxurious, and meaningful for every occasion.
                 <br><br>
             </div>
         </div>
@@ -543,7 +810,7 @@
 
     <div class="reviews-section">
         <h2 class="reviews-title">Product Reviews</h2>
-        
+
         <div class="rating-summary">
             <div class="rating-score">
                 <div class="rating-number">4.8</div>
@@ -600,11 +867,15 @@
                     <div class="review-date">15/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cake is soft, fluffy, and fragrant with butter. The salted egg is rich and creamy, and the pork floss is delicious. It's an excellent cake. The delivery was fast, and the packaging was beautiful and careful. Matie Cake is truly a quality choice.
+                    The cake is soft, fluffy, and fragrant with butter. The salted egg is rich and creamy, and the pork
+                    floss is delicious. It's an excellent cake. The delivery was fast, and the packaging was beautiful
+                    and careful. Matie Cake is truly a quality choice.
                 </div>
                 <div class="review-images">
-                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png" class="review-image" alt="Review image">
-                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 2.JPG" class="review-image" alt="Review image">
+                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png" class="review-image"
+                        alt="Review image">
+                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 2.JPG" class="review-image"
+                        alt="Review image">
                 </div>
             </div>
 
@@ -619,7 +890,9 @@
                     <div class="review-date">12/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The salted egg sponge cake here is very fresh. The cake is soft, the filling is rich with salted egg and cheese, and it's not dry or cloying. The small cake size is just right for a snack. It's quite delicious.
+                    The salted egg sponge cake here is very fresh. The cake is soft, the filling is rich with salted egg
+                    and cheese, and it's not dry or cloying. The small cake size is just right for a snack. It's quite
+                    delicious.
                 </div>
             </div>
 
@@ -633,10 +906,12 @@
                     <div class="review-date">08/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cake is soft, the salted egg is buttery, and the pork floss is also very delicious. My children love it very much. I will definitely order more next time.
+                    The cake is soft, the salted egg is buttery, and the pork floss is also very delicious. My children
+                    love it very much. I will definitely order more next time.
                 </div>
                 <div class="review-images">
-                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 3.PNG" class="review-image" alt="Review image">
+                    <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lan 3.PNG" class="review-image"
+                        alt="Review image">
                 </div>
             </div>
 
@@ -651,7 +926,9 @@
                     <div class="review-date">05/09/2024</div>
                 </div>
                 <div class="review-content">
-                    The cakes are delicious, and the packaging is nice. However, I found it a bit too sweet compared to my preference. If the sweetness level could be adjusted, it would be more perfect. But overall, it is still a quality product!
+                    The cakes are delicious, and the packaging is nice. However, I found it a bit too sweet compared to
+                    my preference. If the sweetness level could be adjusted, it would be more perfect. But overall, it
+                    is still a quality product!
                 </div>
             </div>
 
@@ -665,12 +942,13 @@
                     <div class="review-date">02/09/2024</div>
                 </div>
                 <div class="review-content">
-                    Very satisfied with the product! The cake is soft, fluffy, and aromatic. It's rich without being greasy. My whole family enjoys it.
+                    Very satisfied with the product! The cake is soft, fluffy, and aromatic. It's rich without being
+                    greasy. My whole family enjoys it.
                 </div>
             </div>
-            </div>
-    </div> 
-    
+        </div>
+    </div>
+
     <div class="related-products-section">
         <h2 class="related-title">Related Products</h2>
         <div class="related-products">
@@ -696,7 +974,7 @@
             </a>
         </div>
     </div>
-    
+
     <footer>
         <div class="footer-content">
             <div class="footer-info">
@@ -723,28 +1001,28 @@
             © 2025 Matie Cake.
         </div>
     </footer>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var slider = document.getElementById('slider');
             if (slider) {
                 var slides = slider.querySelectorAll('.slide');
                 var current = 0;
                 var prevBtn = slider.querySelector('.prev');
                 var nextBtn = slider.querySelector('.next');
-                
+
                 function showSlide(idx) {
-                    slides.forEach(function(s, i) {
+                    slides.forEach(function (s, i) {
                         s.classList.toggle('active', i === idx);
                     });
                 }
-                
+
                 // Slider navigation logic
-                prevBtn.onclick = function() {
+                prevBtn.onclick = function () {
                     current = (current - 1 + slides.length) % slides.length;
                     showSlide(current);
                 };
-                nextBtn.onclick = function() {
+                nextBtn.onclick = function () {
                     current = (current + 1) % slides.length;
                     showSlide(current);
                 };
@@ -757,22 +1035,22 @@
             const qtyInput = document.querySelector('.order-qty');
 
             if (minusBtn && plusBtn && qtyInput) {
-                minusBtn.addEventListener('click', function() {
+                minusBtn.addEventListener('click', function () {
                     let val = parseInt(qtyInput.value, 10);
                     if (val > 1) qtyInput.value = val - 1;
                 });
-                plusBtn.addEventListener('click', function() {
+                plusBtn.addEventListener('click', function () {
                     let val = parseInt(qtyInput.value, 10);
                     qtyInput.value = val + 1;
                 });
             }
-            
+
             // Mobile menu toggle logic
             const menuToggle = document.querySelector('.menu-toggle');
             const nav = document.querySelector('nav');
 
             if (menuToggle && nav) {
-                menuToggle.addEventListener('click', function() {
+                menuToggle.addEventListener('click', function () {
                     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
                     menuToggle.setAttribute('aria-expanded', !isExpanded);
                     nav.classList.toggle('nav-open');
@@ -780,6 +1058,87 @@
             }
         });
     </script>
-<script src="src/scripts/chat.js" defer></script>
+    <script>
+        // Simple add-to-cart flow: store in localStorage then redirect to cart
+        document.addEventListener('DOMContentLoaded', function () {
+            const orderBtn = document.querySelector('.order-btn');
+            const qtyInput = document.querySelector('.order-qty');
+            if (!orderBtn || !qtyInput) return;
+
+            orderBtn.textContent = 'Add to Cart';
+
+            orderBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+                const nameEl = document.querySelector('.product-title');
+                const priceEl = document.querySelector('.product-price');
+                const imageEl =
+                    document.querySelector('.product-main-img') ||
+                    document.querySelector('.product-image-area img') ||
+                    document.querySelector('.slide.active') ||
+                    document.querySelector('.slide');
+
+                const productName = nameEl ? nameEl.textContent.trim() : 'Product';
+                const priceText = priceEl ? priceEl.textContent : '0';
+                const numeric = priceText.replace(/[^\d]/g, '');
+                const basePrice = numeric ? parseFloat(numeric) : 0;
+                const productImage = imageEl ? imageEl.getAttribute('src') : 'Image/Logo.png';
+
+                const cartItem = {
+                    id: 'simple-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+                    productId: 'simple-' + productName.toLowerCase().replace(/\s+/g, '-'),
+                    productName: productName,
+                    productImage: productImage,
+                    boxThumb: productImage,
+                    itemNumber: 'SKU-' + Math.floor(Math.random() * 100000),
+                    basePrice: basePrice,
+                    quantity: quantity,
+                    selectedOptions: [],
+                    assortment: [],
+                    finalPrice: basePrice,
+                    shippingAddressId: null,
+                    shippingAddress: {
+                        name: '',
+                        street: '',
+                        city: '',
+                        state: '',
+                        country: '',
+                        phone: '',
+                        apt: '',
+                        locationType: ''
+                    },
+                    recipientRelationship: '',
+                    recipientOccasion: '',
+                    giftMessage: '',
+                    giftMessageType: 'complimentary',
+                    shippingMethod: 'standard',
+                    deliveryDate: null,
+                    pickDateSelected: null
+                };
+
+                let cart = [];
+                try {
+                    const stored = localStorage.getItem('cart');
+                    cart = stored ? JSON.parse(stored) : [];
+                } catch (err) {
+                    cart = [];
+                }
+
+                cart.push(cartItem);
+
+                try {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                } catch (err) {
+                    alert('Có lỗi khi lưu giỏ hàng, vui lòng thử lại.');
+                    return;
+                }
+
+                window.location.href = 'cart.html';
+            });
+        });
+    </script>
+    <script src="src/scripts/chat.js" defer></script>
 </body>
+
 </html>

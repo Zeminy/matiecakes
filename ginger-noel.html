@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,16 +46,16 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.98), rgba(255,255,255,0) 65%);
-            box-shadow: 0 0 6px rgba(255,255,255,0.9);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0) 65%);
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
             animation-name: snowFall;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
         }
 
         .snowflake.mint {
-            background: radial-gradient(circle at 30% 30%, rgba(214,255,243,1), rgba(214,255,243,0) 65%);
-            box-shadow: 0 0 6px rgba(163,230,208,0.9);
+            background: radial-gradient(circle at 30% 30%, rgba(214, 255, 243, 1), rgba(214, 255, 243, 0) 65%);
+            box-shadow: 0 0 6px rgba(163, 230, 208, 0.9);
         }
 
         @keyframes snowFall {
@@ -62,9 +63,11 @@
                 transform: translate3d(0, -10px, 0);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             100% {
                 transform: translate3d(20px, 110vh, 0);
                 opacity: 0;
@@ -72,31 +75,163 @@
         }
 
         /* vị trí & timing cho ~24 bông tuyết */
-        .snowflake:nth-child(1)  { left: 5%;  animation-duration: 18s; animation-delay: 0s;  width:14px; height:14px; }
-        .snowflake:nth-child(2)  { left: 12%; animation-duration: 22s; animation-delay: 2s; }
-        .snowflake:nth-child(3)  { left: 20%; animation-duration: 19s; animation-delay: 4s; }
-        .snowflake:nth-child(4)  { left: 28%; animation-duration: 24s; animation-delay: 1s; }
-        .snowflake:nth-child(5)  { left: 35%; animation-duration: 20s; animation-delay: 3s; width:15px; height:15px; }
-        .snowflake:nth-child(6)  { left: 42%; animation-duration: 26s; animation-delay: 5s; }
-        .snowflake:nth-child(7)  { left: 50%; animation-duration: 21s; animation-delay: 0.5s; }
-        .snowflake:nth-child(8)  { left: 58%; animation-duration: 25s; animation-delay: 2.5s; width:13px; height:13px; }
-        .snowflake:nth-child(9)  { left: 66%; animation-duration: 18s; animation-delay: 4.5s; }
-        .snowflake:nth-child(10) { left: 74%; animation-duration: 23s; animation-delay: 1.5s; }
-        .snowflake:nth-child(11) { left: 82%; animation-duration: 19s; animation-delay: 3.5s; width:16px; height:16px; }
-        .snowflake:nth-child(12) { left: 90%; animation-duration: 24s; animation-delay: 0.8s; }
+        .snowflake:nth-child(1) {
+            left: 5%;
+            animation-duration: 18s;
+            animation-delay: 0s;
+            width: 14px;
+            height: 14px;
+        }
 
-        .snowflake:nth-child(13) { left: 8%;  animation-duration: 26s; animation-delay: 6s; }
-        .snowflake:nth-child(14) { left: 18%; animation-duration: 20s; animation-delay: 7s; }
-        .snowflake:nth-child(15) { left: 27%; animation-duration: 22s; animation-delay: 5.5s; width:15px; height:15px; }
-        .snowflake:nth-child(16) { left: 37%; animation-duration: 24s; animation-delay: 6.5s; }
-        .snowflake:nth-child(17) { left: 47%; animation-duration: 21s; animation-delay: 7.5s; }
-        .snowflake:nth-child(18) { left: 57%; animation-duration: 25s; animation-delay: 8s; }
-        .snowflake:nth-child(19) { left: 67%; animation-duration: 19s; animation-delay: 5.2s; }
-        .snowflake:nth-child(20) { left: 77%; animation-duration: 23s; animation-delay: 6.8s; width:14px; height:14px; }
-        .snowflake:nth-child(21) { left: 87%; animation-duration: 20s; animation-delay: 8.5s; }
-        .snowflake:nth-child(22) { left: 95%; animation-duration: 24s; animation-delay: 9s; }
-        .snowflake:nth-child(23) { left: 2%;  animation-duration: 27s; animation-delay: 3.2s; }
-        .snowflake:nth-child(24) { left: 52%; animation-duration: 28s; animation-delay: 9.5s; width:16px; height:16px; }
+        .snowflake:nth-child(2) {
+            left: 12%;
+            animation-duration: 22s;
+            animation-delay: 2s;
+        }
+
+        .snowflake:nth-child(3) {
+            left: 20%;
+            animation-duration: 19s;
+            animation-delay: 4s;
+        }
+
+        .snowflake:nth-child(4) {
+            left: 28%;
+            animation-duration: 24s;
+            animation-delay: 1s;
+        }
+
+        .snowflake:nth-child(5) {
+            left: 35%;
+            animation-duration: 20s;
+            animation-delay: 3s;
+            width: 15px;
+            height: 15px;
+        }
+
+        .snowflake:nth-child(6) {
+            left: 42%;
+            animation-duration: 26s;
+            animation-delay: 5s;
+        }
+
+        .snowflake:nth-child(7) {
+            left: 50%;
+            animation-duration: 21s;
+            animation-delay: 0.5s;
+        }
+
+        .snowflake:nth-child(8) {
+            left: 58%;
+            animation-duration: 25s;
+            animation-delay: 2.5s;
+            width: 13px;
+            height: 13px;
+        }
+
+        .snowflake:nth-child(9) {
+            left: 66%;
+            animation-duration: 18s;
+            animation-delay: 4.5s;
+        }
+
+        .snowflake:nth-child(10) {
+            left: 74%;
+            animation-duration: 23s;
+            animation-delay: 1.5s;
+        }
+
+        .snowflake:nth-child(11) {
+            left: 82%;
+            animation-duration: 19s;
+            animation-delay: 3.5s;
+            width: 16px;
+            height: 16px;
+        }
+
+        .snowflake:nth-child(12) {
+            left: 90%;
+            animation-duration: 24s;
+            animation-delay: 0.8s;
+        }
+
+        .snowflake:nth-child(13) {
+            left: 8%;
+            animation-duration: 26s;
+            animation-delay: 6s;
+        }
+
+        .snowflake:nth-child(14) {
+            left: 18%;
+            animation-duration: 20s;
+            animation-delay: 7s;
+        }
+
+        .snowflake:nth-child(15) {
+            left: 27%;
+            animation-duration: 22s;
+            animation-delay: 5.5s;
+            width: 15px;
+            height: 15px;
+        }
+
+        .snowflake:nth-child(16) {
+            left: 37%;
+            animation-duration: 24s;
+            animation-delay: 6.5s;
+        }
+
+        .snowflake:nth-child(17) {
+            left: 47%;
+            animation-duration: 21s;
+            animation-delay: 7.5s;
+        }
+
+        .snowflake:nth-child(18) {
+            left: 57%;
+            animation-duration: 25s;
+            animation-delay: 8s;
+        }
+
+        .snowflake:nth-child(19) {
+            left: 67%;
+            animation-duration: 19s;
+            animation-delay: 5.2s;
+        }
+
+        .snowflake:nth-child(20) {
+            left: 77%;
+            animation-duration: 23s;
+            animation-delay: 6.8s;
+            width: 14px;
+            height: 14px;
+        }
+
+        .snowflake:nth-child(21) {
+            left: 87%;
+            animation-duration: 20s;
+            animation-delay: 8.5s;
+        }
+
+        .snowflake:nth-child(22) {
+            left: 95%;
+            animation-duration: 24s;
+            animation-delay: 9s;
+        }
+
+        .snowflake:nth-child(23) {
+            left: 2%;
+            animation-duration: 27s;
+            animation-delay: 3.2s;
+        }
+
+        .snowflake:nth-child(24) {
+            left: 52%;
+            animation-duration: 28s;
+            animation-delay: 9.5s;
+            width: 16px;
+            height: 16px;
+        }
 
         /* ============= HEADER – PASTEL MINT ============= */
         header {
@@ -176,7 +311,7 @@
             right: 0;
             background: #fffafd;
             min-width: 220px;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
             border-radius: 18px;
             z-index: 40;
             padding: 8px 0;
@@ -249,7 +384,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
         }
 
         .banner-overlay-tag span.icon {
@@ -448,7 +583,7 @@
             margin-bottom: 16px;
             border-radius: 24px;
             background: #fdf6fb;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
         }
 
         .slide {
@@ -800,7 +935,7 @@
             margin-top: 22px;
             font-size: 0.9rem;
             color: #6b7b83;
-            border-top: 1px solid rgba(255,255,255,0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.7);
             padding-top: 12px;
         }
 
@@ -833,7 +968,7 @@
                 background: linear-gradient(180deg, #fff9fd, #e9fff8);
                 z-index: 29;
                 display: none;
-                box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
             }
 
             nav ul {
@@ -862,7 +997,8 @@
             }
 
             .dropdown:hover .dropdown-content {
-                display: none; /* mobile dùng JS toggle menu, không hover */
+                display: none;
+                /* mobile dùng JS toggle menu, không hover */
             }
 
             .banner {
@@ -942,6 +1078,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- LAYER TUYẾT PASTEL TOÀN TRANG -->
     <div class="snow-layer">
@@ -998,17 +1135,17 @@
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>
-                            <li class="dropdown">
-                <a href="#">Membership</a>
-                <ul class="dropdown-content">
-                    <li><a href="membership-login.html">Login / Sign Up</a></li>
-                </ul>
-            </li>
+                <li class="dropdown">
+                    <a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership-login.html">Login / Sign Up</a></li>
+                    </ul>
+                </li>
 
             </ul>
         </nav>
     </header>
-    
+
     <!-- BANNER -->
     <section class="banner">
         <img src="Image 3/GingerNoelBanner.jpg" alt="Mid-Autumn Cake" class="banner-img">
@@ -1018,7 +1155,7 @@
             <span class="icon">❄️</span>
         </div>
     </section>
-    
+
     <!-- PRODUCT MAIN -->
     <div class="product-main">
         <div class="product-columns">
@@ -1028,28 +1165,28 @@
                     <img src="Image 2/Ginger Noel 2.JPG" class="slide" alt="Ginger Noel 2">
                     <img src="Image 2/Ginger Noel 3.JPG" class="slide" alt="Ginger Noel 3">
                     <img src="Image 2/Ginger Noel 4.JPG" class="slide" alt="Ginger Noel 4">
-                    
+
                     <button class="prev" aria-label="Previous slide">&#10094;</button>
                     <button class="next" aria-label="Next slide">&#10095;</button>
                 </div>
             </div>
             <div class="product-info-area">
                 <h1 class="product-title">Ginger Noel</h1>
-                <div class="product-price">350,000 ₫</div>
+                <div class="product-price">$58</div>
                 <ul class="product-quick-info">
                     <li><b>Includes:</b> 6 gingerbread cookies and a premium paper gift box.</li>
                     <li><b>Weight:</b> approx. 250g/box.</li>
                     <li><b>Shelf life:</b> 1 month from date of manufacture.</li>
-                    <li><b>Storage:</b> Keep at cool, dry room temperature (around 25°C) and use within 3 days after opening the packaging.</li>
-                    <li><b>Voucher:</b> Comes with a voucher to join Matie Cake’s handmade Mid-Autumn cake workshop.</li>
+                    <li><b>Storage:</b> Keep at cool, dry room temperature (around 25°C) and use within 3 days after
+                        opening the packaging.</li>
+                    <li><b>Voucher:</b> Comes with a voucher to join Matie Cake’s handmade Mid-Autumn cake workshop.
+                    </li>
                 </ul>
                 <div class="order-controls">
                     <button class="order-minus" aria-label="Decrease quantity">-</button>
                     <input type="number" value="1" min="1" class="order-qty" aria-label="Quantity">
                     <button class="order-plus" aria-label="Increase quantity">+</button>
-                    <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank" class="order-btn">
-                        Order now
-                    </a>
+                    <button type="button" class="order-btn">Add to Cart</button>
                 </div>
                 <div class="product-category">
                     Category: <a href="index.html#christmas-gifts">Christmas Gifts</a>
@@ -1074,7 +1211,7 @@
     <!-- REVIEWS -->
     <div class="reviews-section">
         <h2 class="reviews-title">Product Reviews</h2>
-        
+
         <div class="rating-summary">
             <div class="rating-score">
                 <div class="rating-number">4.8</div>
@@ -1208,7 +1345,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- RELATED PRODUCTS -->
     <div class="related-products-section">
         <h2 class="related-title">Related Products</h2>
@@ -1235,7 +1372,7 @@
             </a>
         </div>
     </div>
-    
+
     <!-- FOOTER -->
     <footer>
         <div class="footer-content">
@@ -1263,9 +1400,9 @@
             © 2025 Matie Cake.
         </div>
     </footer>
-    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Slider
             const slider = document.getElementById('slider');
             if (slider) {
@@ -1280,12 +1417,12 @@
                     });
                 }
 
-                prevBtn.addEventListener('click', function() {
+                prevBtn.addEventListener('click', function () {
                     current = (current - 1 + slides.length) % slides.length;
                     showSlide(current);
                 });
 
-                nextBtn.addEventListener('click', function() {
+                nextBtn.addEventListener('click', function () {
                     current = (current + 1) % slides.length;
                     showSlide(current);
                 });
@@ -1299,12 +1436,12 @@
             const qtyInput = document.querySelector('.order-qty');
 
             if (minusBtn && plusBtn && qtyInput) {
-                minusBtn.addEventListener('click', function() {
+                minusBtn.addEventListener('click', function () {
                     let val = parseInt(qtyInput.value, 10) || 1;
                     if (val > 1) qtyInput.value = val - 1;
                 });
 
-                plusBtn.addEventListener('click', function() {
+                plusBtn.addEventListener('click', function () {
                     let val = parseInt(qtyInput.value, 10) || 1;
                     qtyInput.value = val + 1;
                 });
@@ -1315,7 +1452,7 @@
             const nav = document.getElementById('main-nav');
 
             if (menuToggle && nav) {
-                menuToggle.addEventListener('click', function() {
+                menuToggle.addEventListener('click', function () {
                     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
                     menuToggle.setAttribute('aria-expanded', !isExpanded);
                     nav.classList.toggle('nav-open');
@@ -1323,6 +1460,87 @@
             }
         });
     </script>
-<script src="src/scripts/chat.js" defer></script>
+    <script>
+        // Simple add-to-cart flow: store in localStorage then redirect to cart
+        document.addEventListener('DOMContentLoaded', function () {
+            const orderBtn = document.querySelector('.order-btn');
+            const qtyInput = document.querySelector('.order-qty');
+            if (!orderBtn || !qtyInput) return;
+
+            orderBtn.textContent = 'Add to Cart';
+
+            orderBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+                const nameEl = document.querySelector('.product-title');
+                const priceEl = document.querySelector('.product-price');
+                const imageEl =
+                    document.querySelector('.product-main-img') ||
+                    document.querySelector('.product-image-area img') ||
+                    document.querySelector('.slide.active') ||
+                    document.querySelector('.slide');
+
+                const productName = nameEl ? nameEl.textContent.trim() : 'Product';
+                const priceText = priceEl ? priceEl.textContent : '0';
+                const numeric = priceText.replace(/[^\d]/g, '');
+                const basePrice = numeric ? parseFloat(numeric) : 0;
+                const productImage = imageEl ? imageEl.getAttribute('src') : 'Image/Logo.png';
+
+                const cartItem = {
+                    id: 'simple-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+                    productId: 'simple-' + productName.toLowerCase().replace(/\s+/g, '-'),
+                    productName: productName,
+                    productImage: productImage,
+                    boxThumb: productImage,
+                    itemNumber: 'SKU-' + Math.floor(Math.random() * 100000),
+                    basePrice: basePrice,
+                    quantity: quantity,
+                    selectedOptions: [],
+                    assortment: [],
+                    finalPrice: basePrice,
+                    shippingAddressId: null,
+                    shippingAddress: {
+                        name: '',
+                        street: '',
+                        city: '',
+                        state: '',
+                        country: '',
+                        phone: '',
+                        apt: '',
+                        locationType: ''
+                    },
+                    recipientRelationship: '',
+                    recipientOccasion: '',
+                    giftMessage: '',
+                    giftMessageType: 'complimentary',
+                    shippingMethod: 'standard',
+                    deliveryDate: null,
+                    pickDateSelected: null
+                };
+
+                let cart = [];
+                try {
+                    const stored = localStorage.getItem('cart');
+                    cart = stored ? JSON.parse(stored) : [];
+                } catch (err) {
+                    cart = [];
+                }
+
+                cart.push(cartItem);
+
+                try {
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                } catch (err) {
+                    alert('Có lỗi khi lưu giỏ hàng, vui lòng thử lại.');
+                    return;
+                }
+
+                window.location.href = 'cart.html';
+            });
+        });
+    </script>
+    <script src="src/scripts/chat.js" defer></script>
 </body>
+
 </html>
