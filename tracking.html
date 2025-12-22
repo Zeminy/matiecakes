@@ -256,6 +256,97 @@
             transform: none;
             box-shadow: none;
         }
+
+        /* Tracking Form */
+        .tracking-form {
+            margin-bottom: 24px;
+            padding: 20px;
+            background: linear-gradient(180deg, #faf9f7, #f6f5f2);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .tracking-form h2 {
+            margin: 0 0 16px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Roboto', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(217, 156, 43, 0.1);
+        }
+
+        .track-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(180deg, #ffe066, #ffd633);
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .track-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .track-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            margin-top: 12px;
+            padding: 12px;
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 8px;
+            color: #c53030;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .tracking-content {
+            display: none;
+        }
+
+        .tracking-content.show {
+            display: block;
+        }
     </style>
 </head>
 
@@ -265,7 +356,25 @@
     </header>
 
     <div class="container">
-        <div class="card">
+        <!-- Tracking Form -->
+        <div class="card tracking-form" id="tracking-form">
+            <h2>Enter Order Information</h2>
+            <form id="order-tracking-form">
+                <div class="form-group">
+                    <label for="order-id-input">Order ID *</label>
+                    <input type="text" id="order-id-input" placeholder="e.g., ORDER-ITIUK2122-1" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone-input">Phone Number *</label>
+                    <input type="tel" id="phone-input" placeholder="e.g., 0886804360" required>
+                </div>
+                <button type="submit" class="track-btn" id="track-submit-btn">Track Order</button>
+                <div class="error-message" id="error-message"></div>
+            </form>
+        </div>
+
+        <!-- Tracking Content -->
+        <div class="card tracking-content" id="tracking-content">
             <div class="tracking-header">
                 <h1 style="margin:0;">Track Your Order</h1>
                 <span class="order-id" id="order-id">#ORDER-12345</span>

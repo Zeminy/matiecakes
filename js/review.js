@@ -12,13 +12,13 @@ let checkoutData = null;
  */
 function init() {
     loadData();
-    
+
     if (cart.length === 0) {
         alert('No items in cart. Redirecting to cart page.');
         window.location.href = 'cart.html';
         return;
     }
-    
+
     renderItems();
     renderOrderSummary();
     renderPaymentMethod();
@@ -39,7 +39,7 @@ function loadData() {
         } else {
             cart = [];
         }
-        
+
         const checkoutDataStr = localStorage.getItem('checkoutData');
         if (checkoutDataStr) {
             checkoutData = JSON.parse(checkoutDataStr);
@@ -70,9 +70,9 @@ function updateHeaderCartBadge() {
 function renderItems() {
     const container = document.getElementById('items-container');
     if (!container) return;
-    
+
     container.innerHTML = cart.map((item, index) => renderItem(item, index)).join('');
-    
+
     // Attach delete button listeners
     cart.forEach(item => {
         const deleteBtn = document.getElementById(`delete-item-${item.id}`);
@@ -91,31 +91,31 @@ function renderItems() {
 function renderItem(item, index) {
     const itemNumber = index + 1;
     const totalItems = cart.length;
-    
+
     // Format address
     const addressDisplay = item.shippingAddress && item.shippingAddress.street
         ? `${item.shippingAddress.name || ''}, ${item.shippingAddress.street}, ${item.shippingAddress.city}, ${item.shippingAddress.state}, ${item.shippingAddress.zip || ''}, ${item.shippingAddress.phone || ''}`
         : 'No address set';
-    
+
     // Format delivery date
     let deliveryDateDisplay = 'Not set';
     if (item.deliveryDate) {
         const date = new Date(item.deliveryDate);
-        deliveryDateDisplay = date.toLocaleDateString('en-US', { 
-            month: 'long', 
-            day: 'numeric', 
-            year: 'numeric' 
+        deliveryDateDisplay = date.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
         });
     } else if (item.shippingMethod && item.shippingMethod !== 'pick-date') {
         // Show estimated delivery for other methods
         deliveryDateDisplay = 'Estimated delivery: 5-7 business days';
     }
-    
+
     // Gift message display
     const giftMessageDisplay = item.giftMessage && item.giftMessage.trim() !== ''
         ? item.giftMessage
         : 'No Card Message';
-    
+
     return `
         <div class="review-section">
             <div class="item-header">
@@ -196,14 +196,14 @@ function renderItem(item, index) {
 function renderOrderSummary() {
     const container = document.getElementById('order-summary-content');
     if (!container) return;
-    
+
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
     const shipping = 8.99; // Default shipping
     const totalBeforeTax = merchandise + shipping;
     const estimatedTax = 0.00; // Can be calculated based on location
     const orderTotal = totalBeforeTax + estimatedTax;
-    
+
     container.innerHTML = `
         <div class="summary-items-count">${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}</div>
         <div class="summary-row">
@@ -237,17 +237,17 @@ function renderOrderSummary() {
 function renderPaymentMethod() {
     const container = document.getElementById('payment-method-display');
     if (!container) return;
-    
+
     if (!checkoutData || !checkoutData.paymentMethod) {
         container.innerHTML = '<p style="color: #999;">No payment method selected</p>';
         return;
     }
-    
+
     if (checkoutData.paymentMethod === 'card' && checkoutData.card) {
         const card = checkoutData.card;
         const last4 = card.number.slice(-4);
         const cardType = getCardType(card.number);
-        
+
         container.innerHTML = `
             <div>Credit or Debit Card</div>
             <div class="payment-info-box">
@@ -276,12 +276,12 @@ function renderPaymentMethod() {
  */
 function getCardType(cardNumber) {
     if (!cardNumber) return 'CARD';
-    
+
     if (cardNumber.startsWith('4')) return 'VISA';
     if (cardNumber.startsWith('5')) return 'Mastercard';
     if (cardNumber.startsWith('3')) return 'AMEX';
     if (cardNumber.startsWith('6')) return 'DISCOVER';
-    
+
     return 'CARD';
 }
 
@@ -291,12 +291,12 @@ function getCardType(cardNumber) {
 function renderBillingAddress() {
     const container = document.getElementById('billing-address-display');
     if (!container) return;
-    
+
     if (!checkoutData || !checkoutData.billing) {
         container.innerHTML = '<p style="color: #999;">No billing address</p>';
         return;
     }
-    
+
     const billing = checkoutData.billing;
     const addressParts = [
         billing.firstName && billing.lastName ? `${billing.firstName} ${billing.lastName}` : '',
@@ -307,7 +307,7 @@ function renderBillingAddress() {
         billing.zip,
         billing.country
     ].filter(part => part).join(', ');
-    
+
     container.innerHTML = `
         <div class="address-display">${addressParts}</div>
     `;
@@ -319,18 +319,18 @@ function renderBillingAddress() {
 function renderContactInfo() {
     const container = document.getElementById('contact-info-display');
     if (!container) return;
-    
+
     if (!checkoutData || !checkoutData.contact) {
         container.innerHTML = '<p style="color: #999;">No contact information</p>';
         return;
     }
-    
+
     const contact = checkoutData.contact;
     let html = `
         <div class="contact-display">Your email address: ${contact.email}</div>
         <div class="contact-display">Your phone number: ${contact.phone}</div>
     `;
-    
+
     if (contact.emailOffers) {
         html += `
             <div class="checkbox-group" style="margin-top: 10px;">
@@ -339,7 +339,7 @@ function renderContactInfo() {
             </div>
         `;
     }
-    
+
     container.innerHTML = html;
 }
 
@@ -349,13 +349,13 @@ function renderContactInfo() {
 function renderOrderTotal() {
     const container = document.getElementById('order-total-display');
     if (!container) return;
-    
+
     const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
     const shipping = 8.99;
     const totalBeforeTax = merchandise + shipping;
     const estimatedTax = 0.00;
     const orderTotal = totalBeforeTax + estimatedTax;
-    
+
     container.innerHTML = `
         <div class="summary-row order-total">
             <span>Order Total:</span>
@@ -371,13 +371,13 @@ function renderOrderTotal() {
 function handleDeleteItem(itemId) {
     if (confirm('Are you sure you want to remove this item from your order?')) {
         cart = cart.filter(item => item.id !== itemId);
-        
+
         try {
             localStorage.setItem('cart', JSON.stringify(cart));
         } catch (error) {
             console.error('Error saving cart:', error);
         }
-        
+
         if (cart.length === 0) {
             window.location.href = 'cart.html';
         } else {
@@ -391,41 +391,103 @@ function handleDeleteItem(itemId) {
 /**
  * Handle place order
  */
-window.handlePlaceOrder = function() {
+window.handlePlaceOrder = function () {
     if (cart.length === 0) {
         alert('Your cart is empty!');
         window.location.href = 'cart.html';
         return;
     }
-    
+
     if (!checkoutData) {
         alert('Please complete checkout first.');
         window.location.href = 'checkout.html';
         return;
     }
-    
+
+    // Generate Order ID in format: ORDER-ITIUK2122-{number}
+    function generateOrderId() {
+        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        const baseNumber = 'ITIUK2122';
+        const orderNumber = orders.length + 1;
+        return `ORDER-${baseNumber}-${orderNumber}`;
+    }
+
     // Create order object
+    const orderId = generateOrderId();
     const order = {
-        id: `order-${Date.now()}`,
+        id: orderId,
         date: new Date().toISOString(),
         items: cart,
         checkout: checkoutData,
         total: calculateOrderTotal()
     };
-    
+
+    // Convert order to tracking shipments format
+    function convertOrderToTrackingShipments(order) {
+        if (!order || !order.items || !Array.isArray(order.items)) {
+            return [];
+        }
+
+        const shipmentsMap = {};
+
+        order.items.forEach((item, idx) => {
+            const address = item.shippingAddress || {};
+            const addressKey = item.shippingAddressId || JSON.stringify({
+                name: address.name || '',
+                street: address.street || '',
+                city: address.city || '',
+                phone: address.phone || ''
+            });
+
+            if (!shipmentsMap[addressKey]) {
+                const recipientName = address.name || `Recipient ${Object.keys(shipmentsMap).length + 1}`;
+                const recipientAddr = [
+                    address.name,
+                    address.street,
+                    address.city,
+                    address.state,
+                    address.zip,
+                    address.phone
+                ].filter(Boolean).join(', ') || recipientName;
+
+                shipmentsMap[addressKey] = {
+                    id: `#SHIP-${Object.keys(shipmentsMap).length + 1}`,
+                    orderId: order.id, // Store Order ID in each shipment
+                    recipient: recipientAddr,
+                    steps: [
+                        { code: 'prep', title: 'Bakery is preparing your order', note: 'Kitchen is carefully preparing your treats.' },
+                        { code: 'pickup_on_the_way', title: 'Driver on the way to store', note: 'Driver is heading to the bakery.' },
+                        { code: 'pickup_waiting', title: 'Driver arrived at store', note: 'Waiting for the order to be handed over.' },
+                        { code: 'on_delivery', title: 'Out for delivery', note: 'Your order is on the way to the destination.' },
+                        { code: 'delivered', title: 'Delivered successfully', note: 'Order has been delivered. Enjoy!' }
+                    ],
+                    activeIndex: 0
+                };
+            }
+        });
+
+        return Object.values(shipmentsMap);
+    }
+
     // Save order
     try {
         const orders = JSON.parse(localStorage.getItem('orders') || '[]');
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
-        
+
+        // Save tracking shipments for this order
+        const trackingShipments = convertOrderToTrackingShipments(order);
+        if (trackingShipments.length > 0) {
+            localStorage.setItem('trackingShipments', JSON.stringify(trackingShipments));
+        }
+
         // Clear cart and checkout data
         localStorage.removeItem('cart');
         localStorage.removeItem('checkoutData');
-        
-        // Show success and redirect
-        alert(`Order placed successfully! Order ID: ${order.id}`);
-        window.location.href = 'index.html';
+
+        // Redirect to confirmation page with Order ID and Phone
+        const confirmationUrl = `order-confirmation.html?orderId=${encodeURIComponent(order.id)}&phone=${encodeURIComponent(checkoutData.contact.phone)}`;
+        window.location.href = confirmationUrl;
     } catch (error) {
         console.error('Error placing order:', error);
         alert('Error placing order. Please try again.');
