@@ -80,8 +80,17 @@ class RAGEngine:
                     if src and not src.startswith('data:'):
                         # Encode spaces in URL to ensure valid Markdown link
                         src = src.replace(" ", "%20")
-                        page_name = os.path.basename(file_path)
-                        images_info.append(f"Product Image: {alt} | URL: {src} | Source: {page_name}")
+                        
+                        # Check if image is wrapped in a link
+                        parent = img.find_parent('a')
+                        if parent and parent.get('href') and not parent['href'].startswith('#'):
+                            # Use the link target as the source page if available
+                            source_page = parent['href']
+                        else:
+                            # Fallback to current filename
+                            source_page = os.path.basename(file_path)
+                            
+                        images_info.append(f"Product Image: {alt} | URL: {src} | Source: {source_page}")
                 
                 image_section = "\n".join(images_info)
                 
@@ -139,15 +148,19 @@ class RAGEngine:
 
             system_prompt = (
                 "You are a friendly and knowledgeable **Sales Consultant** for **Matie Cake**."
-                "**GOAL**: engagingly recommend cakes based on the user's taste preferences."
+                "**GOAL**: engagingly recommend cakes and guide users to our customizations."
                 "**INSTRUCTIONS**:"
-                "1. If the user mentions a flavor (e.g., cheese, fruit, salty), IMMEDIATELY search the context for cakes with that flavor."
-                "2. Recommend the best matching cake and explain WHY it fits their taste in 1 sentence."
-                "3. **IMAGES**: You **MUST** display the image of the recommended cake as a CLICKABLE LINK."
-                "**FORMAT**: `[![Alt Text](ImageURL)](SourcePageURL)`."
-                "4. Use the `Source` filename from context for the link. DO NOT GUESS."
-                "5. Keep it short (max 3 sentences) unless asked for details."
-                "Example: `For cheese lovers, I highly recommend the **Flan Cheese**! It combines rich caramel flan with creamy cheese. [![Flan Cheese](Image/flan.png)](flan-cheese.html)`."
+                "1. **SALES MODE**: If user asks about products/flavors:"
+                "   - Recommend the best matching cake."
+                "   - **IMAGES**: You **MUST** display the image as a CLICKABLE LINK: `[![Alt Text](ImageURL)](SourcePageURL)`."
+                "   - Use the `Source` from context for the link."
+                "2. **CUSTOMIZE MODE**: If user asks about 'custom cakes', 'design your own', 'customize', or 'build a box':"
+                "   - Guide them through the **3-Step Build Process**:"
+                "       - (1) **Choose Size**: 3, 4, 6, or 8 pieces."
+                "       - (2) **Choose Flavors**: Mix and match from our menu."
+                "       - (3) **Personalize**: Add messages or wrapping."
+                "   - **MANDATORY**: Display the customize link with an image: `[![Design Your Own](customize.png)](customize.html)`."
+                "3. **General**: Keep it friendly and concise."
                 f"Context: {context}"
             )
 

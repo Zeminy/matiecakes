@@ -1,20 +1,53 @@
 # Environment Variables
 .env
 backend/.env
+.venv
+env/
 
 # Dependencies
 node_modules/
 backend/venv/
+backend/site-packages/
 
-# Python Cache
+# Python Cache & compiled code
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
 # System Files
 .DS_Store
-.vscode/
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Build artifacts
-dist/
-build/
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project Specific
+faiss_index/
+postgres_data/

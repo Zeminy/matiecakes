@@ -12,6 +12,11 @@
         /* ==========================================
            GLOBAL STYLE 
         ========================================== */
+        /* Add this at the very top of your CSS */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -851,6 +856,198 @@
                 background: #2a2f95;
             }
         }
+
+        /* AI Design Section Styles */
+        .ai-design-section {
+            position: static;
+            margin: 24px 0;
+            padding: 24px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .ai-title {
+            font-size: 1.4rem;
+            color: #1a1157;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .ai-subtitle {
+            color: #666;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+
+        .ai-controls {
+            display: flex;
+            gap: 12px;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .ai-input-group {
+            text-align: left;
+        }
+
+        .ai-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #1a1157;
+            font-size: 0.9rem;
+        }
+
+        .ai-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .ai-input:focus {
+            border-color: #3f53ae;
+            outline: none;
+        }
+
+        .ai-btn {
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(63, 83, 174, 0.4);
+            width: 100%;
+        }
+
+        .ai-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(63, 83, 174, 0.6);
+        }
+
+        .ai-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* AI Result Modal */
+        .ai-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .ai-modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 24px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: slideUp 0.3s ease;
+        }
+
+        .ai-modal-close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .ai-modal-close:hover,
+        .ai-modal-close:focus {
+            color: #1a1157;
+            text-decoration: none;
+        }
+
+        .ai-modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-top: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-modal-title {
+            color: #1a1157;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -923,6 +1120,9 @@
                 <p class="product-description">A beautiful box of premium handmade cupcakes, perfect for gifting on
                     special occasions.</p>
 
+                <!-- AI Design Section -->
+
+
                 <!-- Choose Your Box Section -->
                 <div class="box-selection-section">
                     <div class="box-selection-title">CHOOSE YOUR BOX</div>
@@ -968,7 +1168,17 @@
                     </div>
                     <div id="assortment-options" class="assortment-grid"></div>
                 </div>
+                <div class="ai-design-section" id="ai-design">
+                    <div class="ai-title">Design Your Dream Box with AI</div>
+                    <div class="ai-subtitle">Visualize your current selection with our AI!</div>
 
+                    <button class="ai-btn" onclick="generateDesign()" id="generateBtn">
+                        <span class="loading-spinner" id="spinner"></span>
+                        <span id="btnText">Generate Visualization</span>
+                    </button>
+
+
+                </div>
                 <!-- Gift Options Section -->
                 <div class="gift-section">
                     <div class="gift-section-header">
@@ -1031,6 +1241,18 @@
         </div>
     </footer>
 
+    <!-- AI Result Modal Structure -->
+    <div id="aiModal" class="ai-modal">
+        <div class="ai-modal-content">
+            <span class="ai-modal-close" onclick="closeAiModal()">&times;</span>
+            <h2 class="ai-modal-title">Your Custom Design</h2>
+            <img id="modalImage" class="ai-modal-image" src="" alt="AI Generated Design">
+            <p style="margin-top: 16px; color: #666; font-size: 0.9rem;">
+                This uses AI to visualize your selection. Actual product appearance may vary.
+            </p>
+        </div>
+    </div>
+
     <!-- SCRIPTS -->
     <script type="module" src="js/product.js"></script>
     <script>
@@ -1088,6 +1310,97 @@
             });
         });
     </script>
+    <script>
+        // AI Generation Logic
+        async function generateDesign() {
+            // Scrape current state from DOM
+            const boxNameEl = document.querySelector('.box-option.selected .box-option-name');
+            const boxName = boxNameEl ? boxNameEl.textContent.trim() : 'Custom Cake Box';
+
+            // Get selected items
+            const itemEls = document.querySelectorAll('.selected-list-item');
+            const items = Array.from(itemEls).map(el => {
+                const name = el.querySelector('.selected-name')?.textContent.trim();
+                const qty = el.querySelector('.selected-qty')?.textContent.trim();
+                return name && qty ? `${name} (${qty})` : null;
+            }).filter(Boolean);
+
+            if (items.length === 0) {
+                alert('Please select at least one cake/item for your box first!');
+                return;
+            }
+
+            const btn = document.getElementById('generateBtn');
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btnText');
+
+            const modal = document.getElementById('aiModal');
+            const modalImg = document.getElementById('modalImage');
+
+            // Set Loading State
+            btn.disabled = true;
+            spinner.style.display = 'inline-block';
+            btnText.textContent = 'Designing...';
+
+            try {
+                const response = await fetch('http://localhost:8000/api/generate-design', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ box_name: boxName, items: items })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.detail || `Server Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.image) {
+                    throw new Error("Received empty image from server.");
+                }
+
+                // Show Result in Modal
+                if (modal && modalImg) {
+                    modalImg.src = data.image;
+                    modal.style.display = "flex"; // Use flex to center
+                } else {
+                    // Fallback if modal missing
+                    alert("Design generated but modal is missing!");
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Oops! ' + error.message);
+
+            } finally {
+                // Reset State
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.textContent = 'Generate Visualization';
+            }
+        }
+
+        // Modal Close Logic
+        function closeAiModal() {
+            const modal = document.getElementById('aiModal');
+            if (modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Close on click outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('aiModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script src="src/scripts/chat.js" defer></script>
+    <script src="js/auth.js"></script>
 </body>
 
 </html>

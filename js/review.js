@@ -12,13 +12,13 @@ let checkoutData = null;
  */
 function init() {
     loadData();
-    
+
     if (cart.length === 0) {
         alert('No items in cart. Redirecting to cart page.');
         window.location.href = 'cart.html';
         return;
     }
-    
+
     renderItems();
     renderOrderSummary();
     renderPaymentMethod();
@@ -39,7 +39,7 @@ function loadData() {
         } else {
             cart = [];
         }
-        
+
         const checkoutDataStr = localStorage.getItem('checkoutData');
         if (checkoutDataStr) {
             checkoutData = JSON.parse(checkoutDataStr);
@@ -70,9 +70,9 @@ function updateHeaderCartBadge() {
 function renderItems() {
     const container = document.getElementById('items-container');
     if (!container) return;
-    
+
     container.innerHTML = cart.map((item, index) => renderItem(item, index)).join('');
-    
+
     // Attach delete button listeners
     cart.forEach(item => {
         const deleteBtn = document.getElementById(`delete-item-${item.id}`);
@@ -91,31 +91,31 @@ function renderItems() {
 function renderItem(item, index) {
     const itemNumber = index + 1;
     const totalItems = cart.length;
-    
+
     // Format address
     const addressDisplay = item.shippingAddress && item.shippingAddress.street
         ? `${item.shippingAddress.name || ''}, ${item.shippingAddress.street}, ${item.shippingAddress.city}, ${item.shippingAddress.state}, ${item.shippingAddress.zip || ''}, ${item.shippingAddress.phone || ''}`
         : 'No address set';
-    
+
     // Format delivery date
     let deliveryDateDisplay = 'Not set';
     if (item.deliveryDate) {
         const date = new Date(item.deliveryDate);
-        deliveryDateDisplay = date.toLocaleDateString('en-US', { 
-            month: 'long', 
-            day: 'numeric', 
-            year: 'numeric' 
+        deliveryDateDisplay = date.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
         });
     } else if (item.shippingMethod && item.shippingMethod !== 'pick-date') {
         // Show estimated delivery for other methods
         deliveryDateDisplay = 'Estimated delivery: 5-7 business days';
     }
-    
+
     // Gift message display
     const giftMessageDisplay = item.giftMessage && item.giftMessage.trim() !== ''
         ? item.giftMessage
         : 'No Card Message';
-    
+
     return `
         <div class="review-section">
             <div class="item-header">
@@ -196,14 +196,14 @@ function renderItem(item, index) {
 function renderOrderSummary() {
     const container = document.getElementById('order-summary-content');
     if (!container) return;
-    
+
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
     const shipping = 8.99; // Default shipping
     const totalBeforeTax = merchandise + shipping;
     const estimatedTax = 0.00; // Can be calculated based on location
     const orderTotal = totalBeforeTax + estimatedTax;
-    
+
     container.innerHTML = `
         <div class="summary-items-count">${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}</div>
         <div class="summary-row">
@@ -237,17 +237,17 @@ function renderOrderSummary() {
 function renderPaymentMethod() {
     const container = document.getElementById('payment-method-display');
     if (!container) return;
-    
+
     if (!checkoutData || !checkoutData.paymentMethod) {
         container.innerHTML = '<p style="color: #999;">No payment method selected</p>';
         return;
     }
-    
+
     if (checkoutData.paymentMethod === 'card' && checkoutData.card) {
         const card = checkoutData.card;
         const last4 = card.number.slice(-4);
         const cardType = getCardType(card.number);
-        
+
         container.innerHTML = `
             <div>Credit or Debit Card</div>
             <div class="payment-info-box">
@@ -276,12 +276,12 @@ function renderPaymentMethod() {
  */
 function getCardType(cardNumber) {
     if (!cardNumber) return 'CARD';
-    
+
     if (cardNumber.startsWith('4')) return 'VISA';
     if (cardNumber.startsWith('5')) return 'Mastercard';
     if (cardNumber.startsWith('3')) return 'AMEX';
     if (cardNumber.startsWith('6')) return 'DISCOVER';
-    
+
     return 'CARD';
 }
 
@@ -291,12 +291,12 @@ function getCardType(cardNumber) {
 function renderBillingAddress() {
     const container = document.getElementById('billing-address-display');
     if (!container) return;
-    
+
     if (!checkoutData || !checkoutData.billing) {
         container.innerHTML = '<p style="color: #999;">No billing address</p>';
         return;
     }
-    
+
     const billing = checkoutData.billing;
     const addressParts = [
         billing.firstName && billing.lastName ? `${billing.firstName} ${billing.lastName}` : '',
@@ -307,7 +307,7 @@ function renderBillingAddress() {
         billing.zip,
         billing.country
     ].filter(part => part).join(', ');
-    
+
     container.innerHTML = `
         <div class="address-display">${addressParts}</div>
     `;
@@ -319,18 +319,18 @@ function renderBillingAddress() {
 function renderContactInfo() {
     const container = document.getElementById('contact-info-display');
     if (!container) return;
-    
+
     if (!checkoutData || !checkoutData.contact) {
         container.innerHTML = '<p style="color: #999;">No contact information</p>';
         return;
     }
-    
+
     const contact = checkoutData.contact;
     let html = `
         <div class="contact-display">Your email address: ${contact.email}</div>
         <div class="contact-display">Your phone number: ${contact.phone}</div>
     `;
-    
+
     if (contact.emailOffers) {
         html += `
             <div class="checkbox-group" style="margin-top: 10px;">
@@ -339,7 +339,7 @@ function renderContactInfo() {
             </div>
         `;
     }
-    
+
     container.innerHTML = html;
 }
 
@@ -349,13 +349,13 @@ function renderContactInfo() {
 function renderOrderTotal() {
     const container = document.getElementById('order-total-display');
     if (!container) return;
-    
+
     const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
     const shipping = 8.99;
     const totalBeforeTax = merchandise + shipping;
     const estimatedTax = 0.00;
     const orderTotal = totalBeforeTax + estimatedTax;
-    
+
     container.innerHTML = `
         <div class="summary-row order-total">
             <span>Order Total:</span>
@@ -371,13 +371,13 @@ function renderOrderTotal() {
 function handleDeleteItem(itemId) {
     if (confirm('Are you sure you want to remove this item from your order?')) {
         cart = cart.filter(item => item.id !== itemId);
-        
+
         try {
             localStorage.setItem('cart', JSON.stringify(cart));
         } catch (error) {
             console.error('Error saving cart:', error);
         }
-        
+
         if (cart.length === 0) {
             window.location.href = 'cart.html';
         } else {
@@ -391,44 +391,72 @@ function handleDeleteItem(itemId) {
 /**
  * Handle place order
  */
-window.handlePlaceOrder = function() {
+window.handlePlaceOrder = async function () {
     if (cart.length === 0) {
         alert('Your cart is empty!');
         window.location.href = 'cart.html';
         return;
     }
-    
+
     if (!checkoutData) {
         alert('Please complete checkout first.');
         window.location.href = 'checkout.html';
         return;
     }
-    
-    // Create order object
-    const order = {
-        id: `order-${Date.now()}`,
-        date: new Date().toISOString(),
+
+    const totalAmount = calculateOrderTotal();
+    const orderInfo = JSON.stringify({
         items: cart,
         checkout: checkoutData,
-        total: calculateOrderTotal()
-    };
-    
-    // Save order
+        date: new Date().toISOString()
+    });
+
     try {
-        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
-        
-        // Clear cart and checkout data
-        localStorage.removeItem('cart');
-        localStorage.removeItem('checkoutData');
-        
-        // Show success and redirect
-        alert(`Order placed successfully! Order ID: ${order.id}`);
-        window.location.href = 'index.html';
+        const response = await fetch('http://localhost:8000/payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: 1, // Default to user ID 1 for now as auth is not fully persistent across pages
+                amount: totalAmount,
+                order_info: orderInfo,
+                status: 'completed'
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+
+            // Create order object for local history
+            const order = {
+                id: `order-${Date.now()}`,
+                db_id: result.payment_id,
+                date: new Date().toISOString(),
+                items: cart,
+                checkout: checkoutData,
+                total: totalAmount
+            };
+
+            // Save order locally
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Clear cart and checkout data
+            localStorage.removeItem('cart');
+            localStorage.removeItem('checkoutData');
+
+            // Show success and redirect
+            alert(`Order placed successfully! Payment ID: ${result.payment_id}`);
+            window.location.href = 'index.html';
+        } else {
+            const err = await response.json();
+            alert(`Payment failed: ${err.detail || 'Unknown error'}`);
+        }
     } catch (error) {
         console.error('Error placing order:', error);
-        alert('Error placing order. Please try again.');
+        alert('Error connecting to payment server. Please try again.');
     }
 };
 

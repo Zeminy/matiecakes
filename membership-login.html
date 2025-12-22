@@ -4,184 +4,291 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Membership - Đăng nhập / Đăng ký | Matie Cake</title>
+    <title>Membership | Matie Cake</title>
     <link rel="icon" type="image/png" href="Image/Logo.png" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <!-- Global Styles -->
     <link rel="stylesheet" href="src/styles/main.css" />
     <link rel="stylesheet" href="src/styles/media query.css" />
 
     <style>
-        /* form-specific minimal styles (không sửa global css) */
-        .member-page {
-            padding: 60px 20px;
-            background: #faf7f2;
-            min-height: 70vh;
+        :root {
+            --primary-navy: #1a1157;
+            --accent-gold: #ffe066;
+            --soft-cream: #faf7f2;
+            --text-dark: #2c3e50;
+            --error-red: #e74c3c;
+            --success-green: #2ecc71;
         }
 
-        .member-box {
-            max-width: 960px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            align-items: start;
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--soft-cream);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
         }
 
-        .member-card {
-            background: #fff;
-            padding: 28px;
-            border-radius: 12px;
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
-            border: 1px solid #f3eae0;
-        }
-
-        .member-card h2 {
-            margin-top: 0;
-            margin-bottom: 12px;
-            color: #1a1157;
-        }
-
-        .tabs {
+        /* PREMIUM LAYOUT */
+        .auth-container {
             display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
+            min-height: 100vh;
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .auth-image-side {
+            flex: 1;
+            background: url('Image 3/workshop.jpg') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26, 17, 87, 0.8), rgba(63, 83, 174, 0.6));
+            backdrop-filter: blur(2px);
+        }
+
+        .auth-welcome-text {
+            position: relative;
+            z-index: 2;
+            color: #fff;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .auth-welcome-text h1 {
+            font-size: 3.5rem;
+            margin: 0 0 10px;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .auth-welcome-text p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .auth-form-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 80px;
+            max-width: 600px;
+            background: #fff;
+            position: relative;
+        }
+
+        /* HEADER & LOGO */
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-logo {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        /* TABS */
+        .auth-tabs {
+            display: flex;
+            background: var(--soft-cream);
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 30px;
         }
 
         .tab-btn {
-            padding: 8px 12px;
-            border-radius: 999px;
+            flex: 1;
+            padding: 12px;
+            border: none;
             background: transparent;
-            border: 1px solid transparent;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #666;
             cursor: pointer;
-            font-weight: 700;
-            color: #1a1157;
+            transition: all 0.3s ease;
         }
 
         .tab-btn.active {
-            background: #ffe066;
-            color: #1a1157;
-            border-color: rgba(0, 0, 0, 0.05);
+            background: #fff;
+            color: var(--primary-navy);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
-        form .form-group {
-            margin-bottom: 14px;
+        /* FORMS */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
         }
 
-        form label {
+        .form-group label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: #333;
-            font-size: 0.95rem;
+            color: var(--primary-navy);
         }
 
-        form input {
+        .form-group input {
             width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid #e7e0da;
-            font-size: 0.95rem;
-        }
-
-        .submit-btn {
-            background: #a85b2b;
-            color: #fff;
-            padding: 12px 18px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
-        .alt-link {
-            margin-top: 12px;
-            display: inline-block;
-            color: #3f53ae;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .msg {
-            margin-top: 12px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            display: none;
-        }
-
-        .msg.success {
-            background: #e6f7ec;
-            color: #17602a;
-            border: 1px solid #bfe7c6;
-        }
-
-        .msg.error {
-            background: #ffecec;
-            color: #7a1a1a;
-            border: 1px solid #f5bebe;
-        }
-
-        footer {
-            background: #1a1157;
-            color: #fff;
-            padding: 40px 0;
-        }
-
-        .footer-logo {
-            height: 48px;
-            margin-bottom: 12px;
-        }
-
-        .footer-content {
-            max-width: 1100px;
-            margin: auto;
-            padding: 0 20px;
-            display: flex;
-            gap: 32px;
-            align-items: flex-start;
-            justify-content: space-between;
+            padding: 14px 16px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            background: #fdfdfd;
             box-sizing: border-box;
         }
 
-        .footer-info {
-            color: #fff;
-            max-width: 60%;
+        .form-group input:focus {
+            border-color: var(--primary-navy);
+            outline: none;
+            background: #fff;
         }
 
-        .footer-info div,
-        .footer-info img {
-            margin-bottom: 8px;
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-navy);
+            color: var(--accent-gold);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .footer-links ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 17, 87, 0.2);
         }
 
-        .footer-links li {
-            margin-bottom: 6px;
+        .submit-btn:active {
+            transform: translateY(0);
         }
 
-        .footer-links a {
-            color: #ffe066;
-            display: block;
+        .submit-btn:disabled {
+            background: #ccc;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
-        /* bottom line */
-        .footer-bottom {
+        .alt-link {
             text-align: center;
-            margin-top: 24px;
-            padding: 12px 0;
-            font-size: .9rem;
-            color: #ccc;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #666;
         }
 
+        .alt-link a {
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: 600;
+        }
 
-        /* responsive */
-        @media (max-width:900px) {
-            .member-box {
-                grid-template-columns: 1fr;
-                padding: 0 10px;
+        .alt-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* SPINNER */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-gold);
+            animation: spin 0.8s linear infinite;
+            display: none;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* TOAST NOTIFICATIONS */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: #fff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideInRight 0.4s ease forwards;
+            min-width: 300px;
+            border-left: 4px solid #ccc;
+        }
+
+        .toast.success {
+            border-left-color: var(--success-green);
+        }
+
+        .toast.error {
+            border-left-color: var(--error-red);
+        }
+
+        .toast-content h4 {
+            margin: 0 0 4px;
+            font-size: 1rem;
+            color: var(--primary-navy);
+        }
+
+        .toast-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .auth-image-side {
+                display: none;
+            }
+
+            .auth-form-side {
+                padding: 40px 20px;
+                max-width: 100%;
             }
         }
     </style>
@@ -189,210 +296,249 @@
 
 <body>
 
-    <!-- HEADER (giữ nguyên) -->
-    <header>
-        <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a>
-        <button class="menu-toggle" aria-label="Toggle menu"
-            onclick="document.querySelector('nav').classList.toggle('nav-open')">☰</button>
-        <nav>
-            <ul>
-                <li class="dropdown">
-                    <a href="#">Cake Menu</a>
-                    <ul class="dropdown-content">
-                        <li><a href="index.html#new-products">New</a></li>
-                        <li><a href="index.html#favorite-products">Best Seller</a></li>
-                        <li><a href="index.html#christmas-gifts">Christmas</a></li>
-                        <li><a href="index.html#tet-gifts">Tet</a></li>
-                    </ul>
-                </li>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
-                <li><a href="general-policy.html">General Policy</a></li>
-                <li><a href="work-shop.html">Workshop</a></li>
-                <li class="dropdown"><a href="#">Membership</a>
-                    <ul class="dropdown-content">
-                        <li><a href="membership.html">Login / Sign Up</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    <div class="toast-container" id="toastContainer"></div>
 
-    <!-- MAIN: đăng nhập / đăng ký -->
-    <main class="member-page">
-        <div class="member-box">
-            <div class="member-card" id="authCard">
-                <div class="tabs" role="tablist">
-                    <button class="tab-btn active" data-mode="login">Đăng nhập</button>
-                    <button class="tab-btn" data-mode="register">Đăng ký</button>
-                </div>
-
-                <!-- LOGIN FORM -->
-                <form id="loginForm" novalidate>
-                    <h2>Đăng nhập</h2>
-
-                    <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <input id="loginEmail" type="email" name="email" required placeholder="email@domain.com">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="loginPassword">Mật khẩu</label>
-                        <input id="loginPassword" type="password" name="password" required placeholder="Mật khẩu">
-                    </div>
-
-                    <button class="submit-btn" type="submit">Đăng nhập</button>
-                    <div class="msg success" id="loginSuccess">Đăng nhập thành công (giả lập).</div>
-                    <div class="msg error" id="loginError">Vui lòng kiểm tra thông tin.</div>
-
-                    <div style="margin-top:12px;">
-                        <a class="alt-link" id="showRegister">Bạn chưa có tài khoản? Đăng ký</a>
-                    </div>
-                </form>
-
-            </div>
-
-            <!-- RIGHT CARD: additional info or registration form -->
-            <div class="member-card" id="sideCard">
-                <!-- REGISTER FORM -->
-                <form id="registerForm" style="display:none" novalidate>
-                    <h2>Đăng ký thành viên</h2>
-
-                    <div class="form-group">
-                        <label for="fullName">Họ và tên</label>
-                        <input id="fullName" type="text" name="fullname" required placeholder="Nguyễn Văn A">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone">Số điện thoại</label>
-                        <input id="phone" type="tel" name="phone" required placeholder="0886804360"
-                            pattern="[0-9+ ]{7,15}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="regEmail">Email</label>
-                        <input id="regEmail" type="email" name="email" required placeholder="email@domain.com">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="regPassword">Mật khẩu</label>
-                        <input id="regPassword" type="password" name="password" required
-                            placeholder="Mật khẩu (ít nhất 6 ký tự)" minlength="6">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="regPassword2">Xác nhận mật khẩu</label>
-                        <input id="regPassword2" type="password" name="password2" required
-                            placeholder="Nhập lại mật khẩu">
-                    </div>
-
-                    <button class="submit-btn" type="submit">Đăng ký</button>
-                    <div class="msg success" id="regSuccess">Đăng ký thành công (giả lập). Vui lòng đăng nhập.</div>
-                    <div class="msg error" id="regError">Có lỗi. Vui lòng kiểm tra lại.</div>
-
-                    <div style="margin-top:12px;">
-                        <a class="alt-link" id="showLogin">Đã có tài khoản? Đăng nhập</a>
-                    </div>
-                </form>
-
-                <!-- Small info card visible when register hidden -->
-                <div id="infoBox">
-                    <h2>Quyền lợi thành viên</h2>
-                    <ul style="padding-left:18px; color:#444; line-height:1.6;">
-                        <li> Nhận voucher & khuyến mãi</li>
-                        <li> Lưu đơn, lịch sử mua hàng</li>
-                        <li> Ưu đãi workshop</li>
-                    </ul>
-                </div>
+    <div class="auth-container">
+        <!-- LEFT SIDE: IMAGE -->
+        <div class="auth-image-side">
+            <div class="auth-image-overlay"></div>
+            <div class="auth-welcome-text">
+                <h1>Matie Cake</h1>
+                <p>Nơi hương vị ngọt ngào bắt đầu.<br>Đăng ký thành viên để nhận ưu đãi đặc biệt.</p>
             </div>
         </div>
-    </main>
 
-    <!-- FOOTER (giữ nguyên) -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-info">
-                <img src="Image/Logo.png" alt="Matie Cake" class="footer-logo">
-                <div>Matie Cake Co., Ltd.</div>
-                <div>Address: 3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</div>
-                <div>Phone: 0886804360</div>
-                <div>Email: matiecake@gmail.com</div>
+        <!-- RIGHT SIDE: FORMS -->
+        <div class="auth-form-side">
+            <div class="auth-header">
+                <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="auth-logo"></a>
+                <div class="auth-tabs">
+                    <button class="tab-btn active" onclick="switchTab('login')">Đăng nhập</button>
+                    <button class="tab-btn" onclick="switchTab('register')">Đăng ký</button>
+                </div>
             </div>
 
-            <div class="footer-links">
-                <ul>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Return & Refund Policy</a></li>
-                    <li><a href="#">Payment Methods</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="#">Personal Data Protection</a></li>
-                    <li><a href="#">Contact Information</a></li>
-                </ul>
-            </div>
+            <!-- LOGIN FORM -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email hoặc Tên đăng nhập</label>
+                    <input type="text" id="loginId" placeholder="example@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" id="loginPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="submit-btn" id="loginBtn">
+                    Đăng Nhập <div class="spinner" id="loginSpinner"></div>
+                </button>
+                <div class="alt-link">
+                    Chưa có tài khoản? <a href="#" onclick="switchTab('register')">Đăng ký ngay</a>
+                </div>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label>Tên đăng nhập</label>
+                    <input type="text" id="regUser" placeholder="username" required>
+                </div>
+                <!-- Flex row for Name/Phone -->
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>Họ và Tên</label>
+                        <input type="text" id="regName" placeholder="Tên của bạn">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>SĐT</label>
+                        <input type="text" id="regPhone" placeholder="090...">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="email@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" id="regPass" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label>Nhập lại mật khẩu</label>
+                    <input type="password" id="regPass2" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="submit-btn" id="regBtn">
+                    Tạo Tài Khoản <div class="spinner" id="regSpinner"></div>
+                </button>
+                <div class="alt-link">
+                    Đã có tài khoản? <a href="#" onclick="switchTab('login')">Đăng nhập</a>
+                </div>
+            </form>
         </div>
-        <div class="footer-bottom">© 2025 Matie Cake.</div>
-    </footer>
+    </div>
 
+    <!-- SCRIPTS -->
     <script>
-        // Toggle tabs and forms
-        const tabs = document.querySelectorAll('.tab-btn');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const infoBox = document.getElementById('infoBox');
+        // Use local backend if on localhost/127.0.0.1, otherwise relative or production URL
+        // In this workspace context, backend is specifically on port 8000
+        const API_BASE_URL = 'http://127.0.0.1:8000';
 
-        function setMode(mode) {
-            tabs.forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
-            if (mode === 'login') {
-                loginForm.style.display = '';
-                registerForm.style.display = 'none';
-                infoBox.style.display = '';
+        // --- TABS LOGIC ---
+        function switchTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const regForm = document.getElementById('registerForm');
+            const tabs = document.querySelectorAll('.tab-btn');
+
+            if (tab === 'login') {
+                loginForm.style.display = 'block';
+                regForm.style.display = 'none';
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
             } else {
                 loginForm.style.display = 'none';
-                registerForm.style.display = '';
-                infoBox.style.display = 'none';
+                regForm.style.display = 'block';
+                tabs[0].classList.remove('active');
+                tabs[1].classList.add('active');
             }
         }
 
-        tabs.forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
-        document.getElementById('showRegister').addEventListener('click', () => setMode('register'));
-        document.getElementById('showLogin').addEventListener('click', () => setMode('login'));
+        // --- TOAST NOTIFICATIONS ---
+        function showToast(title, message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            container.appendChild(toast);
 
-        // Fake submit handlers with validation
-        loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim();
-            const pw = document.getElementById('loginPassword').value;
-            const ok = email.length > 0 && pw.length > 0;
-            document.getElementById('loginSuccess').style.display = ok ? 'block' : 'none';
-            document.getElementById('loginError').style.display = ok ? 'none' : 'block';
-            if (ok) {
-                // simulate login success
-                setTimeout(() => { document.getElementById('loginSuccess').style.display = 'none'; }, 3000);
+            // Auto remove after 4 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.4s reverse forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // --- SPINNER & LOADING ---
+        function setLoading(btnId, spinnerId, isLoading) {
+            const btn = document.getElementById(btnId);
+            const spinner = document.getElementById(spinnerId);
+            if (!btn || !spinner) return;
+
+            if (isLoading) {
+                btn.disabled = true;
+                btn.style.opacity = '0.8';
+                spinner.style.display = 'inline-block';
+            } else {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                spinner.style.display = 'none';
             }
-        });
+        }
 
-        registerForm.addEventListener('submit', function (e) {
+        // --- REGISTER HANDLER ---
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+            const user = document.getElementById('regUser').value.trim();
+            const name = document.getElementById('regName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
             const email = document.getElementById('regEmail').value.trim();
-            const pw = document.getElementById('regPassword').value;
-            const pw2 = document.getElementById('regPassword2').value;
-            let valid = true;
-            if (!name || !phone || !email || pw.length < 6) valid = false;
-            if (pw !== pw2) valid = false;
+            const pass = document.getElementById('regPass').value;
+            const pass2 = document.getElementById('regPass2').value;
 
-            document.getElementById('regSuccess').style.display = valid ? 'block' : 'none';
-            document.getElementById('regError').style.display = valid ? 'none' : 'block';
+            // Simple validation
+            if (!user || !email || !pass) {
+                showToast('Lỗi', 'Vui lòng điền các thông tin bắt buộc', 'error');
+                return;
+            }
 
-            if (valid) {
-                // clear and switch to login view
-                this.reset();
-                setTimeout(() => { document.getElementById('regSuccess').style.display = 'none'; setMode('login'); }, 1500);
+            if (pass !== pass2) {
+                showToast('Lỗi', 'Mật khẩu nhập lại không khớp', 'error');
+                return;
+            }
+
+            setLoading('regBtn', 'regSpinner', true);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: user,
+                        password: pass,
+                        email: email,
+                        full_name: name,
+                        phone_number: phone
+                    })
+                });
+
+                // Safely parse JSON
+                let data = {};
+                try {
+                    data = await response.json();
+                } catch (jsonErr) {
+                    console.error("JSON Parse Error", jsonErr);
+                    // If response was ok but no json, it's weird but we continue. 
+                    // If not ok and no json, we throw.
+                    if (!response.ok) throw new Error("Server returned an error without a message.");
+                }
+
+                if (response.ok) {
+                    showToast('Thành công', 'Đăng ký thành công! Đang đăng nhập...', 'success');
+                    // Auto Login after short delay
+                    setTimeout(() => performLogin(email, pass), 1000);
+                } else {
+                    showToast('Đăng ký thất bại', data.detail || 'Có lỗi xảy ra, vui lòng thử lại.', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Lỗi kết nối', 'Không thể kết nối đến server backend. Vui lòng kiểm tra lại.', 'error');
+            } finally {
+                setLoading('regBtn', 'regSpinner', false);
             }
         });
+
+        // --- LOGIN HANDLER ---
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('loginId').value.trim();
+            const pass = document.getElementById('loginPass').value;
+            setLoading('loginBtn', 'loginSpinner', true);
+            await performLogin(id, pass);
+            setLoading('loginBtn', 'loginSpinner', false);
+        });
+
+        async function performLogin(username, password) {
+            try {
+                // Determine if we are sending email or username. 
+                // The backend /login expects 'username' field, but it supports email logic internally
+                const response = await fetch(`${API_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: username, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('user', JSON.stringify(data));
+                    showToast('Xin chào!', `Chào mừng ${data.username} quay trở lại!`, 'success');
+                    setTimeout(() => window.location.href = 'index.html', 1500);
+                    return true;
+                } else {
+                    showToast('Đăng nhập thất bại', data.detail || 'Sai thông tin đăng nhập', 'error');
+                    return false;
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Lỗi kết nối', 'Không thể kết nối đến server.', 'error');
+                return false;
+            }
+        }
     </script>
     <script src="src/scripts/chat.js" defer></script>
+    <script src="js/auth.js"></script>
 </body>
 
 </html>
