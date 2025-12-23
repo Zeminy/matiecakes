@@ -421,7 +421,7 @@ function handleAddToCart() {
         productName: productNameText || PRODUCT.name,
         productImage: productImageSrc || PRODUCT.image,
         boxThumb: boxThumbSrc || productImageSrc || PRODUCT.image,
-        itemNumber: `20269${Math.floor(Math.random() * 1000)}`,
+        itemNumber: `ITIUK2122${Math.floor(Math.random() * 1000)}`,
         basePrice: PRODUCT.basePrice,
         quantity: 1,
         selectedOptions: pickedOptions.map(opt => ({ id: opt.id, name: opt.name, price: opt.price, quantity: opt.quantity })),

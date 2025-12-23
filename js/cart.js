@@ -67,7 +67,7 @@ function loadCart() {
                 if (!item.quantity) item.quantity = 1;
                 if (!item.productName) item.productName = 'Cupcake Box';
                 if (!item.productImage) item.productImage = 'Image/Tinh hoa đoàn viên 1.jpg';
-                if (!item.itemNumber) item.itemNumber = `20269${Math.floor(Math.random() * 1000)}`;
+                if (!item.itemNumber) item.itemNumber = `ITIUK2122${Math.floor(Math.random() * 1000)}`;
                 if (!item.giftMessage) item.giftMessage = '';
                 if (typeof item.giftMessageType === 'undefined') item.giftMessageType = null;
                 if (!item.shippingAddress) {
