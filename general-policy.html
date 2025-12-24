@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loyal Customers | Matie Cake</title>
+    <title>General policy | Matie Cake</title>
     <link rel="icon" type="image/png" href="Image/Logo.png">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 
@@ -20,7 +20,7 @@
 
         /* ========== HEADER ========== */
         header {
-            background: linear-gradient(90deg, #1a1157, #3f53ae);
+            background: linear-gradient(90deg, #B00000, #c94e4e);
             color: #fff;
             padding: 12px 40px;
             display: flex;
@@ -34,29 +34,34 @@
             margin-right: 40px; 
         }
 
-        nav { flex: 1; }
+nav {
+    flex: 1;
+}
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-start; /* QUAN TRỌNG */
+}
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 32px;
-            margin: 0;
-            padding: 0;
-            justify-content: flex-end;
-        }
-
-        nav li {
+nav li {
     font-weight: 700;
     position: relative;
 }
 
-        nav a {
-            color: #fff;
-            font-weight: 700;
-            transition: 0.25s;
-        }
+nav ul li.membership {
+    margin-left: auto;
+}
 
-        nav li::after {
+nav a {
+    color: #fff;
+    padding: 8px 0;
+    display: inline-block;
+}
+nav li::after {
     content: "";
     height: 2px;
     width: 100%;
@@ -68,25 +73,23 @@
     transition: .2s ease;
 }
 
-        nav a:hover { color: #ffe066; }
+nav li:hover::after { transform: scaleX(1); }
 
-        /* Mobile Button */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
+nav li:last-child a {
+    background: #ffe066;
+    color: #B00000;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+}
 
-        /* Dropdown */
+/* Dropdown */
 .dropdown-content {
     display: none;
     position: absolute;
     top: 100%;
     right: 0;
-    background: #2a2f95;
+    background: #B00000;
     padding: 0;
     border-radius: 12px;
     overflow: hidden;
@@ -99,6 +102,14 @@
             border-bottom: 1px solid #3c5c9a;
         }
         .dropdown:hover .dropdown-content { display: block; }
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 26px;
+}
 
         /* ========== BANNER ========== */
         .banner {
@@ -235,7 +246,7 @@
 
         /* ========== FOOTER ========== */
         footer {
-            background: #1a1157;
+            background: #B00000;
             color: white;
             padding: 40px 0 25px;
             margin-top: 50px;
@@ -281,6 +292,9 @@
 
         /* ========== MOBILE ========== */
         @media (max-width: 900px) {
+                nav ul li.membership {
+        margin-left: 0;
+    }
             nav { display: none; background: #1a1157; width: 100%; }
             nav ul { flex-direction: column; padding: 12px 0; }
             .menu-toggle { display: block; }
@@ -301,7 +315,9 @@
         <img src="Image/Logo.png" class="logo" alt="logo">
     </a>
 
-    <button class="menu-toggle">☰</button>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+        ☰
+    </button>
 
     <nav id="main-nav">
         <ul>
@@ -318,8 +334,8 @@
             <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
             <li><a href="general-policy.html">General Policy</a></li>
             <li><a href="work-shop.html">Workshop</a></li>
-                        <li class="dropdown">
-                <a href="#">Membership</a>
+                <li class="dropdown membership">
+                    <a href="membership-login.html">Membership</a>
                 <ul class="dropdown-content">
                     <li><a href="membership-login.html">Login / Sign Up</a></li>
                 </ul>
@@ -331,7 +347,7 @@
 
 <!-- BANNER -->
 <section class="banner">
-    <img src="Image/Giới thiệu.jpg" alt="">
+    <img src="Image/Giới thiệu.jpg" alt="Matie Cake introduction banner">
 </section>
 
 <!-- LOYAL CUSTOMER PROGRAM -->
@@ -339,43 +355,42 @@
     <h2 class="loyal-title">LOYAL CUSTOMER PROGRAM</h2>
 
     <p class="intro-text">
-        Matie Cake trân trọng gửi lời cảm ơn đến quý khách hàng đã đồng hành cùng chúng tôi.  
-        Chương trình thành viên được thiết kế nhằm mang lại **nhiều ưu đãi hấp dẫn – quyền lợi đặc biệt – trải nghiệm cao cấp** dành riêng cho khách hàng thân thiết.
+        Matie Cake sincerely thanks our customers for their continued support. The membership program is designed to offer <strong>attractive rewards – exclusive benefits – premium experiences</strong> tailored for our loyal customers.
     </p>
 
     <!-- BENEFIT CARDS -->
     <div class="benefit-grid">
         <div class="benefit-card">
             <div class="benefit-icon">🎁</div>
-            <div class="benefit-title">Giảm Giá Thành Viên</div>
+            <div class="benefit-title">Member Discounts</div>
             <div class="benefit-text">
-                Giảm từ <b>5% – 20%</b> khi mua sản phẩm giá niêm yết.  
-                Áp dụng cả mua tại cửa hàng & online.
+                Enjoy <b>5% – 20%</b> off listed prices.  
+                Applies to both in-store and online purchases.
             </div>
         </div>
 
         <div class="benefit-card">
             <div class="benefit-icon">⭐</div>
-            <div class="benefit-title">Ưu Tiên Sản Phẩm Mới</div>
+            <div class="benefit-title">Early Access to New Products</div>
             <div class="benefit-text">
-                Thành viên được thông báo & đặt trước sản phẩm mới, phiên bản giới hạn.
+                Members receive notifications and pre-order access to new products and limited editions.
             </div>
         </div>
 
         <div class="benefit-card">
             <div class="benefit-icon">🎉</div>
-            <div class="benefit-title">Sự Kiện Riêng Tư</div>
+            <div class="benefit-title">Exclusive Events</div>
             <div class="benefit-text">
-                Mời tham dự workshop, sự kiện dùng thử & ưu đãi dành riêng cho VIP Members.
+                Invitations to workshops, tasting events, and exclusive VIP promotions.
             </div>
         </div>
 
         <div class="benefit-card">
             <div class="benefit-icon">🚚</div>
-            <div class="benefit-title">Ưu Đãi Giao Hàng</div>
+            <div class="benefit-title">Shipping Benefits</div>
             <div class="benefit-text">
-                Giảm phí ship cho đơn hàng trên 250,000₫.  
-                Đặc quyền vận chuyển nhanh trong ngày tại TP.HCM.
+                Reduced shipping fees for orders over 250,000₫.  
+                Same-day express delivery privileges within Ho Chi Minh City.
             </div>
         </div>
     </div>
@@ -388,28 +403,28 @@
             <div class="tier-card">
                 <div class="tier-name">Silver</div>
                 <div class="tier-perk">
-                    • Giảm 5% mọi đơn hàng  
-                    • Nhận ưu đãi sinh nhật  
-                    • Nhận thông tin sản phẩm mới
+                    • 5% off all orders  
+                    • Birthday perks  
+                    • Early product updates
                 </div>
             </div>
 
             <div class="tier-card">
                 <div class="tier-name">Gold</div>
                 <div class="tier-perk">
-                    • Giảm 10% mọi đơn  
-                    • Freeship 1 lần/tháng  
-                    • Ưu tiên mua sản phẩm Limit Edition  
+                    • 10% off all orders  
+                    • One free shipping per month  
+                    • Priority access to Limited Edition products  
                 </div>
             </div>
 
             <div class="tier-card">
                 <div class="tier-name">Diamond</div>
                 <div class="tier-perk">
-                    • Giảm 20% mọi đơn  
-                    • Freeship 3 lần/tháng  
-                    • Tham dự workshop miễn phí  
-                    • Bộ quà tặng sinh nhật đặc biệt
+                    • 20% off all orders  
+                    • Three free shippings per month  
+                    • Free workshop access  
+                    • Special birthday gift set
                 </div>
             </div>
         </div>
@@ -445,7 +460,5 @@ document.querySelector(".menu-toggle").addEventListener("click", function () {
 });
 </script>
 
-<script src="src/scripts/chat.js" defer></script>
-    <script src="js/auth.js"></script>
 </body>
 </html>
