@@ -131,6 +131,128 @@ const ASSORTMENTS = [
 let selectedGiftOptions = [];
 let selectedAssortmentItems = []; // {id,name,extraPrice,image,quantity}
 
+
+function handleAssortmentAdd(event) {
+    const id = event.currentTarget.dataset.assortmentId;
+    const found = ASSORTMENTS.find(opt => opt.id === id);
+    if (!found) return;
+
+    const totalSelected = selectedAssortmentItems.reduce((sum, item) => sum + item.quantity, 0);
+    if (totalSelected >= 4) {
+        alert('Bạn chỉ có thể chọn tối đa 4 ô trong hộp.');
+        return;
+    }
+
+    const existing = selectedAssortmentItems.find(item => item.id === id);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        selectedAssortmentItems.push({ ...found, quantity: 1 });
+    }
+
+    renderAssortments();
+    updatePrice();
+}
+
+/**
+ * Fetch inventory status from backend and update UI
+ */
+async function fetchInventoryStatus() {
+    // 1. Get Assortment Names
+    const productNames = ASSORTMENTS.map(item => item.name);
+
+    // 2. Get Box Names (scrape from DOM)
+    const boxElements = document.querySelectorAll('.box-option');
+    const boxNames = Array.from(boxElements).map(el => {
+        const nameEl = el.querySelector('.box-option-name');
+        return nameEl ? nameEl.textContent.trim() : '';
+    }).filter(name => name);
+
+    // Combine lists
+    const allNames = [...productNames, ...boxNames];
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/inventory/check', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ product_names: allNames })
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const inventory = await response.json();
+
+        // --- Update Assortments ---
+        ASSORTMENTS.forEach(item => {
+            if (inventory.hasOwnProperty(item.name)) {
+                item.stock = inventory[item.name];
+            } else {
+                item.stock = 0; // Default to 0 if not returned
+            }
+        });
+        renderAssortments(); // Re-render assortments
+
+        // --- Update Boxes ---
+        boxElements.forEach(el => {
+            const nameEl = el.querySelector('.box-option-name');
+            const name = nameEl ? nameEl.textContent.trim() : '';
+            const stock = inventory.hasOwnProperty(name) ? inventory[name] : 0;
+
+            // Add or update stock label
+            let stockLabel = el.querySelector('.stock-label');
+            if (!stockLabel) {
+                stockLabel = document.createElement('div');
+                stockLabel.className = 'stock-label';
+                stockLabel.style.fontSize = '0.85rem';
+                stockLabel.style.marginTop = '4px';
+                stockLabel.style.fontWeight = 'bold';
+                el.appendChild(stockLabel);
+            }
+            stockLabel.textContent = stock > 0 ? `${stock} left` : 'Sold Out';
+            stockLabel.style.color = stock > 0 ? '#1a1157' : 'red';
+
+            // Check if sold out
+            if (stock <= 0) {
+                el.classList.add('disabled', 'sold-out');
+                el.style.opacity = '0.5';
+                el.style.pointerEvents = 'none';
+                el.style.filter = 'grayscale(100%)';
+
+                // Optional: Add "Sold Out" text
+                if (!el.querySelector('.sold-out-badge')) {
+                    const badge = document.createElement('div');
+                    badge.className = 'sold-out-badge';
+                    badge.textContent = 'SOLD OUT';
+                    badge.style.position = 'absolute';
+                    badge.style.top = '10px';
+                    badge.style.left = '50%';
+                    badge.style.transform = 'translateX(-50%)';
+                    badge.style.background = 'red';
+                    badge.style.color = 'white';
+                    badge.style.padding = '4px 8px';
+                    badge.style.borderRadius = '4px';
+                    badge.style.fontWeight = 'bold';
+                    badge.style.zIndex = '20';
+                    el.appendChild(badge);
+                }
+            } else {
+                // Determine if we need to reset stats if re-fetching
+                el.classList.remove('disabled', 'sold-out');
+                el.style.opacity = '1';
+                el.style.pointerEvents = 'auto';
+                el.style.filter = 'none';
+                const badge = el.querySelector('.sold-out-badge');
+                if (badge) badge.remove();
+            }
+        });
+
+    } catch (error) {
+        console.error("Failed to fetch inventory:", error);
+    }
+}
+
 /**
  * Initialize the product page
  */
@@ -140,6 +262,7 @@ function init() {
     setBoxBackgroundFromProduct();
     updatePrice();
     attachEventListeners();
+    fetchInventoryStatus(); // Check stock on load
 }
 
 /**
@@ -149,14 +272,17 @@ function buildAssortmentTooltip(option, extraText) {
     const origin = option.madeIn || (option.name.includes('-') ? option.name.split('-')[1].trim() : '');
     const desc = option.description || `Sweet pick inspired by ${origin || 'global favorites'}.`;
     const allergy = option.allergyInfo || 'May contain milk, eggs, wheat, peanuts, tree nuts.';
+    const isSoldOut = (option.stock !== undefined && option.stock <= 0);
+
     return `
         <div class="assortment-tooltip">
             ${option.image ? `<img class="tooltip-image" src="${option.image}" alt="${option.name}">` : ''}
-            <div class="tooltip-title">${option.name}</div>
+            <div class="tooltip-title">${option.name} ${isSoldOut ? '<span style="color:red">(SOLD OUT)</span>' : ''}</div>
             <div class="tooltip-subtitle">${origin ? `Made in ${origin}` : 'Handcrafted with care'}</div>
             <div class="tooltip-text">${desc}</div>
             <div class="tooltip-heading">More Information</div>
             <div class="tooltip-text"><strong>Price:</strong> ${extraText}</div>
+             <div class="tooltip-text"><strong>Stock:</strong> ${option.stock !== undefined ? option.stock : 'Checking...'}</div>
             <div class="tooltip-allergy"><strong>Allergy info:</strong> ${allergy}</div>
         </div>
     `;
@@ -170,13 +296,22 @@ function renderAssortments() {
         const existing = selectedAssortmentItems.find(item => item.id === option.id);
         const qty = existing ? existing.quantity : 0;
         const extraText = option.extraPrice > 0 ? `+$${option.extraPrice.toFixed(2)}` : '$0.00';
+
+        // Disable if stock is 0 (and not already selected to allow removing)
+        const isSoldOut = (option.stock !== undefined && option.stock <= 0);
+        const isDisabled = isSoldOut && qty === 0;
+
         return `
             <button 
                 class="assortment-tile ${qty > 0 ? 'active' : ''}"
                 data-assortment-id="${option.id}"
+                ${isDisabled ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}
             >
                 <img class="assortment-thumb" src="${option.image || ''}" alt="${option.name}">
-                <div class="assortment-name">${option.name}</div>
+                <div class="assortment-name">${option.name} 
+                    ${isSoldOut ? '<span style="color:red; font-size:0.8em">(Sold Out)</span>' :
+                option.stock !== undefined ? `<span style="color:#666; font-size:0.8em">(${option.stock} left)</span>` : ''}
+                </div>
                 <span class="assortment-extra">${extraText}${qty > 0 ? ` · x${qty}` : ''}</span>
                 ${buildAssortmentTooltip(option, extraText)}
             </button>
@@ -184,7 +319,9 @@ function renderAssortments() {
     }).join('');
 
     container.querySelectorAll('.assortment-tile').forEach(btn => {
-        btn.addEventListener('click', handleAssortmentAdd);
+        if (!btn.disabled) {
+            btn.addEventListener('click', handleAssortmentAdd);
+        }
 
         // Dynamic tooltip positioning to avoid overflow
         const tooltip = btn.querySelector('.assortment-tooltip');
@@ -218,28 +355,6 @@ function renderAssortments() {
             });
         }
     });
-}
-
-function handleAssortmentAdd(event) {
-    const id = event.currentTarget.dataset.assortmentId;
-    const found = ASSORTMENTS.find(opt => opt.id === id);
-    if (!found) return;
-
-    const totalSelected = selectedAssortmentItems.reduce((sum, item) => sum + item.quantity, 0);
-    if (totalSelected >= 4) {
-        alert('Bạn chỉ có thể chọn tối đa 4 ô trong hộp.');
-        return;
-    }
-
-    const existing = selectedAssortmentItems.find(item => item.id === id);
-    if (existing) {
-        existing.quantity += 1;
-    } else {
-        selectedAssortmentItems.push({ ...found, quantity: 1 });
-    }
-
-    renderAssortments();
-    updatePrice();
 }
 
 /**
@@ -463,13 +578,42 @@ function handleAddToCart() {
     try {
         localStorage.setItem('cart', JSON.stringify(cart));
 
+        // --- NEW: Deduct Inventory Logic ---
+        // 1. Deduct Box (Quantity 1 per cart addition usually, or cartItem.quantity if that existed)
+        // Wait, the logic above sets quantity: 1. So we deduct 1 box.
+        const boxNameEl = document.querySelector('.box-option.selected .box-option-name');
+        if (boxNameEl) {
+            const boxName = boxNameEl.textContent.trim();
+            // Call API to deduct 1 box
+            fetch('http://127.0.0.1:8000/admin/warehouse/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_name: boxName, quantity_change: -1 })
+            }).catch(e => console.error('Failed to deduct box stock', e));
+        }
+
+        // 2. Deduct Assortment Items
+        pickedAssortments.forEach(item => {
+            fetch('http://127.0.0.1:8000/admin/warehouse/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_name: item.name, quantity_change: -item.quantity })
+            }).catch(e => console.error('Failed to deduct assortment stock', e));
+        });
+
+        // 3. Refresh Inventory Display after short delay to allow DB to update
+        setTimeout(() => {
+            fetchInventoryStatus();
+        }, 500);
+        // -----------------------------------
+
         // Immediately refresh cart badge on header (product page)
         if (window.updateCartBadge && typeof window.updateCartBadge === 'function') {
             window.updateCartBadge();
         }
 
         // Show success message
-        alert(`Added to cart! Total: $${finalPrice.toFixed(2)}`);
+        alert(`Added to cart! Inventory updated. Total: $${finalPrice.toFixed(2)}`);
 
         // Optionally redirect to cart page
         // window.location.href = 'cart.html';

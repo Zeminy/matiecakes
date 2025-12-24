@@ -7,24 +7,34 @@ MEMBER_DB_URL = "postgresql+pg8000://admin:password@localhost:5432/member_db"
 PAYMENT_DB_URL = "postgresql+pg8000://admin:password@localhost:5432/payment_db"
 ADMIN_DB_URL = "postgresql+pg8000://admin:password@localhost:5432/admin_db"
 
+
+# Global cache for engines
+_db_engines = {}
+
 def get_db_engine(db_name: str):
     """
-    Creates a SQLAlchemy engine for the specified database.
+    Returns a cached SQLAlchemy engine for the specified database.
     Supported db_names: 'member', 'payment', 'admin'
     """
+    if db_name in _db_engines:
+        return _db_engines[db_name]
+
+    engine = None
     if db_name == 'member':
-        return create_engine(MEMBER_DB_URL)
+        engine = create_engine(MEMBER_DB_URL, pool_size=5, max_overflow=10)
     elif db_name == 'payment':
-        return create_engine(PAYMENT_DB_URL)
+        engine = create_engine(PAYMENT_DB_URL, pool_size=5, max_overflow=10)
     elif db_name == 'admin':
-        return create_engine(ADMIN_DB_URL)
+        engine = create_engine(ADMIN_DB_URL, pool_size=5, max_overflow=10)
     else:
         raise ValueError("Invalid database name. Choose 'member', 'payment', or 'admin'.")
+    
+    _db_engines[db_name] = engine
+    return engine
 
 def get_db_session(db_name: str):
     """
-    Creates a new SQLAlchemy Session for the specified database.
-    This is useful for executing queries.
+    Creates a new SQLAlchemy Session using the cached engine.
     """
     engine = get_db_engine(db_name)
     Session = sessionmaker(bind=engine)

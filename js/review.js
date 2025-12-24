@@ -112,24 +112,25 @@ function renderItem(item, index) {
             month: 'long',
             day: 'numeric',
             year: 'numeric'
+        });
         deliveryDateDisplay = date.toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-            });
-        } else if (item.shippingMethod && item.shippingMethod !== 'pick-date') {
-            // Show estimated delivery for other methods
-            deliveryDateDisplay = 'Estimated delivery: 5-7 business days';
-        }
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    } else if (item.shippingMethod && item.shippingMethod !== 'pick-date') {
+        // Show estimated delivery for other methods
+        deliveryDateDisplay = 'Estimated delivery: 5-7 business days';
+    }
 
 
-        // Gift message display
-        const giftMessageDisplay = item.giftMessage && item.giftMessage.trim() !== ''
-            ? item.giftMessage
-            : 'No Card Message';
+    // Gift message display
+    const giftMessageDisplay = item.giftMessage && item.giftMessage.trim() !== ''
+        ? item.giftMessage
+        : 'No Card Message';
 
 
-        return `
+    return `
         <div class="review-section">
             <div class="item-header">
                 <div class="item-number">Item ${itemNumber} of ${totalItems}:</div>
@@ -201,25 +202,25 @@ function renderItem(item, index) {
             </div>
         </div>
     `;
-    }
+}
 
-    /**
-     * Render order summary
-     */
-    function renderOrderSummary() {
-        const container = document.getElementById('order-summary-content');
-        if (!container) return;
-
-
-        const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
-        const shipping = 8.99; // Default shipping
-        const totalBeforeTax = merchandise + shipping;
-        const estimatedTax = 0.00; // Can be calculated based on location
-        const orderTotal = totalBeforeTax + estimatedTax;
+/**
+ * Render order summary
+ */
+function renderOrderSummary() {
+    const container = document.getElementById('order-summary-content');
+    if (!container) return;
 
 
-        container.innerHTML = `
+    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+    const shipping = 8.99; // Default shipping
+    const totalBeforeTax = merchandise + shipping;
+    const estimatedTax = 0.00; // Can be calculated based on location
+    const orderTotal = totalBeforeTax + estimatedTax;
+
+
+    container.innerHTML = `
         <div class="summary-items-count">${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}</div>
         <div class="summary-row">
             <span class="summary-row-label">Merchandise:</span>
@@ -244,29 +245,29 @@ function renderItem(item, index) {
             <span class="summary-row-value">$${estimatedTax.toFixed(2)}</span>
         </div>
     `;
+}
+
+/**
+ * Render payment method
+ */
+function renderPaymentMethod() {
+    const container = document.getElementById('payment-method-display');
+    if (!container) return;
+
+
+    if (!checkoutData || !checkoutData.paymentMethod) {
+        container.innerHTML = '<p style="color: #999;">No payment method selected</p>';
+        return;
     }
 
-    /**
-     * Render payment method
-     */
-    function renderPaymentMethod() {
-        const container = document.getElementById('payment-method-display');
-        if (!container) return;
+
+    if (checkoutData.paymentMethod === 'card' && checkoutData.card) {
+        const card = checkoutData.card;
+        const last4 = card.number.slice(-4);
+        const cardType = getCardType(card.number);
 
 
-        if (!checkoutData || !checkoutData.paymentMethod) {
-            container.innerHTML = '<p style="color: #999;">No payment method selected</p>';
-            return;
-        }
-
-
-        if (checkoutData.paymentMethod === 'card' && checkoutData.card) {
-            const card = checkoutData.card;
-            const last4 = card.number.slice(-4);
-            const cardType = getCardType(card.number);
-
-
-            container.innerHTML = `
+        container.innerHTML = `
             <div>Credit or Debit Card</div>
             <div class="payment-info-box">
                 <div class="payment-card-display">
@@ -275,234 +276,234 @@ function renderItem(item, index) {
                 </div>
             </div>
         `;
-        } else {
-            const methodNames = {
-                'paypal': 'PayPal',
-                'klarna': 'Klarna',
-                'paze': 'paze'
-            };
-            container.innerHTML = `
+    } else {
+        const methodNames = {
+            'paypal': 'PayPal',
+            'klarna': 'Klarna',
+            'paze': 'paze'
+        };
+        container.innerHTML = `
             <div>${methodNames[checkoutData.paymentMethod] || checkoutData.paymentMethod}</div>
         `;
-        }
+    }
+}
+
+/**
+ * Get card type from number
+ * @param {string} cardNumber - Card number
+ * @returns {string} Card type
+ */
+function getCardType(cardNumber) {
+    if (!cardNumber) return 'CARD';
+
+
+    if (cardNumber.startsWith('4')) return 'VISA';
+    if (cardNumber.startsWith('5')) return 'Mastercard';
+    if (cardNumber.startsWith('3')) return 'AMEX';
+    if (cardNumber.startsWith('6')) return 'DISCOVER';
+
+
+    return 'CARD';
+}
+
+/**
+ * Render billing address
+ */
+function renderBillingAddress() {
+    const container = document.getElementById('billing-address-display');
+    if (!container) return;
+
+
+    if (!checkoutData || !checkoutData.billing) {
+        container.innerHTML = '<p style="color: #999;">No billing address</p>';
+        return;
     }
 
-    /**
-     * Get card type from number
-     * @param {string} cardNumber - Card number
-     * @returns {string} Card type
-     */
-    function getCardType(cardNumber) {
-        if (!cardNumber) return 'CARD';
+
+    const billing = checkoutData.billing;
+    const addressParts = [
+        billing.firstName && billing.lastName ? `${billing.firstName} ${billing.lastName}` : '',
+        billing.address,
+        billing.apt ? `Apt ${billing.apt}` : '',
+        billing.city,
+        billing.state,
+        billing.zip,
+        billing.country
+    ].filter(part => part).join(', ');
 
 
-        if (cardNumber.startsWith('4')) return 'VISA';
-        if (cardNumber.startsWith('5')) return 'Mastercard';
-        if (cardNumber.startsWith('3')) return 'AMEX';
-        if (cardNumber.startsWith('6')) return 'DISCOVER';
-
-
-        return 'CARD';
-    }
-
-    /**
-     * Render billing address
-     */
-    function renderBillingAddress() {
-        const container = document.getElementById('billing-address-display');
-        if (!container) return;
-
-
-        if (!checkoutData || !checkoutData.billing) {
-            container.innerHTML = '<p style="color: #999;">No billing address</p>';
-            return;
-        }
-
-
-        const billing = checkoutData.billing;
-        const addressParts = [
-            billing.firstName && billing.lastName ? `${billing.firstName} ${billing.lastName}` : '',
-            billing.address,
-            billing.apt ? `Apt ${billing.apt}` : '',
-            billing.city,
-            billing.state,
-            billing.zip,
-            billing.country
-        ].filter(part => part).join(', ');
-
-
-        container.innerHTML = `
+    container.innerHTML = `
         <div class="address-display">${addressParts}</div>
     `;
+}
+
+/**
+ * Render contact info
+ */
+function renderContactInfo() {
+    const container = document.getElementById('contact-info-display');
+    if (!container) return;
+
+
+    if (!checkoutData || !checkoutData.contact) {
+        container.innerHTML = '<p style="color: #999;">No contact information</p>';
+        return;
     }
 
-    /**
-     * Render contact info
-     */
-    function renderContactInfo() {
-        const container = document.getElementById('contact-info-display');
-        if (!container) return;
 
-
-        if (!checkoutData || !checkoutData.contact) {
-            container.innerHTML = '<p style="color: #999;">No contact information</p>';
-            return;
-        }
-
-
-        const contact = checkoutData.contact;
-        let html = `
+    const contact = checkoutData.contact;
+    let html = `
         <div class="contact-display">Your email address: ${contact.email}</div>
         <div class="contact-display">Your phone number: ${contact.phone}</div>
     `;
 
 
-        if (contact.emailOffers) {
-            html += `
+    if (contact.emailOffers) {
+        html += `
             <div class="checkbox-group" style="margin-top: 10px;">
                 <input type="checkbox" checked disabled>
                 <label>Receive emails regarding promotions and special offers.</label>
             </div>
         `;
-        }
-
-
-        container.innerHTML = html;
     }
 
-    /**
-     * Render order total
-     */
-    function renderOrderTotal() {
-        const container = document.getElementById('order-total-display');
-        if (!container) return;
+
+    container.innerHTML = html;
+}
+
+/**
+ * Render order total
+ */
+function renderOrderTotal() {
+    const container = document.getElementById('order-total-display');
+    if (!container) return;
 
 
-        const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
-        const shipping = 8.99;
-        const totalBeforeTax = merchandise + shipping;
-        const estimatedTax = 0.00;
-        const orderTotal = totalBeforeTax + estimatedTax;
+    const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+    const shipping = 8.99;
+    const totalBeforeTax = merchandise + shipping;
+    const estimatedTax = 0.00;
+    const orderTotal = totalBeforeTax + estimatedTax;
 
 
-        container.innerHTML = `
+    container.innerHTML = `
         <div class="summary-row order-total">
             <span>Order Total:</span>
             <span>$${orderTotal.toFixed(2)}</span>
         </div>
     `;
-    }
+}
 
-    /**
-     * Handle delete item
-     * @param {string} itemId - Item ID to delete
-     */
-    function handleDeleteItem(itemId) {
-        if (confirm('Are you sure you want to remove this item from your order?')) {
-            cart = cart.filter(item => item.id !== itemId);
+/**
+ * Handle delete item
+ * @param {string} itemId - Item ID to delete
+ */
+function handleDeleteItem(itemId) {
+    if (confirm('Are you sure you want to remove this item from your order?')) {
+        cart = cart.filter(item => item.id !== itemId);
 
-
-            try {
-                localStorage.setItem('cart', JSON.stringify(cart));
-            } catch (error) {
-                console.error('Error saving cart:', error);
-            }
-
-
-            if (cart.length === 0) {
-                window.location.href = 'cart.html';
-            } else {
-                renderItems();
-                renderOrderSummary();
-                renderOrderTotal();
-            }
-        }
-    }
-
-    /**
-     * Handle place order
-     */
-    window.handlePlaceOrder = async function () {
-        if (cart.length === 0) {
-            alert('Your cart is empty!');
-            window.location.href = 'cart.html';
-            return;
-        }
-
-
-        if (!checkoutData) {
-            alert('Please complete checkout first.');
-            window.location.href = 'checkout.html';
-            return;
-        }
-
-        const totalAmount = calculateOrderTotal();
-        const orderInfo = JSON.stringify({
-            items: cart,
-            checkout: checkoutData,
-            date: new Date().toISOString()
-        });
 
         try {
-            const response = await fetch('http://localhost:8000/payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: 1, // Default to user ID 1 for now as auth is not fully persistent across pages
-                    amount: totalAmount,
-                    order_info: orderInfo,
-                    status: 'completed'
-                })
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-
-                // Create order object for local history
-                const order = {
-                    id: `order-${Date.now()}`,
-                    db_id: result.payment_id,
-                    date: new Date().toISOString(),
-                    items: cart,
-                    checkout: checkoutData,
-                    total: totalAmount
-                };
-
-                // Save order locally
-                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-                orders.push(order);
-                localStorage.setItem('orders', JSON.stringify(orders));
-
-                // Clear cart and checkout data
-                localStorage.removeItem('cart');
-                localStorage.removeItem('checkoutData');
-
-                // Show success and redirect
-                alert(`Order placed successfully! Payment ID: ${result.payment_id}`);
-                window.location.href = 'index.html';
-            } else {
-                const err = await response.json();
-                alert(`Payment failed: ${err.detail || 'Unknown error'}`);
-            }
+            localStorage.setItem('cart', JSON.stringify(cart));
         } catch (error) {
-            console.error('Error placing order:', error);
-            alert('Error connecting to payment server. Please try again.');
+            console.error('Error saving cart:', error);
         }
-    };
 
-    /**
-     * Calculate order total
-     * @returns {number} Total amount
-     */
-    function calculateOrderTotal() {
-        const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
-        const shipping = 8.99;
-        const tax = 0.00;
-        return merchandise + shipping + tax;
+
+        if (cart.length === 0) {
+            window.location.href = 'cart.html';
+        } else {
+            renderItems();
+            renderOrderSummary();
+            renderOrderTotal();
+        }
+    }
+}
+
+/**
+ * Handle place order
+ */
+window.handlePlaceOrder = async function () {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        window.location.href = 'cart.html';
+        return;
     }
 
-    // Initialize when DOM is ready
-    document.addEventListener('DOMContentLoaded', init);
+
+    if (!checkoutData) {
+        alert('Please complete checkout first.');
+        window.location.href = 'checkout.html';
+        return;
+    }
+
+    const totalAmount = calculateOrderTotal();
+    const orderInfo = JSON.stringify({
+        items: cart,
+        checkout: checkoutData,
+        date: new Date().toISOString()
+    });
+
+    try {
+        const response = await fetch('http://localhost:8000/payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: 1, // Default to user ID 1 for now as auth is not fully persistent across pages
+                amount: totalAmount,
+                order_info: orderInfo,
+                status: 'completed'
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+
+            // Create order object for local history
+            const order = {
+                id: `order-${Date.now()}`,
+                db_id: result.payment_id,
+                date: new Date().toISOString(),
+                items: cart,
+                checkout: checkoutData,
+                total: totalAmount
+            };
+
+            // Save order locally
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Clear cart and checkout data
+            localStorage.removeItem('cart');
+            localStorage.removeItem('checkoutData');
+
+            // Show success and redirect
+            alert(`Order placed successfully! Payment ID: ${result.payment_id}`);
+            window.location.href = 'index.html';
+        } else {
+            const err = await response.json();
+            alert(`Payment failed: ${err.detail || 'Unknown error'}`);
+        }
+    } catch (error) {
+        console.error('Error placing order:', error);
+        alert('Error connecting to payment server. Please try again.');
+    }
+};
+
+/**
+ * Calculate order total
+ * @returns {number} Total amount
+ */
+function calculateOrderTotal() {
+    const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+    const shipping = 8.99;
+    const tax = 0.00;
+    return merchandise + shipping + tax;
+}
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', init);
 
