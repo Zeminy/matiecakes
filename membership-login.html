@@ -13,7 +13,7 @@
 
     <style>
         :root {
-            --primary-navy: #1a1157;
+            --primary-navy: #bb0000;
             --accent-gold: #ffe066;
             --soft-cream: #faf7f2;
             --text-dark: #2c3e50;
@@ -50,7 +50,7 @@
         .auth-image-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(26, 17, 87, 0.8), rgba(63, 83, 174, 0.6));
+            background: linear-gradient(135deg, rgba(235, 0, 0, 0.8), rgba(194, 30, 30, 0.6));
             backdrop-filter: blur(2px);
         }
 
@@ -304,7 +304,7 @@
             <div class="auth-image-overlay"></div>
             <div class="auth-welcome-text">
                 <h1>Matie Cake</h1>
-                <p>Nơi hương vị ngọt ngào bắt đầu.<br>Đăng ký thành viên để nhận ưu đãi đặc biệt.</p>
+                <p>Where the sweet flavors begin.<br>Register as a member to receive special offers..</p>
             </div>
         </div>
 
@@ -313,43 +313,43 @@
             <div class="auth-header">
                 <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="auth-logo"></a>
                 <div class="auth-tabs">
-                    <button class="tab-btn active" onclick="switchTab('login')">Đăng nhập</button>
-                    <button class="tab-btn" onclick="switchTab('register')">Đăng ký</button>
+                    <button class="tab-btn active" onclick="switchTab('login')">Log in</button>
+                    <button class="tab-btn" onclick="switchTab('register')">Register</button>
                 </div>
             </div>
 
             <!-- LOGIN FORM -->
             <form id="loginForm">
                 <div class="form-group">
-                    <label>Email hoặc Tên đăng nhập</label>
+                    <label>Email or username</label>
                     <input type="text" id="loginId" placeholder="example@email.com" required>
                 </div>
                 <div class="form-group">
-                    <label>Mật khẩu</label>
+                    <label>Password</label>
                     <input type="password" id="loginPass" placeholder="••••••••" required>
                 </div>
                 <button type="submit" class="submit-btn" id="loginBtn">
-                    Đăng Nhập <div class="spinner" id="loginSpinner"></div>
+                    Log in <div class="spinner" id="loginSpinner"></div>
                 </button>
                 <div class="alt-link">
-                    Chưa có tài khoản? <a href="#" onclick="switchTab('register')">Đăng ký ngay</a>
+                    Haven't have account? <a href="#" onclick="switchTab('register')">Regist now</a>
                 </div>
             </form>
 
             <!-- REGISTER FORM -->
             <form id="registerForm" style="display: none;">
                 <div class="form-group">
-                    <label>Tên đăng nhập</label>
+                    <label>User name</label>
                     <input type="text" id="regUser" placeholder="username" required>
                 </div>
                 <!-- Flex row for Name/Phone -->
                 <div style="display: flex; gap: 15px;">
                     <div class="form-group" style="flex:1;">
-                        <label>Họ và Tên</label>
+                        <label>Full Name</label>
                         <input type="text" id="regName" placeholder="Tên của bạn">
                     </div>
                     <div class="form-group" style="flex:1;">
-                        <label>SĐT</label>
+                        <label>Phone Number</label>
                         <input type="text" id="regPhone" placeholder="090...">
                     </div>
                 </div>
@@ -358,18 +358,18 @@
                     <input type="email" id="regEmail" placeholder="email@domain.com" required>
                 </div>
                 <div class="form-group">
-                    <label>Mật khẩu</label>
+                    <label>Password</label>
                     <input type="password" id="regPass" placeholder="••••••••" required>
                 </div>
                 <div class="form-group">
-                    <label>Nhập lại mật khẩu</label>
+                    <label>Resign Password</label>
                     <input type="password" id="regPass2" placeholder="••••••••" required>
                 </div>
                 <button type="submit" class="submit-btn" id="regBtn">
-                    Tạo Tài Khoản <div class="spinner" id="regSpinner"></div>
+                    Create account <div class="spinner" id="regSpinner"></div>
                 </button>
                 <div class="alt-link">
-                    Đã có tài khoản? <a href="#" onclick="switchTab('login')">Đăng nhập</a>
+                    Aldready have account? <a href="#" onclick="switchTab('login')">Log in</a>
                 </div>
             </form>
         </div>

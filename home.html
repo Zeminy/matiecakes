@@ -30,8 +30,8 @@
         /* ===========================
            HEADER (ĐỒNG BỘ VỚI INDEX)
         ============================ */
-        header {
-    background: linear-gradient(90deg, #1a1157, #3f53ae);
+header {
+    background: linear-gradient(90deg, #B00000, #c94e4e);
     color: #fff;
     padding: 0 40px;
     height: 80px;
@@ -43,33 +43,55 @@
     z-index: 1000;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
+.logo { 
+        height: 60px; 
+        margin-right: 40px; 
+    }
 
-        .logo {
-            height: 60px;
-        }
+nav { flex: 1; }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 32px;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-start; /* QUAN TRỌNG */
+}
+nav li {
+    font-weight: 700;
+    position: relative;
+}
+nav ul li.membership {
+    margin-left: auto;
+}
 
-        nav li {
-            position: relative;
-            font-weight: 700;
-        }
+nav a {
+    color: #fff;
+    padding: 8px 0;
+    display: inline-block;
+}
+nav li::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    background: #ffe066;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0);
+    transition: .2s ease;
+}
+nav li:hover::after { transform: scaleX(1); }
 
-        nav a {
-            color: #fff;
-            transition: color 0.2s;
-        }
-
-        nav a:hover {
-            color: #ffe066;
-        }
+nav li:last-child a {
+    background: #ffe066;
+    color: #B00000;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+}
 
         /* Dropdown */
         .dropdown-content {
@@ -78,7 +100,7 @@
             top: 110%;
             right: 0;
             min-width: 220px;
-            background: #2f2a7a;
+            background: #B00000;
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
             border-radius: 0 0 12px 12px;
             overflow: hidden;
@@ -155,7 +177,7 @@
            FOOTER
         ============================ */
         footer {
-            background: #1a1157;
+            background: #B00000;
             color: #fff;
             padding: 40px 0 20px 0;
             margin-top: 60px;
@@ -216,6 +238,7 @@
             .menu-toggle { display: block; }
 
             nav {
+                margin-right: auto;
                 display: none;
                 width: 100%;
                 background: #1a1157;
@@ -277,10 +300,11 @@
             </svg>
         </button>
 
-        <nav id="main-nav">
+        <nav id=
+        "main-nav">
             <ul>
                 <li class="dropdown">
-                    <a href="#">Cake Menu</a>
+                    <a href="index.html">Cake Menu</a>
                     <div class="dropdown-content">
                         <a href="index.html#new-products">New Products</a>
                         <a href="index.html#favorite-products">Favorite Products</a>
@@ -292,8 +316,8 @@
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>
-                            <li class="dropdown">
-                <a href="#">Membership</a>
+                <li class="dropdown membership">
+                    <a href="membership-login.html">Membership</a>
                 <ul class="dropdown-content">
                     <li><a href="membership-login.html">Login / Sign Up</a></li>
                 </ul>
@@ -371,7 +395,5 @@
         });
     </script>
 
-<script src="src/scripts/chat.js" defer></script>
-    <script src="js/auth.js"></script>
 </body>
 </html>

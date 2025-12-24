@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,80 +9,39 @@
     <link rel="stylesheet" href="src/styles/main.css">
     <link rel="stylesheet" href="src/styles/media query.css">
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background: #faf7f2;
-            color: #222;
-        }
-
+        html { scroll-behavior: smooth; }
+        body { margin: 0; font-family: 'Roboto', sans-serif; background: #faf7f2; color: #222; }
         header {
-            background: linear-gradient(90deg, #1a1157, #3f53ae);
-            color: #fff;
-            padding: 0 40px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .logo {
-            height: 60px;
-            margin-right: 40px;
-        }
-
-        nav {
-            flex: 1;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 32px;
-            margin: 0;
-            padding: 0;
-            position: relative;
-        }
-
-        nav li {
-            font-weight: 700;
-            position: relative;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        nav a:hover {
-            color: #ffe066;
-        }
-
+    background: linear-gradient(90deg, #B00000, #c94e4e);
+    color: #fff;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+        .logo { height: 60px; margin-right: 40px; }
+        nav { flex: 1; }
+        nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; }
+        nav li { font-weight: 700; position: relative; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #ffe066; }
         .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background: #2a2f95;
+            background: #B00000;
             min-width: 220px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
             border-radius: 0 0 8px 8px;
             z-index: 10;
         }
-
-        .dropdown-content li {
-            padding: 0;
-        }
-
+        .dropdown-content li { padding: 0; }
         .dropdown-content a {
             display: block;
             padding: 12px 24px;
@@ -92,16 +50,11 @@
             text-decoration: none;
             border-bottom: 1px solid #4e6b2b;
         }
-
         .dropdown-content a:hover {
             background: #2e3d1b;
             color: #ffe066;
         }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
+        .dropdown:hover .dropdown-content { display: block; }
         .banner {
             background: #fbeee0;
             padding: 0;
@@ -113,7 +66,6 @@
             justify-content: center;
             overflow: hidden;
         }
-
         .banner-img {
             width: 100%;
             height: 100%;
@@ -122,16 +74,14 @@
             box-shadow: none;
             display: block;
         }
-
         .product-detail {
             max-width: 700px;
             margin: 40px auto;
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
             padding: 32px 24px;
         }
-
         .slider {
             position: relative;
             width: 100%;
@@ -139,73 +89,40 @@
             overflow: hidden;
             margin-bottom: 24px;
         }
-
         .slide {
             width: 100%;
             height: 500px;
             object-fit: cover;
             border-radius: 12px;
             position: absolute;
-            left: 0;
-            top: 0;
+            left: 0; top: 0;
             opacity: 0;
             transition: opacity 0.5s;
         }
-
         .slide.active {
             opacity: 1;
             position: relative;
         }
-
-        .slider .prev,
-        .slider .next {
+        .slider .prev, .slider .next {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255,255,255,0.7);
             border: none;
             font-size: 1.8rem;
             cursor: pointer;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             line-height: 40px;
             text-align: center;
             z-index: 2;
         }
-
-        .slider .prev {
-            left: 12px;
-        }
-
-        .slider .next {
-            right: 12px;
-        }
-
-        .product-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #40602b;
-            margin-bottom: 18px;
-            text-align: center;
-        }
-
-        .product-price {
-            color: #a85b2b;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .product-desc {
-            font-size: 1.05rem;
-            color: #444;
-            margin-bottom: 16px;
-        }
-
-        .product-ingredient,
-        .product-gift {
+        .slider .prev { left: 12px; }
+        .slider .next { right: 12px; }
+        .product-title { font-size: 2rem; font-weight: 700; color: #40602b; margin-bottom: 18px; text-align: center; }
+        .product-price { color: #a85b2b; font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; text-align: center; }
+        .product-desc { font-size: 1.05rem; color: #444; margin-bottom: 16px; }
+        .product-ingredient, .product-gift {
             font-size: 1rem;
             color: #222;
             margin-bottom: 12px;
@@ -213,66 +130,57 @@
             padding: 10px 16px;
             border-radius: 8px;
         }
-
         .product-main {
             max-width: 1200px;
             margin: 40px auto;
             background: #fff;
             border-radius: 24px;
-            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
             padding: 40px 48px;
         }
-
         .product-columns {
             display: flex;
             gap: 48px;
             align-items: flex-start;
         }
-
         .product-image-area {
             flex: 1.2;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
         .product-main-img {
             width: 100%;
             max-width: 480px;
             height: 480px;
             object-fit: cover;
             border-radius: 24px;
-            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
         }
-
         .product-info-area {
             flex: 1.5;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
         }
-
         .product-title {
             font-size: 2.2rem;
             font-weight: 700;
             color: #234d1b;
             margin-bottom: 18px;
         }
-
         .product-price-old {
             color: #999;
             font-size: 1.2rem;
             text-decoration: line-through;
             margin-bottom: 4px;
         }
-
         .product-price {
             color: #a85b2b;
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 16px;
         }
-
         .product-quick-info {
             font-size: 1.08rem;
             color: #222;
@@ -280,29 +188,21 @@
             list-style: none;
             padding: 0;
         }
-
-        .product-quick-info li {
-            margin-bottom: 8px;
-        }
-
+        .product-quick-info li { margin-bottom: 8px; }
         .order-controls {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-bottom: 18px;
         }
-
-        .order-minus,
-        .order-plus {
-            width: 32px;
-            height: 32px;
+        .order-minus, .order-plus {
+            width: 32px; height: 32px;
             font-size: 1.3rem;
             background: #eee;
             border: none;
             border-radius: 6px;
             cursor: pointer;
         }
-
         .order-qty {
             width: 48px;
             text-align: center;
@@ -311,7 +211,6 @@
             border-radius: 6px;
             padding: 4px;
         }
-
         .order-btn {
             background: #a85b2b;
             color: #fff;
@@ -323,143 +222,59 @@
             transition: background 0.2s;
             margin-left: 12px;
         }
-
-        .order-btn:hover {
-            background: #40602b;
-        }
-
+        .order-btn:hover { background: #40602b; }
         .product-category {
             font-size: 1rem;
             color: #888;
             margin-bottom: 8px;
         }
-
         .product-desc-area {
             margin-top: 48px;
             border-top: 1px solid #eee;
             padding-top: 32px;
         }
-
         .desc-title {
             font-size: 1.3rem;
             color: #a85b2b;
             font-weight: 700;
             margin-bottom: 12px;
         }
-
         .desc-content {
             font-size: 1.08rem;
             color: #222;
             line-height: 1.7;
         }
-
         @media (max-width: 900px) {
-            .product-detail {
-                padding: 18px 4px;
-            }
-
-            .slider {
-                height: 180px;
-            }
-
-            .slide {
-                height: 180px;
-            }
-
-            .product-columns {
-                flex-direction: column;
-                gap: 18px;
-            }
-
-            .product-image-area,
-            .product-info-area {
-                padding: 0;
-            }
-
-            .product-main {
-                border-radius: 0;
-                padding: 12px 2vw;
-            }
-
-            .product-main-img {
-                max-width: 98vw;
-                height: auto;
-            }
-
-            .product-desc-area {
-                padding-top: 18px;
-            }
+            .product-detail { padding: 18px 4px; }
+            .slider { height: 180px; }
+            .slide { height: 180px; }
+            .product-columns { flex-direction: column; gap: 18px; }
+            .product-image-area, .product-info-area { padding: 0; }
+            .product-main { border-radius: 0; padding: 12px 2vw; }
+            .product-main-img { max-width: 98vw; height: auto; }
+            .product-desc-area { padding-top: 18px; }
         }
-
-        footer {
-            background: #1a1157;
-            color: #fff;
-            padding: 40px 0 20px 0;
-        }
-
-        .footer-content {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 32px;
-        }
-
-        .footer-info {
-            flex: 2;
-        }
-
-        .footer-logo {
-            height: 48px;
-            margin-bottom: 16px;
-        }
-
-        .footer-links {
-            flex: 1;
-        }
-
-        .footer-links ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 8px;
-        }
-
-        .footer-links a {
-            color: #ffe066;
-            text-decoration: none;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 32px;
-            font-size: 0.95rem;
-            color: #bbb;
-        }
-
+        footer { background: #B00000; color: #fff; padding: 40px 0 20px 0; }
+        .footer-content { max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 32px; }
+        .footer-info { flex: 2; }
+        .footer-logo { height: 48px; margin-bottom: 16px; }
+        .footer-links { flex: 1; }
+        .footer-links ul { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: #ffe066; text-decoration: none; }
+        .footer-bottom { text-align: center; margin-top: 32px; font-size: 0.95rem; color: #bbb; }
         @media (max-width: 900px) {
-            .products {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                align-items: center;
-            }
+            .products { flex-direction: column; align-items: center; }
+            .footer-content { flex-direction: column; align-items: center; }
         }
-
         .related-products-section {
             margin: 56px auto 0 auto;
             max-width: 1200px;
             background: #fff;
             border-radius: 18px;
-            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
             padding: 32px 24px;
         }
-
         .related-title {
             font-size: 1.5rem;
             color: #40602b;
@@ -467,31 +282,27 @@
             margin-bottom: 24px;
             text-align: left;
         }
-
         .related-products {
             display: flex;
             gap: 32px;
             flex-wrap: wrap;
             justify-content: flex-start;
         }
-
         .related-card {
             display: block;
             width: 210px;
             background: #faf7f2;
             border-radius: 14px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
             text-align: center;
             text-decoration: none;
             color: #222;
             padding: 18px 12px;
             transition: box-shadow 0.2s;
         }
-
         .related-card:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.13);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.13);
         }
-
         .related-card img {
             width: 100%;
             height: 120px;
@@ -499,33 +310,22 @@
             border-radius: 10px;
             margin-bottom: 12px;
         }
-
         .related-name {
             font-weight: 600;
             font-size: 1.05rem;
             margin-bottom: 6px;
         }
-
         .related-price {
             color: #a85b2b;
             font-weight: 700;
             font-size: 1rem;
         }
-
         @media (max-width: 900px) {
-            .related-products {
-                gap: 12px;
-                justify-content: center;
-            }
-
-            .related-card {
-                width: 45vw;
-                min-width: 140px;
-            }
+            .related-products { gap: 12px; justify-content: center; }
+            .related-card { width: 45vw; min-width: 140px; }
         }
     </style>
 </head>
-
 <body>
     <header>
         <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a>
@@ -543,13 +343,13 @@
                 <li><a href="home.html">Home</a></li>
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
-                <li><a href="work-shop.html">Workshop</a></li>
-                <li class="dropdown">
-                    <a href="#">Membership</a>
-                    <ul class="dropdown-content">
-                        <li><a href="membership-login.html">Login / Sign Up</a></li>
-                    </ul>
-                </li>
+                <li><a href="work-shop.html">Workshop</a></li> 
+                <li class="dropdown membership">
+                    <a href="membership-login.html">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
             </ul>
         </nav>
     </header>
@@ -560,8 +360,7 @@
         <div class="product-columns">
             <div class="product-image-area">
                 <div class="slider" id="slider">
-                    <img src="Image 2/Flan cheese donut/Flancheese Donut 1.png" class="slide active"
-                        alt="Flancheese Donut 1">
+                    <img src="Image 2/Flan cheese donut/Flancheese Donut 1.png" class="slide active" alt="Flancheese Donut 1">
                     <img src="Image 2/Flan cheese donut/FlanCheeseDonut 2.JPG" class="slide" alt="Flancheese Donut 2">
                     <img src="Image 2/Flan cheese donut/FlanCheeseDonut3.JPG" class="slide" alt="Flancheese Donut 3">
                     <img src="Image 2/Flan cheese donut/FlanCheeseDonut 4.jpg" class="slide" alt="Flancheese Donut 4">
@@ -572,175 +371,160 @@
             </div>
             <div class="product-info-area">
                 <h1 class="product-title">FlanCheese Donut</h1>
-                <div class="product-price">$48.00</div>
+                <div class="product-price">140,000 ₫</div>
                 <ul class="product-quick-info">
                     <li><b>– Includes:</b> Rich cheese and the sweetness of Flan cake</li>
                     <li><b>– Weight:</b> 900g/cake</li>
                     <li><b>– Shelf life:</b> 1 month from date of manufacture</li>
-                    <li><b>– Storage instructions:</b> Keep at room temperature (about 25°C) and use within 3 days after
-                        opening the packaging.</li>
-                    <li><b>– Voucher:</b> Voucher to join the handmade Mid-Autumn cake workshop </li>
+                    <li><b>– Storage instructions:</b> Keep at room temperature (about 25°C) and use within 3 days after opening the packaging.</li>
+                                    <li><b>– Voucher:</b> Voucher to join the handmade Mid-Autumn cake workshop </li>
 
                 </ul>
                 <div class="order-controls">
                     <button class="order-minus">-</button>
                     <input type="number" value="1" min="1" class="order-qty">
                     <button class="order-plus">+</button>
-                    <button type="button" class="order-btn">Add to Cart</button>
+                    <a href="https://www.facebook.com/profile.php?id=61553058065460" target="_blank" class="order-btn">Order</a>
                 </div>
-                <div class="product-category">Category: <a href="index.html#favorite-products">Favorite Products</a>
-                </div>
+                <div class="product-category">Category: <a href="index.html#favorite-products">Favorite Products</a></div>
             </div>
         </div>
         <div class="product-desc-area">
             <h2 class="desc-title">Description</h2>
             <div class="desc-content">
-                <b>Flancheese Donut</b> is an upgraded version of the familiar flan, where the smoothness of the flan
-                layer meets the slightly salty and fatty taste of cheese. With one bite, you will immediately feel the
-                sweet melting blend with the rich cheese aftertaste, both new and addictive. The cake is handmade every
-                day, no preservatives, guaranteed fresh, safe, and delicious. This is the perfect choice for those who
-                love unique desserts, wanting to find a balance between sweetness and richness. Enjoying Flancheese
-                Donut with a cup of tea or coffee will bring a complete experience, gentle but sophisticated enough to
-                "close the deal" on any date.
+                <b>Flancheese Donut</b>  is an upgraded version of the familiar flan, where the smoothness of the flan layer meets the slightly salty and fatty taste of cheese. With one bite, you will immediately feel the sweet melting blend with the rich cheese aftertaste, both new and addictive. The cake is handmade every day, no preservatives, guaranteed fresh, safe, and delicious. This is the perfect choice for those who love unique desserts, wanting to find a balance between sweetness and richness. Enjoying Flancheese Donut with a cup of tea or coffee will bring a complete experience, gentle but sophisticated enough to "close the deal" on any date.
                 <br><br>
             </div>
         </div>
     </div>
-    <div class="reviews-section">
-        <h2 class="reviews-title">Product Reviews</h2>
-
-        <div class="rating-summary">
-            <div class="rating-score">
-                <div class="rating-number">4.8</div>
-                <div class="rating-stars">★★★★★</div>
-                <div class="rating-count">128 reviews</div>
-            </div>
-            <div class="rating-bars">
-                <div class="rating-bar-item">
-                    <span class="rating-bar-label">5 stars</span>
-                    <div class="rating-bar-bg">
-                        <div class="rating-bar-fill" style="width: 85%;"></div>
-                    </div>
-                    <span class="rating-bar-count">109</span>
-                </div>
-                <div class="rating-bar-item">
-                    <span class="rating-bar-label">4 stars</span>
-                    <div class="rating-bar-bg">
-                        <div class="rating-bar-fill" style="width: 10%;"></div>
-                    </div>
-                    <span class="rating-bar-count">13</span>
-                </div>
-                <div class="rating-bar-item">
-                    <span class="rating-bar-label">3 stars</span>
-                    <div class="rating-bar-bg">
-                        <div class="rating-bar-fill" style="width: 3%;"></div>
-                    </div>
-                    <span class="rating-bar-count">4</span>
-                </div>
-                <div class="rating-bar-item">
-                    <span class="rating-bar-label">2 stars</span>
-                    <div class="rating-bar-bg">
-                        <div class="rating-bar-fill" style="width: 1%;"></div>
-                    </div>
-                    <span class="rating-bar-count">1</span>
-                </div>
-                <div class="rating-bar-item">
-                    <span class="rating-bar-label">1 star</span>
-                    <div class="rating-bar-bg">
-                        <div class="rating-bar-fill" style="width: 1%;"></div>
-                    </div>
-                    <span class="rating-bar-count">1</span>
-                </div>
-            </div>
+<div class="reviews-section">
+    <h2 class="reviews-title">Product Reviews</h2>
+   
+    <div class="rating-summary">
+        <div class="rating-score">
+            <div class="rating-number">4.8</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">128 reviews</div>
         </div>
-
-
-        <div class="reviews-list">
-            <div class="review-item">
-                <div class="review-header">
-                    <div class="review-avatar">M</div>
-                    <div class="review-user-info">
-                        <div class="review-user-name">Mai Phuong</div>
-                        <div class="review-stars">★★★★★</div>
-                    </div>
-                    <div class="review-date">15/09/2024</div>
+        <div class="rating-bars">
+            <div class="rating-bar-item">
+                <span class="rating-bar-label">5 stars</span>
+                <div class="rating-bar-bg">
+                    <div class="rating-bar-fill" style="width: 85%;"></div>
                 </div>
-                <div class="review-content">
-                    The cake is very delicious, rich with **cheese** and caramel flavor, and the flan is smooth and not
-                    fishy. My whole family loves it. Fast delivery and very careful packaging. We will continue to
-                    support the shop!
-                </div>
-                <div class="review-images">
-                    <img src="Image 2/Flan cheese donut/FlanCheeseDonut3.JPG" class="review-image" alt="Review image">
-                </div>
+                <span class="rating-bar-count">109</span>
             </div>
-
-
-            <div class="review-item">
-                <div class="review-header">
-                    <div class="review-avatar">T</div>
-                    <div class="review-user-info">
-                        <div class="review-user-name">Tuan Anh</div>
-                        <div class="review-stars">★★★★★</div>
-                    </div>
-                    <div class="review-date">12/09/2024</div>
+            <div class="rating-bar-item">
+                <span class="rating-bar-label">4 stars</span>
+                <div class="rating-bar-bg">
+                    <div class="rating-bar-fill" style="width: 10%;"></div>
                 </div>
-                <div class="review-content">
-                    The cake is delicious, the richness is just right, not too sweet. The **signature cheese flavor** is
-                    very appealing. I bought it for the whole family, and everyone complimented it.
-                </div>
+                <span class="rating-bar-count">13</span>
             </div>
-
-
-            <div class="review-item">
-                <div class="review-header">
-                    <div class="review-avatar">H</div>
-                    <div class="review-user-info">
-                        <div class="review-user-name">Huong Giang</div>
-                        <div class="review-stars">★★★★★</div>
-                    </div>
-                    <div class="review-date">08/09/2024</div>
+            <div class="rating-bar-item">
+                <span class="rating-bar-label">3 stars</span>
+                <div class="rating-bar-bg">
+                    <div class="rating-bar-fill" style="width: 3%;"></div>
                 </div>
-                <div class="review-content">
-                    The **cheese flan** here is the best! The flan melts in your mouth, and the caramel layer is rich.
-                    It's not cloying. I will definitely order again!
-                </div>
+                <span class="rating-bar-count">4</span>
             </div>
-
-
-            <div class="review-item">
-                <div class="review-header">
-                    <div class="review-avatar">N</div>
-                    <div class="review-user-info">
-                        <div class="review-user-name">Nam Khanh</div>
-                        <div class="review-stars">★★★★☆</div>
-                    </div>
-                    <div class="review-date">05/09/2024</div>
+            <div class="rating-bar-item">
+                <span class="rating-bar-label">2 stars</span>
+                <div class="rating-bar-bg">
+                    <div class="rating-bar-fill" style="width: 1%;"></div>
                 </div>
-                <div class="review-content">
-                    The cake is delicious, and the packaging is beautiful. However, I found it a bit too sweet compared
-                    to my family's preference. If the sweetness level could be adjusted, it would be more perfect. But
-                    overall, it is still a quality product and worth buying!
-                </div>
+                <span class="rating-bar-count">1</span>
             </div>
-
-
-            <div class="review-item">
-                <div class="review-header">
-                    <div class="review-avatar">L</div>
-                    <div class="review-user-info">
-                        <div class="review-user-name">Linh Chi</div>
-                        <div class="review-stars">★★★★★</div>
-                    </div>
-                    <div class="review-date">02/09/2024</div>
+            <div class="rating-bar-item">
+                <span class="rating-bar-label">1 star</span>
+                <div class="rating-bar-bg">
+                    <div class="rating-bar-fill" style="width: 1%;"></div>
                 </div>
-                <div class="review-content">
-                    Very satisfied with the product! The cake is **smooth, rich**, and fragrant. Suitable for dessert.
-                    My children really love eating it.
-                </div>
+                <span class="rating-bar-count">1</span>
             </div>
         </div>
     </div>
+
+
+    <div class="reviews-list">
+        <div class="review-item">
+            <div class="review-header">
+                <div class="review-avatar">M</div>
+                <div class="review-user-info">
+                    <div class="review-user-name">Mai Phuong</div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <div class="review-date">15/09/2024</div>
+            </div>
+            <div class="review-content">
+                The cake is very delicious, rich with **cheese** and caramel flavor, and the flan is smooth and not fishy. My whole family loves it. Fast delivery and very careful packaging. We will continue to support the shop!
+            </div>
+            <div class="review-images">
+                <img src="Image 2/Flan cheese donut/FlanCheeseDonut3.JPG" class="review-image" alt="Review image">
+            </div>
+        </div>
+
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="review-avatar">T</div>
+                <div class="review-user-info">
+                    <div class="review-user-name">Tuan Anh</div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <div class="review-date">12/09/2024</div>
+            </div>
+            <div class="review-content">
+                The cake is delicious, the richness is just right, not too sweet. The **signature cheese flavor** is very appealing. I bought it for the whole family, and everyone complimented it.
+            </div>
+        </div>
+
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="review-avatar">H</div>
+                <div class="review-user-info">
+                    <div class="review-user-name">Huong Giang</div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <div class="review-date">08/09/2024</div>
+            </div>
+            <div class="review-content">
+                The **cheese flan** here is the best! The flan melts in your mouth, and the caramel layer is rich. It's not cloying. I will definitely order again!
+            </div>
+        </div>
+
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="review-avatar">N</div>
+                <div class="review-user-info">
+                    <div class="review-user-name">Nam Khanh</div>
+                    <div class="review-stars">★★★★☆</div>
+                </div>
+                <div class="review-date">05/09/2024</div>
+            </div>
+            <div class="review-content">
+                The cake is delicious, and the packaging is beautiful. However, I found it a bit too sweet compared to my family's preference. If the sweetness level could be adjusted, it would be more perfect. But overall, it is still a quality product and worth buying!
+            </div>
+        </div>
+
+
+        <div class="review-item">
+            <div class="review-header">
+                <div class="review-avatar">L</div>
+                <div class="review-user-info">
+                    <div class="review-user-name">Linh Chi</div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <div class="review-date">02/09/2024</div>
+            </div>
+            <div class="review-content">
+                Very satisfied with the product! The cake is **smooth, rich**, and fragrant. Suitable for dessert. My children really love eating it.
+            </div>
+        </div>
+    </div>
+</div>
     <div class="related-products-section">
         <h2 class="related-title">Related Products</h2>
         <div class="related-products">
@@ -794,22 +578,22 @@
         </div>
     </footer>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             var slider = document.getElementById('slider');
             var slides = slider.querySelectorAll('.slide');
             var current = 0;
             var prevBtn = slider.querySelector('.prev');
             var nextBtn = slider.querySelector('.next');
             function showSlide(idx) {
-                slides.forEach(function (s, i) {
+                slides.forEach(function(s, i) {
                     s.classList.toggle('active', i === idx);
                 });
             }
-            prevBtn.onclick = function () {
+            prevBtn.onclick = function() {
                 current = (current - 1 + slides.length) % slides.length;
                 showSlide(current);
             };
-            nextBtn.onclick = function () {
+            nextBtn.onclick = function() {
                 current = (current + 1) % slides.length;
                 showSlide(current);
             };
@@ -820,98 +604,16 @@
             const plusBtn = document.querySelector('.order-plus');
             const qtyInput = document.querySelector('.order-qty');
 
-            minusBtn.addEventListener('click', function () {
+            minusBtn.addEventListener('click', function() {
                 let val = parseInt(qtyInput.value, 10);
                 if (val > 1) qtyInput.value = val - 1;
             });
-            plusBtn.addEventListener('click', function () {
+            plusBtn.addEventListener('click', function() {
                 let val = parseInt(qtyInput.value, 10);
                 qtyInput.value = val + 1;
             });
         });
     </script>
-    <script>
-        // Simple add-to-cart flow: store in localStorage then redirect to cart
-        document.addEventListener('DOMContentLoaded', function () {
-            const orderBtn = document.querySelector('.order-btn');
-            const qtyInput = document.querySelector('.order-qty');
-            if (!orderBtn || !qtyInput) return;
-
-            orderBtn.textContent = 'Add to Cart';
-
-            orderBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const quantity = Math.max(1, parseInt(qtyInput.value, 10) || 1);
-                const nameEl = document.querySelector('.product-title');
-                const priceEl = document.querySelector('.product-price');
-                const imageEl =
-                    document.querySelector('.product-main-img') ||
-                    document.querySelector('.product-image-area img') ||
-                    document.querySelector('.slide.active') ||
-                    document.querySelector('.slide');
-
-                const productName = nameEl ? nameEl.textContent.trim() : 'Product';
-                const priceText = priceEl ? priceEl.textContent : '0';
-                const numeric = priceText.replace(/[^\d]/g, '');
-                const basePrice = numeric ? parseFloat(numeric) : 0;
-                const productImage = imageEl ? imageEl.getAttribute('src') : 'Image/Logo.png';
-
-                const cartItem = {
-                    id: 'simple-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
-                    productId: 'simple-' + productName.toLowerCase().replace(/\s+/g, '-'),
-                    productName: productName,
-                    productImage: productImage,
-                    boxThumb: productImage,
-                    itemNumber: 'SKU-' + Math.floor(Math.random() * 100000),
-                    basePrice: basePrice,
-                    quantity: quantity,
-                    selectedOptions: [],
-                    assortment: [],
-                    finalPrice: basePrice,
-                    shippingAddressId: null,
-                    shippingAddress: {
-                        name: '',
-                        street: '',
-                        city: '',
-                        state: '',
-                        country: '',
-                        phone: '',
-                        apt: '',
-                        locationType: ''
-                    },
-                    recipientRelationship: '',
-                    recipientOccasion: '',
-                    giftMessage: '',
-                    giftMessageType: 'complimentary',
-                    shippingMethod: 'standard',
-                    deliveryDate: null,
-                    pickDateSelected: null
-                };
-
-                let cart = [];
-                try {
-                    const stored = localStorage.getItem('cart');
-                    cart = stored ? JSON.parse(stored) : [];
-                } catch (err) {
-                    cart = [];
-                }
-
-                cart.push(cartItem);
-
-                try {
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                } catch (err) {
-                    alert('Có lỗi khi lưu giỏ hàng, vui lòng thử lại.');
-                    return;
-                }
-
-                window.location.href = 'cart.html';
-            });
-        });
-    </script>
-    <script src="src/scripts/chat.js" defer></script>
-    <script src="js/auth.js"></script>
 </body>
 
 </html>
