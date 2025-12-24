@@ -16,8 +16,8 @@
         .nav-open { display: flex !important; flex-direction: column; align-items: flex-start; }
 
         /* HEADER & NAVIGATION */
-        header {
-    background: linear-gradient(90deg, #1a1157, #3f53ae);
+header {
+    background: linear-gradient(90deg, #B00000, #c94e4e);
     color: #fff;
     padding: 0 40px;
     height: 80px;
@@ -29,18 +29,62 @@
     z-index: 1000;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
-        .logo { height: 60px; margin-right: 40px; }
-        nav { flex: 1; }
-        nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; position: relative; justify-content: flex-end; }
-        nav li { font-weight: 700; position: relative; }
-        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
-        nav a:hover { color: #ffe066; }
+.logo { 
+        height: 60px; 
+        margin-right: 40px; 
+    }
+
+nav { flex: 1; }
+
+nav ul {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li.membership {
+    margin-left: auto;
+}
+
+
+nav li {
+    font-weight: 700;
+    position: relative;
+}
+nav a {
+    color: #fff;
+    padding: 8px 0;
+    display: inline-block;
+}
+nav li::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    background: #ffe066;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0);
+    transition: .2s ease;
+}
+nav li:hover::after { transform: scaleX(1); }
+
+nav li:last-child a {
+    background: #ffe066;
+    color: #B00000;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+}
         .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             right: 0;
-            background: #2a2f95;
+            background: #B00000;
             min-width: 220px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.10);
             border-radius: 0 0 8px 8px;
@@ -152,7 +196,7 @@
 
 
         /* FOOTER CSS */
-        footer { background: #1a1157; color: #fff; padding: 40px 0 20px 0; }
+        footer { background: #B00000; color: #fff; padding: 40px 0 20px 0; }
         .footer-content { max-width: 1100px; margin: auto; display: flex; flex-wrap: wrap; gap: 32px; padding: 0 20px; }
         .footer-info { flex: 2; }
         .footer-logo { height: 48px; margin-bottom: 16px; }
@@ -165,6 +209,9 @@
 
         /* MOBILE/RESPONSIVE CSS */
         @media (max-width: 900px) {
+            nav ul li.membership {
+        margin-left: 0;
+    }
             header { padding: 10px 20px; }
             .logo { height: 50px; }
             .menu-toggle { display: block; }
@@ -174,6 +221,8 @@
             .dropdown-content { position: static; min-width: 100%; box-shadow: none; border-radius: 0; background: #2e3d1b; }
             .dropdown:hover .dropdown-content { display: none; } 
             
+
+
             .banner { height: 150px; margin-bottom: 20px; }
             .loyalty-intro { padding: 20px 0; margin: 20px auto; border-radius: 0; box-shadow: none; }
             .loyalty-intro .container { padding: 0 15px; }
@@ -207,8 +256,8 @@
                 <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
                 <li><a href="general-policy.html">General Policy</a></li>
                 <li><a href="work-shop.html">Workshop</a></li>
-                            <li class="dropdown">
-                <a href="#">Membership</a>
+                <li class="dropdown membership">
+                <a href="membership-login.html">Membership</a>
                 <ul class="dropdown-content">
                     <li><a href="membership-login.html">Login / Sign Up</a></li>
                 </ul>
@@ -224,75 +273,75 @@
 
     <section class="loyalty-intro">
         <div class="container">
-            <h2>CHƯƠNG TRÌNH KHÁCH HÀNG THÂN THIẾT</h2>
-            <p>Để tri ân Quý khách hàng đã luôn tin tưởng và lựa chọn Matie Cake, chúng tôi xin gửi tặng những ưu đãi hấp dẫn dành riêng cho khách hàng thân thiết của Matie Cake.</p>
+            <h2>LOYAL CUSTOMER PROGRAM</h2>
+            <p>To show our appreciation to customers who trust and choose Matie Cake, we offer exclusive rewards for our loyal customers.</p>
             
-            <p>Chương trình áp dụng tại các cửa hàng và cửa hàng trực tuyến (Online Store).</p>
-            
-            <hr>
-
-            <h3>A. CÁCH THỨC ĐĂNG KÝ THÀNH VIÊN</h3>
-            <p>• Đối với khách hàng mua bánh tại cửa hàng: Nhân viên sẽ hỗ trợ đăng ký thông tin thành viên khi Quý khách hoàn tất hóa đơn mua hàng đầu tiên.</p>
-            <p>• Đối với khách hàng đặt hàng online: Khi Quý khách đặt hàng lần đầu trên trang Matie Cake, hệ thống sẽ tự động tạo tài khoản khách hàng thành viên dựa trên số điện thoại đặt hàng.</p>
+            <p>This program applies at our physical stores and our online store.</p>
             
             <hr>
 
-            <h3>B. CHÍNH SÁCH CẤP ĐỘ THÀNH VIÊN / VIP</h3>
+            <h3>A. HOW TO REGISTER</h3>
+            <p>• In-store purchases: Our staff will assist with member registration when you complete your first purchase.</p>
+            <p>• Online orders: When you place your first order on Matie Cake's website, the system will automatically create a member account based on the phone number used for the order.</p>
+            
+            <hr>
+
+            <h3>B. MEMBERSHIP / VIP TIERS POLICY</h3>
             <div class="loyalty-cards-grid">
                 
                 <div class="loyalty-card member-tier">
-                    <h4>Cấp độ 1: MEMBER</h4>
-                    <div class="tier">Doanh số tích lũy: Từ **800,000 ₫**</div>
-                    <h5>Ưu đãi:</h5>
+                    <h4>Tier 1: MEMBER</h4>
+                    <div class="tier">Accumulated spend: From **800,000 ₫**</div>
+                    <h5>Benefits:</h5>
                     <ul>
-                        <li>Freeship cho đơn hàng trong nội thành (tối đa 30k).</li>
-                        <li>Ưu tiên trong tuần sinh nhật, nhận voucher giảm **15%**.</li>
+                        <li>Free shipping for city orders (up to 30k).</li>
+                        <li>Birthday week priority: receive a **15%** discount voucher.</li>
                     </ul>
                 </div>
 
                 <div class="loyalty-card silver-tier">
-                    <h4>Cấp độ 2: VIP SILVER</h4>
-                    <div class="tier">Doanh số tích lũy: Từ **1.5 triệu ₫** đến dưới **2.5 triệu ₫**</div>
-                    <h5>Ưu đãi:</h5>
+                    <h4>Tier 2: VIP SILVER</h4>
+                    <div class="tier">Accumulated spend: From **1.5 million ₫** up to under **2.5 million ₫**</div>
+                    <h5>Benefits:</h5>
                     <ul>
-                        <li>Giảm giá **10%** cho mọi đơn hàng.</li>
-                        <li>Freeship cho đơn hàng trong nội thành (tối đa 30k).</li>
-                        <li>Ưu tiên trong tuần sinh nhật, nhận voucher giảm **15%**.</li>
+                        <li>10% off all orders.</li>
+                        <li>Free shipping for city orders (up to 30k).</li>
+                        <li>Birthday week priority: receive a **15%** discount voucher.</li>
                     </ul>
                 </div>
 
                 <div class="loyalty-card gold-tier">
-                    <h4>Cấp độ 3: VIP GOLD</h4>
-                    <div class="tier">Doanh số tích lũy: Từ **2.5 triệu ₫** đến dưới **5 triệu ₫**</div>
-                    <h5>Ưu đãi:</h5>
+                    <h4>Tier 3: VIP GOLD</h4>
+                    <div class="tier">Accumulated spend: From **2.5 million ₫** up to under **5 million ₫**</div>
+                    <h5>Benefits:</h5>
                     <ul>
-                        <li>Giảm giá **10%** cho mọi đơn hàng.</li>
-                        <li>Freeship cho đơn hàng trong nội thành (tối đa 40k).</li>
-                        <li>Ưu tiên trong tuần sinh nhật, nhận voucher giảm **20%**.</li>
+                        <li>10% off all orders.</li>
+                        <li>Free shipping for city orders (up to 40k).</li>
+                        <li>Birthday week priority: receive a **20%** discount voucher.</li>
                     </ul>
                 </div>
 
                 <div class="loyalty-card diamond-tier">
-                    <h4>Cấp độ 4: VIP DIAMOND</h4>
-                    <div class="tier">Doanh số tích lũy: Từ **5 triệu ₫** trở lên</div>
-                    <h5>Ưu đãi:</h5>
+                    <h4>Tier 4: VIP DIAMOND</h4>
+                    <div class="tier">Accumulated spend: From **5 million ₫** and above</div>
+                    <h5>Benefits:</h5>
                     <ul>
-                        <li>Giảm giá **15%** cho mọi đơn hàng.</li>
-                        <li>Freeship cho **tất cả** đơn hàng trong nội thành.</li>
-                        <li>Ưu tiên trong tuần sinh nhật, nhận voucher giảm **20%**.</li>
+                        <li>15% off all orders.</li>
+                        <li>Free shipping for all city orders.</li>
+                        <li>Birthday week priority: receive a **20%** discount voucher.</li>
                     </ul>
                 </div>
             </div>
             
             <hr>
 
-            <h3>C. CÁC QUY ĐỊNH CHUNG</h3>
+            <h3>C. GENERAL RULES</h3>
             <ul>
-                <li>Giảm giá được áp dụng khi mua các sản phẩm nguyên giá.</li>
-                <li>Trong trường hợp có nhiều chương trình khuyến mãi, ưu tiên áp dụng chương trình có ưu đãi cao nhất.</li>
-                <li>Khách hàng thành viên được ưu tiên nhận thông tin về các chương trình khuyến mãi hoặc sản phẩm mới từ Matie Cake.</li>
-                <li>Khuyến mãi thanh toán qua ứng dụng Grab không được áp dụng đồng thời.</li>
-                <li>Matie Cake có thể cập nhật và thay đổi các điều khoản khuyến mãi để phù hợp với nhu cầu khách hàng và điều kiện vận hành thực tế.</li>
+                <li>Discounts apply to full-priced items.</li>
+                <li>If multiple promotions are available, the promotion with the highest discount will take precedence.</li>
+                <li>Members will receive priority notifications about promotions or new products from Matie Cake.</li>
+                <li>Promotions for payments via the Grab app cannot be combined with other offers.</li>
+                <li>Matie Cake may update or change promotional terms to suit customer needs and operational conditions.</li>
             </ul>
         </div>
     </section>
@@ -338,7 +387,5 @@
             }
         });
     </script>
-<script src="src/scripts/chat.js" defer></script>
-    <script src="js/auth.js"></script>
 </body>
 </html>
