@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<<<<<<< HEAD
+=======
 
+>>>>>>> 615a626980c11db41795ea8e8295dbbe732a2215
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +11,652 @@
     <link rel="icon" type="image/png" href="Image/Logo.png" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
 
+<<<<<<< HEAD
+<style>
+    html { scroll-behavior: smooth; }
+
+
+/* ==========================================
+   GLOBAL STYLE 
+========================================== */
+body {
+    margin: 0;
+    padding: 0;
+    background: #faf7f2;
+    font-family: 'Roboto', sans-serif;
+    color: #222;
+}
+a { text-decoration: none; }
+
+/* ==========================================
+   HEADER – FIXED VERSION
+========================================== */
+header {
+    background: linear-gradient(90deg, #B00000, #c94e4e);
+    color: #fff;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.logo { 
+        height: 60px; 
+        margin-right: 40px; 
+    }
+
+nav { flex: 1; }
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+}
+nav ul li.membership {
+    margin-left: auto;
+}
+
+nav li {
+    font-weight: 700;
+    position: relative;
+}
+nav a {
+    color: #fff;
+    padding: 8px 0;
+    display: inline-block;
+}
+nav li::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    background: #ffe066;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0);
+    transition: .2s ease;
+}
+nav li:hover::after { transform: scaleX(1); }
+
+nav li:last-child a {
+    background: #ffe066;
+    color: #B00000;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+/* DROPDOWN */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #B00000;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.dropdown:hover .dropdown-content { display: block; }
+
+/* MOBILE ICON */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 26px;
+}
+
+/* ==========================================
+   HERO
+========================================== */
+.hero {
+    background: radial-gradient(circle at top left, #ffe9b3, #faf7f2 50%, #f3ecff);
+    padding: 60px 24px;
+}
+.hero-inner {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+}
+.hero-text { flex: 1 1 320px; }
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(26,17,87,0.08);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: .8rem;
+}
+.hero-title {
+    font-size: 2.1rem;
+    font-weight: 700;
+    color: #990000;
+    margin-bottom: 12px;
+}
+.hero-subtitle {
+    color: #555;
+    max-width: 460px;
+    line-height: 1.6;
+}
+
+.hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+.hero-meta span {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.hero-meta span::before {
+    content: "✓";
+    color: #40602b;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+/* BUTTONS */
+.btn {
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: .9rem;
+    font-weight: 600;
+}
+.btn-primary {
+    background: #ffe066;
+    color: #B00000;
+}
+
+.btn-outline {
+    background: #ffe066;
+    color: #B00000;
+    border: 1px solid rgba(255,255,255,0.7);
+}
+
+/* HERO CARD */
+.hero-card {
+    background: #fff;
+    padding: 18px;
+    border-radius: 24px;
+    max-width: 320px;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.16);
+}
+.hero-card-img {
+    width: 100%;
+    border-radius: 18px;
+    margin-bottom: 12px;
+}
+
+/* ==========================================
+   PRODUCT CARD – NÂNG CẤP OPTION 2
+========================================== */
+.section { padding: 40px 20px; }
+
+.section-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #B00000;
+    margin-bottom: 26px;
+}
+
+.products {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 26px;
+}
+
+.product-card {
+    position: relative;
+    background: #fff;
+    border-radius: 18px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.14);
+}
+
+.product-thumb {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 14px;
+    transition: .25s;
+}
+.product-card:hover .product-thumb {
+    transform: scale(1.05);
+}
+
+.product-name {
+    font-size: .98rem;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+/* PRODUCT TAGS */
+.tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #ff4757;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: .7rem;
+    font-weight: 700;
+    color: white;
+}
+.tag.new { background: #1e90ff; }
+.tag.best { background: #ffa502; }
+.tag.limited { background: #ff4757; }
+
+/* BANNER */
+.banner-img { width: 100%; display: block; }
+
+/* FOOTER */
+footer {
+    background: #B00000;
+    color: #fff;
+    padding: 40px 0;
+}
+.footer-logo {
+    height: 48px;
+    margin-bottom: 12px;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.footer-info {
+    color: #fff;
+    max-width: 60%;
+}
+.footer-info div,
+.footer-info img { margin-bottom: 8px; }
+
+.footer-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 6px; }
+.footer-links a { color: #ffe066; display: block; }
+
+/* bottom line */
+.footer-bottom {
+    text-align: center;
+    margin-top: 24px;
+    padding: 12px 0;
+    font-size: .9rem;
+    color: #ccc;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+        padding: 14px 22px;
+        height: auto;
+    }
+    .menu-toggle { display: block; }
+    nav { display: none; width: 100%; }
+    nav.nav-open { display: block; }
+    nav ul { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+}
+@media (max-width: 600px) {
+    .hero-title { font-size: 1.7rem; }
+    .product-card { padding: 14px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ========================= HEADER ========================= -->
+<header>
+    <a href="index.html">
+        <img src="Image/Logo.png" class="logo" alt="Matie Cake">
+    </a>
+    
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('nav-open')">
+        ☰
+    </button>
+
+    <nav>
+        <ul>
+            <li class="dropdown">
+                <a href="#">Cake Menu</a>
+                <ul class="dropdown-content">
+                    <li><a href="#new-products">New</a></li>
+                    <li><a href="#favorite-products">Best Seller</a></li>
+                    <li><a href="#christmas-gifts">Christmas</a></li>
+                    <li><a href="#tet-gifts">Tet</a></li>
+                </ul>
+            </li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+            <li><a href="general-policy.html">General Policy</a></li>
+            <li><a href="work-shop.html">Workshop</a></li>
+            <!-- THÊM DÒNG NÀY -->
+            <li class="dropdown membership">
+                <a href="membership-login.html">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<!-- ========================= HERO ========================= -->
+<section class="hero">
+    <div class="hero-inner">
+
+        <div class="hero-text">
+            <p class="hero-badge">Matie Cake · Handmade Premium</p>
+
+            <h1 class="hero-title">
+                Luxury handcrafted cake boxes for the holiday season & corporate gifts.
+            </h1>
+
+            <p class="hero-subtitle">
+                Matie Cake offers exquisite cake boxes made with carefully selected ingredients –
+                perfect for Mid-Autumn, Christmas & Lunar New Year gifts.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#new-products" class="btn btn-primary">New Products</a>
+                <a href="#favorite-products" class="btn btn-outline">Best Seller</a>
+            </div>
+
+            <div class="hero-meta">
+                <span>Premium ingredients</span>
+                <span>Custom design</span>
+                <span>Nationwide delivery</span>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-card">
+                <img src="Image/Tinh hoa đoàn viên 1.jpg" class="hero-card-img">
+                <h3 class="hero-card-name">Tinh Hoa Doan Vien</h3>
+                <p>A box of 4 premium baked goods – luxurious and sophisticated..</p>
+                <a href="tinh-hoa-doan-vien.html">More details →</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+
+<section>
+    <img src="Image/Giới thiệu.jpg" class="banner-img">
+</section>
+
+<!-- ========================= NEW PRODUCTS ========================= -->
+<section class="section" id="new-products">
+    <div class="section-title">New Products</div>
+
+    <div class="products">
+
+        <!-- Tinh Hoa Đoàn Viên -->
+        <a href="tinh-hoa-doan-vien.html">
+            <div class="product-card">
+                <span class="tag new">NEW</span>
+                <img src="Image/Tinh hoa đoàn viên 1.jpg" class="product-thumb">
+                <div class="product-name">Tinh Hoa Doan Vien – Box 4 Baked Cakes</div>
+            </div>
+        </a>
+
+        <!-- Kim Sa Nguyệt Bảo -->
+        <a href="kim-sa-nguyet-bao.html">
+            <div class="product-card">
+                <span class="tag new">NEW</span>
+                <img src="Image/Kim sa nguyệt bảo 1.jpg" class="product-thumb">
+                <div class="product-name">Kim Sa Nguyet Bao – Box 6 Lava Cakes</div>
+            </div>
+        </a>
+
+        <!-- Ngọc Sắc Tinh Hoa -->
+        <a href="ngoc-sac-tinh-hoa.html">
+            <div class="product-card">
+                <span class="tag new">NEW</span>
+                <img src="Image/Ngọc sắc tinh hoa 1.jpg" class="product-thumb">
+                <div class="product-name">Ngoc Sac Tinh Hoa – Box 4 Jelly Cakes</div>
+            </div>
+        </a>
+
+        <!-- Trăng Vàng Gắn Kết -->
+        <a href="trang-vang-gan-ket.html">
+            <div class="product-card">
+                <span class="tag limited">LIMITED</span>
+                <img src="Image/Trăng vàng đoàn kết 1.jpg" class="product-thumb">
+                <div class="product-name">Trang Vang Gan Ket – Mini Mooncake Box</div>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+
+
+<!-- ========================= BEST SELLERS ========================= -->
+<section class="section" id="favorite-products">
+    <div class="section-title">Best Sellers</div>
+
+    <div class="products">
+
+        <!-- Set Tasty 3 -->
+        <a href="set-tasty.html">
+            <div class="product-card">
+                <span class="tag best">BEST SELLER</span>
+                <img src="Image 2/Tasty 3/SetTasty3 1.png" class="product-thumb">
+                <div class="product-name">Set Tasty 3</div>
+            </div>
+        </a>
+
+        <!-- Hoàng Kim Bông Lan -->
+        <a href="hoang-kim-bong-lan.html">
+            <div class="product-card">
+                <span class="tag best">BEST SELLER</span>
+                <img src="Image 2/Hoàng Kim Bông Lan/Hoàng Kim Bông Lang 1.png" class="product-thumb">
+                <div class="product-name">Golden Sponge Cake</div>
+            </div>
+        </a>
+
+        <!-- Flan Gato -->
+        <a href="flan-gato.html">
+            <div class="product-card">
+                <span class="tag limited">LIMITED</span>
+                <img src="Image 2/Flan gato/Flan Gato1.png" class="product-thumb">
+                <div class="product-name">Flan Gato</div>
+            </div>
+        </a>
+
+        <!-- Flan Gato Donut -->
+        <a href="flan-gato-donut.html">
+            <div class="product-card">
+                <span class="tag best">BEST SELLER</span>
+                <img src="Image 2/Flan Gato Donut/Flan Gato Donut 1.png" class="product-thumb">
+                <div class="product-name">Flan Gato Donut</div>
+            </div>
+        </a>
+
+        <!-- Flancheese -->
+        <a href="flan-cheese.html">
+            <div class="product-card">
+                <span class="tag best">BEST SELLER</span>
+                <img src="Image 2/Flancheese/Flancheese5.jpg" class="product-thumb">
+                <div class="product-name">Flancheese</div>
+            </div>
+        </a>
+
+        <!-- Flancheese Donut -->
+        <a href="flan-cheese-donut.html">
+            <div class="product-card">
+                <span class="tag limited">LIMITED</span>
+                <img src="Image 2/Flan cheese donut/Flancheese Donut 1.png" class="product-thumb">
+                <div class="product-name">Flancheese Donut</div>
+            </div>
+        </a>
+
+    </div>
+</section>
+ 
+<!-- ========================= CHRISTMAS GIFTS ========================= -->
+<section class="section" id="christmas-gifts">
+    <div class="section-title">Christmas Gifts</div>
+
+    <div class="products">
+
+        <!-- Ginger Noel -->
+        <a href="ginger-noel.html">
+            <div class="product-card">
+                <span class="tag limited">LIMITED</span>
+                <img src="Image 2/Ginger Noel 1.JPG" class="product-thumb">
+                <div class="product-name">Ginger Noel</div>
+            </div>
+        </a>
+
+        <!-- Merry Croissant -->
+        <a href="merry-croissant.html">
+            <div class="product-card">
+                <span class="tag best">BEST SELLER</span>
+                <img src="Image 3/Merry Croissant 1.JPG" class="product-thumb">
+                <div class="product-name">Merry Croissant</div>
+            </div>
+        </a>
+
+        <!-- Noel Delight -->
+        <a href="noel-delight.html">
+            <div class="product-card">
+                <span class="tag new">NEW</span>
+                <img src="Image 3/Noel Delight 1.JPG" class="product-thumb">
+                <div class="product-name">Noel Delight</div>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+
+
+<!-- ========================= TET GIFTS ========================= -->
+<section class="section" id="tet-gifts">
+    <div class="section-title">Tet Gifts</div>
+
+    <div class="products">
+
+        <!-- Kim Bảo Phát Lộc -->
+        <a href="kim-bao-phat-loc.html">
+            <div class="product-card">
+                <span class="tag best">BEST SELLER</span>
+                <img src="Image 2/Kim Bảo Phát Lộc 1.jpg" class="product-thumb">
+                <div class="product-name">Kim Bao Phat Loc</div>
+            </div>
+        </a>
+
+        <!-- Kim Ngân Phát Tài -->
+        <a href="kim-ngan-phat-tai.html">
+            <div class="product-card">
+                <span class="tag limited">LIMITED</span>
+                <img src="Image 2/Kim Ngân Phát Tài 1.jpg" class="product-thumb">
+                <div class="product-name">Kim Ngan Phat Tai</div>
+            </div>
+        </a>
+
+        <!-- Xuân Sang Tết Đến -->
+        <a href="xuan-sang-den-tet.html">
+            <div class="product-card">
+                <span class="tag new">NEW</span>
+                <img src="Image 3/Xuân Sang Tết đến 1.jpg" class="product-thumb">
+                <div class="product-name">Xuan Sang Tet Den</div>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+
+
+<!-- ========================= FOOTER ========================= -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-info">
+            <img src="Image/Logo.png" class="footer-logo" alt="Matie Cake">
+            <div>Matie Cake Co., Ltd.</div>
+            <div>Address: 3636 Hai Ba Trung, Vo Thi Sau Ward, Q3, HCM</div>
+            <div>Phone: 0886804360</div>
+            <div>Email: matiecake@gmail.com</div>
+        </div>
+
+        <div class="footer-links">
+            <ul>
+                <li><a href="#">Shipping Policy</a></li>
+                <li><a href="#">Return & Refund Policy</a></li>
+                <li><a href="#">Payment Methods</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="#">Personal Data Protection</a></li>
+                <li><a href="#">Contact Information</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 Matie Cake. All rights reserved.
+    </div>
+</footer>
+
+
+
+<!-- ========================= SCRIPT ========================= -->
+<script>
+// MOBILE MENU
+document.querySelector(".menu-toggle").addEventListener("click", () => {
+    document.querySelector("nav").classList.toggle("nav-open");
+});
+</script>
+
+</body>
+</html>
+
+=======
     <style>
         html {
             scroll-behavior: smooth;
@@ -33,7 +682,7 @@
    HEADER – FIXED VERSION
 ========================================== */
         header {
-            background: linear-gradient(90deg,#B00000, #c94e4e);
+            background: linear-gradient(90deg, #1a1157, #3f53ae);
             color: #fff;
             padding: 0 40px;
             height: 80px;
@@ -61,9 +710,6 @@
             gap: 32px;
             margin: 0;
             padding: 0;
-        }
-        nav ul li.membership {
-            margin-left: auto;
         }
 
         nav li {
@@ -361,7 +1007,7 @@
 
         /* FOOTER */
         footer {
-            background: #B00000;
+            background: #1a1157;
             color: #fff;
             padding: 40px 0;
         }
@@ -483,11 +1129,11 @@
                 <li><a href="work-shop.html">Workshop</a></li>
                 <li><a href="tracking.html">Tracking</a></li>
                 <li><a href="order-history.html">My Orders</a></li>
-                <li class="dropdown membership">
-                <a href="membership-login.html">Membership</a>
-                <ul class="dropdown-content">
-                    <li><a href="membership-login.html">Login / Sign Up</a></li>
-                </ul>
+                <li class="dropdown">
+                    <a href="#">Membership</a>
+                    <ul class="dropdown-content">
+                        <li><a href="membership-login.html">Login / Sign Up</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="cart.html" class="cart-link">
@@ -785,3 +1431,4 @@
 </body>
 
 </html>
+>>>>>>> 615a626980c11db41795ea8e8295dbbe732a2215
