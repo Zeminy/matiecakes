@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,18 +33,12 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
 
-        .logo {
-            height: 60px;
-            margin-right: 40px;
-        }
+        .logo { height: 60px; margin-right: 40px; }
 
-        nav {
-            flex: 1;
-        }
-
+        nav { flex: 1; }
         nav ul {
             list-style: none;
             display: flex;
@@ -54,66 +47,45 @@
             padding: 0;
             justify-content: flex-end;
         }
-
-        nav li {
-            font-weight: 700;
-            position: relative;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        nav a:hover {
-            color: #ffe066;
-        }
+        nav li { font-weight: 700; position: relative; }
+        nav a { color: #fff; text-decoration: none; transition: color 0.2s; }
+        nav a:hover { color: #ffe066; }
+nav li::after {
+    content: "";
+    height: 2px;
+    width: 100%;
+    background: #ffe066;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    transform: scaleX(0);
+    transition: .2s ease;
+}
 
         .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             right: 0;
-            background: #2a2f95;
+            background: #ffe066;
             border-radius: 12px;
             overflow: hidden;
             min-width: 180px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-
-        .dropdown-content li {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
+        .dropdown-content li { list-style: none; padding: 0; margin: 0; }
         .dropdown-content a {
             display: block;
-            color: #fff;
+            color: #B00000;
             padding: 10px 16px;
             font-weight: 500;
             font-size: 0.9rem;
             transition: 0.2s;
         }
+        .dropdown-content a:hover { background: rgba(255,224,102,0.2); color: #ffe066; }
+        .dropdown:hover .dropdown-content { display: block; }
 
-        .dropdown-content a:hover {
-            background: rgba(255, 224, 102, 0.2);
-            color: #ffe066;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            padding: 0;
-        }
+        .menu-toggle { display: none; background: none; border: none; color: #fff; cursor: pointer; padding: 0; }
 
         /* ==========================================
            ADMIN MAIN LAYOUT
@@ -149,31 +121,20 @@
             background: #fff;
             padding: 24px;
             border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
             border-left: 4px solid #a85b2b;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 6px 22px rgba(0,0,0,0.12);
         }
 
-        .stat-card.orders {
-            border-left-color: #1a1157;
-        }
-
-        .stat-card.customers {
-            border-left-color: #3f53ae;
-        }
-
-        .stat-card.pending {
-            border-left-color: #ff9800;
-        }
-
-        .stat-card.revenue {
-            border-left-color: #40602b;
-        }
+        .stat-card.orders { border-left-color: #1a1157; }
+        .stat-card.customers { border-left-color: #3f53ae; }
+        .stat-card.pending { border-left-color: #ff9800; }
+        .stat-card.revenue { border-left-color: #40602b; }
 
         .stat-label {
             color: #888;
@@ -195,9 +156,7 @@
             color: #40602b;
         }
 
-        .stat-change.down {
-            color: #d32f2f;
-        }
+        .stat-change.down { color: #d32f2f; }
 
         /* ==========================================
            TABLES SECTION
@@ -206,7 +165,7 @@
             background: #fff;
             padding: 28px;
             border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
             margin-bottom: 32px;
         }
 
@@ -457,82 +416,57 @@
            RESPONSIVE
         ========================================== */
         @media (max-width: 900px) {
-            header {
-                padding: 0 20px;
-            }
-
-            nav ul {
-                gap: 16px;
-            }
-
-            .admin-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .section-box {
-                padding: 16px;
-            }
-
-            table {
-                font-size: 0.85rem;
-            }
-
-            table th,
-            table td {
-                padding: 10px 8px;
-            }
-
-            .filter-bar {
-                flex-direction: column;
-            }
-
-            .filter-bar input,
-            .filter-bar select,
-            .filter-bar button {
-                width: 100%;
-            }
+            header { padding: 0 20px; }
+            nav ul { gap: 16px; }
+            .admin-grid { grid-template-columns: repeat(2, 1fr); }
+            .section-box { padding: 16px; }
+            table { font-size: 0.85rem; }
+            table th, table td { padding: 10px 8px; }
+            .filter-bar { flex-direction: column; }
+            .filter-bar input, .filter-bar select, .filter-bar button { width: 100%; }
         }
 
         @media (max-width: 600px) {
-            .admin-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-title {
-                font-size: 1.6rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
+            .admin-grid { grid-template-columns: 1fr; }
+            .admin-title { font-size: 1.6rem; }
+            nav ul { flex-direction: column; gap: 12px; }
+            .menu-toggle { display: block; }
         }
     </style>
 </head>
-
 <body>
 
     <!-- HEADER -->
-    <header>
-        <a href="index.html"><img src="Image/Logo.png" alt="Matie Cake" class="logo"></a>
-        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li class="dropdown">
-                    <a href="#">Admin</a>
-                    <ul class="dropdown-content">
-                        <li><a href="Admin.html">Dashboard</a></li>
-                        <li><a href="#logout">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <a href="index.html"><img src="Image/Logo.png" class="logo" alt="Matie Cake"></a>
+
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+
+    <nav id="main-nav">
+        <ul>
+            <li class="dropdown">
+                <a href="#">Cake Menu</a>
+                <ul class="dropdown-content">
+                    <li><a href="index.html#new-products">New Products</a></li>
+                    <li><a href="index.html#favorite-products">Favorite Products</a></li>
+                    <li><a href="index.html#christmas-gifts">Christmas Gifts</a></li>
+                    <li><a href="index.html#tet-gifts">Tet Gifts</a></li>
+                </ul>
+            </li>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="khach-hang-than-thiet.html">Loyal Customers</a></li>
+            <li><a href="general-policy.html">General Policy</a></li>
+            <li><a href="work-shop.html">Workshop</a></li>
+                <li class="dropdown membership">
+                    <a href="membership-login.html">Membership</a>
+                <ul class="dropdown-content">
+                    <li><a href="membership-login.html">Login / Sign Up</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+</header>
 
     <!-- ADMIN CONTENT -->
     <div class="admin-container">
@@ -543,22 +477,22 @@
         <div class="admin-grid">
             <div class="stat-card orders">
                 <div class="stat-label">Total Orders</div>
-                <div class="stat-number" id="total-orders-stat">...</div>
+                <div class="stat-number">248</div>
                 <div class="stat-change">↑ 12% vs last week</div>
             </div>
             <div class="stat-card customers">
                 <div class="stat-label">Customers</div>
-                <div class="stat-number" id="total-customers-stat">...</div>
+                <div class="stat-number">156</div>
                 <div class="stat-change">↑ 8% vs last week</div>
             </div>
             <div class="stat-card pending">
                 <div class="stat-label">Pending</div>
-                <div class="stat-number" id="pending-orders-stat">...</div>
+                <div class="stat-number">34</div>
                 <div class="stat-change down">⚠ Needs attention</div>
             </div>
             <div class="stat-card revenue">
                 <div class="stat-label">Revenue</div>
-                <div class="stat-number" id="total-revenue-stat">...</div>
+                <div class="stat-number">245M</div>
                 <div class="stat-change">↑ 15% vs last week</div>
             </div>
         </div>
@@ -585,19 +519,55 @@
                         <th>Order ID</th>
                         <th>Customer</th>
                         <th>Phone</th>
-                        <th>Amount</th>
                         <th>Status</th>
                         <th>Order Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                <tbody id="shipping-table-body">
-                    <!-- Dynamic Data -->
                     <tr>
-                        <td colspan="6" class="no-data">Loading shipping data...</td>
+                        <td>#ORD-2025-001</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>0886804360</td>
+                        <td><span class="badge pending">Pending</span></td>
+                        <td>2025-12-08</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                            <a href="#" class="action-btn edit">Edit</a>
+                        </td>
                     </tr>
-                </tbody>
+                    <tr>
+                        <td>#ORD-2025-002</td>
+                        <td>Trần Thị B</td>
+                        <td>0987654321</td>
+                        <td><span class="badge shipped">Shipped</span></td>
+                        <td>2025-12-07</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                            <a href="#" class="action-btn edit">Edit</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-2025-003</td>
+                        <td>Hoàng Minh C</td>
+                        <td>0912345678</td>
+                        <td><span class="badge delivered">Delivered</span></td>
+                        <td>2025-12-06</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-2025-004</td>
+                        <td>Lê Quốc D</td>
+                        <td>0801234567</td>
+                        <td><span class="badge cancelled">Cancelled</span></td>
+                        <td>2025-12-05</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                            <a href="#" class="action-btn delete">Delete</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -627,28 +597,63 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Username</th>
                         <th>Full Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Total Orders</th>
-                        <th>Total Spend</th>
                         <th>Status</th>
                         <th>Created At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                <tbody id="customer-profile-table-body" style="display:none;">
-                    <!-- Merged with Customer Status per user request to simplify? 
-                         Wait, the user wanted Customer Status. 
-                         I'll hide this redundant table or merge it. 
-                         The previous step showed two customer tables (Info and Status).
-                         I will modify the ID of the first one to avoid confusion or keep it empty. -->
                     <tr>
-                        <td colspan="7">Deprecated - See Customer Status below</td>
+                        <td>#CUST-001</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>nguyenvana@gmail.com</td>
+                        <td>0886804360</td>
+                        <td><span class="badge active">Active</span></td>
+                        <td>2025-11-15</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                            <a href="#" class="action-btn edit">Edit</a>
+                        </td>
                     </tr>
-                </tbody>
+                    <tr>
+                        <td>#CUST-002</td>
+                        <td>Trần Thị B</td>
+                        <td>tranthib@gmail.com</td>
+                        <td>0987654321</td>
+                        <td><span class="badge active">Active</span></td>
+                        <td>2025-11-20</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                            <a href="#" class="action-btn edit">Edit</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#CUST-003</td>
+                        <td>Hoàng Minh C</td>
+                        <td>hoangminhc@gmail.com</td>
+                        <td>0912345678</td>
+                        <td><span class="badge inactive">Inactive</span></td>
+                        <td>2025-10-01</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                            <a href="#" class="action-btn delete">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#CUST-004</td>
+                        <td>Lê Quốc D</td>
+                        <td>lequocd@gmail.com</td>
+                        <td>0801234567</td>
+                        <td><span class="badge active">Active</span></td>
+                        <td>2025-12-01</td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                            <a href="#" class="action-btn edit">Edit</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -660,27 +665,65 @@
             </div>
         </div>
 
-        <!-- WAREHOUSE SECTION -->
+        <!-- CUSTOMER STATUS SECTION -->
         <div class="section-box">
-            <h2 class="section-title">🏭 Cake Storage</h2>
+            <h2 class="section-title">📈 Customer Status</h2>
 
             <table>
                 <thead>
                     <tr>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Last Restock</th>
-                        <th>Quick Actions</th>
+                        <th>Customer</th>
+                        <th>Total Orders</th>
+                        <th>Total Spend</th>
+                        <th>Last Purchase</th>
+                        <th>VIP Level</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody id="warehouse-table-body">
+                <tbody>
                     <tr>
-                        <td colspan="4" class="no-data">Loading inventory...</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>12</td>
+                        <td>3.6M VND</td>
+                        <td>2025-12-08</td>
+                        <td><span class="badge active">Gold</span></td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Trần Thị B</td>
+                        <td>8</td>
+                        <td>2.1M VND</td>
+                        <td>2025-12-06</td>
+                        <td><span class="badge shipped">Silver</span></td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hoàng Minh C</td>
+                        <td>5</td>
+                        <td>1.2M VND</td>
+                        <td>2025-11-28</td>
+                        <td><span class="badge pending">Bronze</span></td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lê Quốc D</td>
+                        <td>1</td>
+                        <td>450k VND</td>
+                        <td>2025-12-01</td>
+                        <td><span class="badge inactive">New member</span></td>
+                        <td>
+                            <a href="#" class="action-btn view">View</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
 
     </div>
 
@@ -690,7 +733,7 @@
             <div class="footer-info">
                 <img src="Image/Logo.png" alt="Matie Cake" class="footer-logo">
                 <div>Matie Cake Co., Ltd.</div>
-                <div>Address: 3636 Hai Bà Trưng, Võ Thị Sáu Ward, Q3, HCM</div>
+                <div>Address: 3636 Hai Ba Trung, Vo Thi Sau Ward, Q3, HCM</div>
                 <div>Phone: 0886804360</div>
                 <div>Email: matiecake@gmail.com</div>
             </div>
@@ -709,9 +752,5 @@
         <div class="footer-bottom">© 2025 Matie Cake. All rights reserved.</div>
     </footer>
 
-    <script src="src/scripts/chat.js" defer></script>
-    <script src="js/admin.js" defer></script>
-    <script src="js/auth.js"></script>
 </body>
-
 </html>
