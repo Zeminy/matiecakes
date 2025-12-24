@@ -17,6 +17,7 @@ class User(MemberBase):
     email = Column(String(100), unique=True, nullable=False)
     full_name = Column(String(100), nullable=True) # New field
     phone_number = Column(String(20), nullable=True) # New field
+    address = Column(String(255), nullable=True) # New field
     status = Column(String(20), default='Active') # New field
     created_at = Column(DateTime, default=datetime.utcnow)
 
