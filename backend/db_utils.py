@@ -2,10 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 # Database Connection URLs
-# Format: postgresql+pg8000://user:password@host:port/dbname
-MEMBER_DB_URL = "postgresql+pg8000://admin:password@localhost:5432/member_db"
-PAYMENT_DB_URL = "postgresql+pg8000://admin:password@localhost:5432/payment_db"
-ADMIN_DB_URL = "postgresql+pg8000://admin:password@localhost:5432/admin_db"
+# Format: postgresql+pg8000://username:password@host:port/dbname
+MEMBER_DB_URL = "postgresql+pg8000://postgres:Sinhnam%402004@localhost:5432/member_db"
+PAYMENT_DB_URL = "postgresql+pg8000://postgres:Sinhnam%402004@localhost:5432/payment_db"
+ADMIN_DB_URL = "postgresql+pg8000://postgres:Sinhnam%402004@localhost:5432/admin_db"
 
 
 # Global cache for engines

@@ -14,7 +14,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning, module="numpy")
 # Database & Auth Imports
 import bcrypt
 from db_utils import get_db_session
-from models import User, Payment, WarehouseInventory, WorkshopRegistration
+from models import User, Payment, WarehouseInventory, WorkshopRegistration, CakeAnalytics
 from sqlalchemy.orm import Session
 from datetime import datetime
 import requests
@@ -77,7 +77,19 @@ class AnalyticsRequest(BaseModel):
 class ShippingUpdateRequest(BaseModel):
     status: str
 
-# ... (startup event and chat endpoint same) ...
+@app.on_event("startup")
+async def startup_event():
+    print("Starting up - Initializing RAG Engine")
+    rag_engine.setup_chain()
+
+@app.post("/chat")
+async def chat_endpoint(request: ChatRequest):
+    try:
+        response = rag_engine.query(request.message, request.image)
+        return {"response": response}
+    except Exception as e:
+        print(f"Chat error: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error during chat processing")
 
 # --- Member Service ---
 @app.post("/register")
@@ -108,7 +120,32 @@ async def register(request: RegisterRequest):
     finally:
         session.close()
 
-# ... (login and payment code same) ...
+@app.post("/login")
+async def login(request: LoginRequest):
+    session = get_db_session('member')
+    try:
+        # Check by username OR email
+        user = session.query(User).filter(
+            (User.username == request.username) | (User.email == request.username)
+        ).first()
+        
+        if not user or not verify_password(request.password, user.password_hash):
+            raise HTTPException(status_code=401, detail="Sai thông tin đăng nhập")
+            
+        return {
+            "message": "Login successful",
+            "username": user.username,
+            "email": user.email,
+            "id": user.id
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        session.close()
+
+# ... (payment code logic placeholder) ...
 
 @app.get("/admin/shipping")
 async def get_shipping_status():

@@ -51,3 +51,9 @@ Thumbs.db
 # Project Specific
 faiss_index/
 postgres_data/
+backend/faiss_index/
+
+# Others
+matiecakes_erd.png
+bug_issue_log_flow.md
+database_erd.md
