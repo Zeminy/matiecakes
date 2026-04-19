@@ -1,89 +1,75 @@
-# Matie Cake - Premium Bakery Website with AI Features
+# Matie Cakes — Premium Bakery Website with AI Features
 
-A modern, responsive e-commerce website for Matie Cake, featuring a premium UI, an intelligent AI chatbot (RAG), and an AI-powered Product Visualizer.
+A modern, responsive e-commerce website for Matie Cakes, featuring a premium UI, an intelligent AI chatbot (RAG-powered), AI Product Visualizer, and a full admin dashboard backed by PostgreSQL.
 
-## Features
+---
 
--   **Premium Design**: Glassmorphism UI, smooth animations, and responsive layout.
--   **AI Chat Assistant**:
-    -   **Product Knowledge**: Answers questions based on website content (RAG).
-    -   **Clickable Images**: Suggests products with clickable images that link directly to product pages.
-    -   **Visual & Concise**: Optimized for short, helpful answers with visual cues.
--   **AI Product Visualizer**:
-    -   **Custom Box Design**: Users can select box types and items, then generate a visual preview using AI.
-    -   **Instant Visualization**: See a realistic representation of the custom gift box before adding to cart.
--   **Full E-commerce Features**:
-    -   Product Catalog & Categories
-    -   Shopping Cart & Checkout Flow
-    -   User Membership & Authentication
-    -   Order Tracking
+## 🚀 Getting Started
 
-## Project Structure
+> **→ For full setup and run instructions, please read [`RUN.md`](./RUN.md)**
 
--   `Root`: Frontend HTML pages (`index.html`, `product.html`, etc.)
--   `src/`: CSS styles and Frontend JavaScript logic.
--   `backend/`: Python FastAPI server for AI features (Chat & Image Generation).
--   `Image/`: Static assets.
+`RUN.md` covers everything you need:
+- First-time machine setup (PostgreSQL, Python, VS Code)
+- Database creation and schema initialization
+- Seeding sample data
+- Starting the backend and frontend
+- Troubleshooting common issues
 
-## Setup Instructions
+---
 
-### Prerequisites
--   Python 3.10+
--   Node.js (optional, for frontend dev tools)
+## ✨ Features
 
-### 1. Backend Setup (Required for AI Features)
+- **Premium UI** — Glassmorphism design, smooth animations, fully responsive layout
+- **AI Chat Assistant (RAG)** — Answers product questions using website content as knowledge base. Returns clickable product images and concise answers.
+- **AI Product Visualizer** — Pick a box type and cake assortment, then generate a realistic visual preview using AI before adding to cart.
+- **Full E-commerce Flow** — Product catalog, shopping cart, checkout, order tracking, and user authentication.
+- **Admin Dashboard** — Manage inventory, shipping status, customer profiles, and sales analytics.
 
-Navigate to the backend directory and set up the environment:
+---
 
-```bash
-cd backend
-python -m venv venv
-# Activate Virtual Environment
-source venv/bin/activate       # macOS/Linux
-# venv\Scripts\activate        # Windows
+## 🗂️ Project Structure
+
+```
+matiecakes/
+├── index.html              # Homepage
+├── product.html            # Customize page (AI box builder)
+├── Admin.html              # Admin dashboard
+├── backend/                # Python FastAPI backend
+│   ├── app.py              # Main API server
+│   ├── models.py           # Database schema (SQLAlchemy)
+│   ├── db_utils.py         # PostgreSQL connection config
+│   ├── rag_engine.py       # AI chatbot (RAG) engine
+│   ├── create_schema.py    # Initialize DB tables
+│   ├── migrate_schema_v2.py# Schema migration to v2.0
+│   ├── seed_users.py       # Seed sample users
+│   ├── seed_inventory.py   # Seed product inventory
+│   ├── seed_payments.py    # Seed payment records
+│   ├── seed_admin_data.py  # Seed admin data
+│   └── requirements.txt    # Python dependencies
+├── src/                    # Frontend CSS & JavaScript
+├── js/                     # Page-specific JavaScript modules
+├── RUN.md                  # ← Full setup & run guide
+└── database_erd.md         # Database design documentation (local only)
 ```
 
-Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+---
 
-**Configuration**:
-Create a `.env` file in the `backend/` directory with your API keys:
-```ini
-GROQ_API_KEY=your_groq_api_key
-AI_KEY=your_image_generation_key  # For Pollinations/other providers if needed
-```
+## 🗄️ Database Architecture
 
-**Run the Server**:
-```bash
-uvicorn app:app --reload
-```
-The server will start at `http://127.0.0.1:8000`.
+This project uses **3 separate PostgreSQL databases** (Microservices pattern):
 
-### 2. Frontend Setup
+| Database | Tables |
+|---|---|
+| `member_db` | `users`, `workshop_registrations` |
+| `payment_db` | `orders`, `order_details`, `payments` |
+| `admin_db` | `warehouse_inventory`, `cake_analytics`, `customer_profiles`, `shipping_status` |
 
-Since this is a static site with API calls:
-1.  Open the root directory in VS Code.
-2.  Use the **Live Server** extension to serve `index.html`.
-    -   *Note*: Ensure the backend is running on port 8000 for Chat and AI Design features to work.
+---
 
-## Usage Guide
+## 🤝 Contributors
 
-### AI Chat
--   Click the **Chat Bubble** in the bottom right corner.
--   Ask about products (e.g., "Tell me about the Flan Gato").
+- Matie Cakes Team
 
-### AI Custom Box Design
--   Navigate to **Product Page (Customize)**.
--   Select a **Box Type** (e.g., Sea Breeze Box).
--   Choose **Items** to fill the box slots.
--   Policies & Assortment Selection.
--   Click **"Generate Visualization"** to see your custom box designed by AI.
-
-## Contributors
--   Matie Cake Team
-
-## License
+## 📄 License
 
 This project is licensed under the MIT License.
