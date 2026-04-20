@@ -1,11 +1,21 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
 
-# Database Connection URLs
-# Format: postgresql+pg8000://username:password@host:port/dbname
-MEMBER_DB_URL = "postgresql+pg8000://username:password@localhost:5432/member_db"
-PAYMENT_DB_URL = "postgresql+pg8000://username:password@localhost:5432/payment_db"
-ADMIN_DB_URL = "postgresql+pg8000://username:password@localhost:5432/admin_db"
+# Load environment variables from backend/.env
+load_dotenv()
+
+# Database Connection URLs — loaded from .env (never hardcoded here)
+MEMBER_DB_URL = os.getenv("MEMBER_DB_URL")
+PAYMENT_DB_URL = os.getenv("PAYMENT_DB_URL")
+ADMIN_DB_URL = os.getenv("ADMIN_DB_URL")
+
+if not all([MEMBER_DB_URL, PAYMENT_DB_URL, ADMIN_DB_URL]):
+    raise RuntimeError(
+        "Database URLs are not set. "
+        "Please copy backend/.env.sample to backend/.env and fill in your credentials."
+    )
 
 # Global cache for engines
 _db_engines = {}
