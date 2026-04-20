@@ -123,9 +123,11 @@ ADMIN_DB tables created successfully.
 
 ---
 
-### Step 7 — Run Migration Script (v2.0 schema update)
+### Step 7 — Run Migration Script *(Existing DB only — skip if fresh clone)*
 
-This aligns any existing tables to the latest schema (required if you previously had an older version of the DB):
+> **If you just cloned this repo and created brand-new empty databases in Step 2, skip this step entirely.** `create_schema.py` already creates the correct v2.0 schema from scratch.
+>
+> ⚠️ **Only run this** if you previously had an older version of the project running and your databases already contain tables from the old schema (v1.0).
 
 ```powershell
 python migrate_schema_v2.py
