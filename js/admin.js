@@ -102,14 +102,26 @@ function renderShippingTable() {
     tbody.innerHTML = '';
 
     // Update Stats (Global stats, not filtered)
-    document.getElementById('total-orders-stat').textContent = allShippingOrders.length;
+    const totalOrdersEl = document.getElementById('total-orders-stat');
+    const totalRevenueEl = document.getElementById('total-revenue-stat');
+    const pendingOrdersEl = document.getElementById('pending-orders-stat');
+
+    if (totalOrdersEl) {
+        totalOrdersEl.textContent = allShippingOrders.length;
+    }
+
     const totalRevenue = allShippingOrders.reduce((sum, item) => sum + (item.amount || 0), 0);
-    document.getElementById('total-revenue-stat').textContent = '$' + totalRevenue.toLocaleString();
+    if (totalRevenueEl) {
+        totalRevenueEl.textContent = '$' + totalRevenue.toLocaleString();
+    }
+
     const pendingCount = allShippingOrders.filter(i => i.status === 'Pending').length;
-    document.getElementById('pending-orders-stat').textContent = pendingCount;
+    if (pendingOrdersEl) {
+        pendingOrdersEl.textContent = pendingCount;
+    }
 
     if (filteredShippingOrders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="no-data">No matching records found</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" class="no-data">No matching records found</td></tr>`;
         return;
     }
 
@@ -126,10 +138,9 @@ function renderShippingTable() {
             <td>#${item.order_id}</td>
             <td>${item.customer_name}</td>
             <td>${item.phone_number || 'N/A'}</td>
-            <td><strong>$${(item.amount || 0).toFixed(2)}</strong></td>
             <td><span class="badge ${badgeClass}">${item.status}</span></td>
             <td>${item.address || 'N/A'}</td>
-            <td>${new Date(item.updated_at).toLocaleDateString()}</td>
+            <td>${item.updated_at ? new Date(item.updated_at).toLocaleDateString() : 'N/A'}</td>
             <td>
                 <button class="action-btn edit" onclick="openUpdateShippingModal(${item.order_id}, '${item.status}')">Update</button>
                 <button class="action-btn delete" onclick="deleteShippingOrder(${item.order_id})">✕</button>

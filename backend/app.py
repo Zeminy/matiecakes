@@ -14,7 +14,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning, module="numpy")
 # Database & Auth Imports
 import bcrypt
 from db_utils import get_db_session
-from models import User, Payment, WarehouseInventory, WorkshopRegistration, CakeAnalytics
+from models import User, Payment, Order, OrderDetail, WarehouseInventory, WorkshopRegistration, CakeAnalytics
 from sqlalchemy.orm import Session
 from datetime import datetime
 import requests
@@ -68,6 +68,7 @@ class PaymentRequest(BaseModel):
     user_id: int
     amount: float
     order_info: Optional[str] = None
+    payment_method: Optional[str] = None
     status: str = "pending"
 
 class AnalyticsRequest(BaseModel):
@@ -146,87 +147,128 @@ async def login(request: LoginRequest):
         session.close()
 
 # ... (payment code logic placeholder) ...
+@app.post("/payment")
+async def create_payment(request: PaymentRequest):
+    member_session = get_db_session("member")
+    payment_session = get_db_session("payment")
 
-@app.get("/admin/shipping")
-async def get_shipping_status():
-    """Fetch shipping status directly from payment_db"""
-    payment_session = get_db_session('payment')
-    member_session = get_db_session('member')
-    
     try:
-        # Get all payments
-        payments = payment_session.query(Payment).all()
-        print(f"DEBUG: Found {len(payments)} payments")
-        
-        # Get user map for names, phones, and ADDRESS
-        users = member_session.query(User).all()
-        print(f"DEBUG: Found {len(users)} users")
-        user_map = {u.id: {'name': u.username, 'phone': u.phone_number, 'address': u.address} for u in users}
-        
-        # Transform payments into shipping format
-        results = []
-        for p in payments:
-            # Default to User DB info
-            user_data = user_map.get(p.user_id, {'name': "Unknown", 'phone': "N/A", 'address': "N/A"})
-            
-            # Try to extract more accurate info from order_info JSON
-            order_phone = user_data['phone']
-            order_address = user_data['address']
-            
-            if p.order_info:
-                try:
-                    order_json = json.loads(p.order_info)
-                    
-                    # Extract Phone
-                    if 'checkout' in order_json and 'contact' in order_json['checkout']:
-                        json_phone = order_json['checkout']['contact'].get('phone')
-                        if json_phone:
-                            order_phone = json_phone
-                            
-                    # Extract Address
-                    if 'checkout' in order_json and 'billing' in order_json['checkout']:
-                        billing = order_json['checkout']['billing']
-                        # Construct address string
-                        parts = [
-                            billing.get('address'),
-                            billing.get('city'),
-                            billing.get('state'),
-                            billing.get('zip'),
-                            billing.get('country')
-                        ]
-                        # Filter out empty parts and join
-                        valid_parts = [part for part in parts if part]
-                        if valid_parts:
-                            order_address = ", ".join(valid_parts)
-                            
-                except json.JSONDecodeError:
-                    print(f"Error decoding JSON for payment {p.id}")
-                except Exception as e:
-                    print(f"Error parsing order info for payment {p.id}: {e}")
+        user = member_session.query(User).filter(User.id == request.user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
 
-            results.append({
-                "id": p.id,
-                "order_id": p.id,  # Payment ID = Order ID
-                "customer_name": user_data['name'],
-                "phone_number": order_phone or "N/A",
-                "address": order_address or "N/A",
-                "status": "Delivered" if p.status == "completed" else "Pending" if p.status == "pending" else p.status, 
-                "updated_at": p.timestamp,
-                "amount": p.amount
+        order_payload = {}
+        items = []
+        checkout = {}
+
+        if request.order_info:
+            try:
+                order_payload = json.loads(request.order_info)
+                if isinstance(order_payload, dict):
+                    items = order_payload.get("items", []) or []
+                    checkout = order_payload.get("checkout", {}) or {}
+            except json.JSONDecodeError:
+                raise HTTPException(status_code=400, detail="Invalid order_info JSON")
+
+        billing = checkout.get("billing", {}) if isinstance(checkout, dict) else {}
+        contact = checkout.get("contact", {}) if isinstance(checkout, dict) else {}
+
+        address_parts = [
+            billing.get("address"),
+            billing.get("city"),
+            billing.get("state"),
+            billing.get("zip"),
+            billing.get("country"),
+        ]
+
+        formatted_address = ", ".join(
+            [str(part).strip() for part in address_parts if part and str(part).strip()]
+        )
+
+        if formatted_address:
+            user.address = formatted_address
+
+        checkout_phone = contact.get("phone")
+        if checkout_phone and str(checkout_phone).strip():
+            user.phone_number = str(checkout_phone).strip()
+
+        payment_method = request.payment_method or checkout.get("paymentMethod") or "unknown"
+
+        items_total = 0.0
+        normalized_items = []
+
+        for item in items:
+            product_name = (item.get("productName") or item.get("name") or "Unknown Product").strip()
+            quantity = max(int(item.get("quantity", 1) or 1), 1)
+            unit_price = round(float(item.get("finalPrice", 0) or 0), 2)
+            subtotal = round(quantity * unit_price, 2)
+
+            items_total += subtotal
+            normalized_items.append({
+                "product_name": product_name,
+                "quantity": quantity,
+                "unit_price": unit_price,
+                "subtotal": subtotal
             })
-        
-        print(f"DEBUG: Returning {len(results)} shipping records")
-        return results
+
+        final_amount = round(float(request.amount), 2)
+
+        if normalized_items:
+            recalculated_total = round(items_total + 8.99, 2)
+            if abs(recalculated_total - final_amount) > 0.05:
+                final_amount = recalculated_total
+
+        order = Order(
+            user_id=request.user_id,
+            total_amount=final_amount,
+            status=request.status,
+            payment_method=payment_method,
+            created_at=datetime.utcnow()
+        )
+        payment_session.add(order)
+        payment_session.flush()
+
+        for item in normalized_items:
+            detail = OrderDetail(
+                order_id=order.id,
+                product_name=item["product_name"],
+                quantity=item["quantity"],
+                unit_price=item["unit_price"],
+                subtotal=item["subtotal"]
+            )
+            payment_session.add(detail)
+
+        payment = Payment(
+            order_id=order.id,
+            user_id=request.user_id,
+            amount=final_amount,
+            status=request.status,
+            timestamp=datetime.utcnow()
+        )
+        payment_session.add(payment)
+
+        payment_session.commit()
+        member_session.commit()
+
+        return {
+            "message": "Payment recorded successfully",
+            "payment_id": payment.id,
+            "order_id": order.id,
+            "amount": payment.amount,
+            "status": payment.status
+        }
+
+    except HTTPException:
+        payment_session.rollback()
+        member_session.rollback()
+        raise
     except Exception as e:
-        print(f"ERROR fetching shipping: {e}")
-        import traceback
-        traceback.print_exc()
-        return []
+        payment_session.rollback()
+        member_session.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
     finally:
-        payment_session.close()
         member_session.close()
-
-
+        payment_session.close()
 
 @app.get("/admin/customers")
 async def get_customers():
@@ -319,24 +361,50 @@ async def delete_shipping_order(order_id: int):
     finally:
         payment_session.close()
 
-@app.put("/admin/shipping/{order_id}")
-async def update_shipping_status_endpoint(order_id: int, request: ShippingUpdateRequest):
-    session = get_db_session('payment')
+@app.get("/admin/shipping")
+async def get_shipping_status():
+    payment_session = get_db_session('payment')
+    member_session = get_db_session('member')
+
     try:
-        payment = session.query(Payment).filter(Payment.id == order_id).first()
-        if not payment:
-            raise HTTPException(status_code=404, detail="Order not found")
-        
-        payment.status = request.status
-        # logic to map specific statuses if needed, e.g. "Shipped" might correspond to a specific internal state
-        
-        session.commit()
-        return {"message": "Status updated successfully", "new_status": payment.status}
+        payments = payment_session.query(Payment).order_by(Payment.timestamp.desc()).all()
+        users = member_session.query(User).all()
+
+        user_map = {
+            u.id: {
+                'name': u.username,
+                'phone': u.phone_number,
+                'address': u.address
+            } for u in users
+        }
+
+        results = []
+        for p in payments:
+            user_data = user_map.get(
+                p.user_id,
+                {'name': 'Unknown', 'phone': 'N/A', 'address': 'N/A'}
+            )
+
+            results.append({
+                "id": p.id,
+                "order_id": p.order_id if p.order_id else p.id,
+                "customer_name": user_data['name'],
+                "phone_number": user_data['phone'] or "N/A",
+                "address": user_data['address'] or "N/A",
+                "status": "Delivered" if p.status == "completed" else "Pending" if p.status == "pending" else p.status,
+                "updated_at": p.timestamp.isoformat() if p.timestamp else None,
+                "amount": float(p.amount) if p.amount is not None else 0
+            })
+
+        print("SHIPPING RESULTS:", results)
+        return results
+
     except Exception as e:
-        session.rollback()
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"ERROR fetching shipping: {e}")
+        return []
     finally:
-        session.close()
+        payment_session.close()
+        member_session.close()
 
 # --- Warehouse Service ---
 class WarehouseUpdateRequest(BaseModel):

@@ -445,13 +445,22 @@ window.handlePlaceOrder = async function () {
     });
 
     try {
+        const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+        const userId = Number(currentUser?.id);
+
+        if (!userId) {
+            alert('User session not found. Please log in again.');
+            window.location.href = 'login.html';
+            return;
+        }
+
         const response = await fetch('http://localhost:8000/payment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                user_id: 1, // Default to user ID 1 for now as auth is not fully persistent across pages
+                user_id: userId,
                 amount: totalAmount,
                 order_info: orderInfo,
                 status: 'completed'
@@ -461,7 +470,6 @@ window.handlePlaceOrder = async function () {
         if (response.ok) {
             const result = await response.json();
 
-            // Create order object for local history
             const order = {
                 id: `order-${Date.now()}`,
                 db_id: result.payment_id,
