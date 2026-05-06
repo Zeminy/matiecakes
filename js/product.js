@@ -139,7 +139,7 @@ function handleAssortmentAdd(event) {
 
     const totalSelected = selectedAssortmentItems.reduce((sum, item) => sum + item.quantity, 0);
     if (totalSelected >= 4) {
-        alert('Bạn chỉ có thể chọn tối đa 4 ô trong hộp.');
+        window.showToast?.('Bạn chỉ có thể chọn tối đa 4 ô trong hộp.', 'warning');
         return;
     }
 
@@ -613,13 +613,11 @@ function handleAddToCart() {
         }
 
         // Show success message
-        alert(`Added to cart! Inventory updated. Total: $${finalPrice.toFixed(2)}`);
-
-        // Optionally redirect to cart page
+        window.showToast?.(`Added to cart! Inventory updated. Total: $${finalPrice.toFixed(2)}`, 'success');        // Optionally redirect to cart page
         // window.location.href = 'cart.html';
     } catch (error) {
         console.error('Error saving to localStorage:', error);
-        alert('Error adding item to cart. Please try again.');
+        window.showToast?.('Error adding item to cart', 'error');
     }
 }
 

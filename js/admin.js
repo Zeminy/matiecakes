@@ -20,6 +20,53 @@ function initAdminDashboard() {
 /* 
  * --- HELPER FUNCTIONS ---
  */
+
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 2500);
+}
+
+function openConfirmModal(title, message, onConfirm) {
+    const modal = document.getElementById('confirmModal');
+    const titleEl = document.getElementById('confirmModalTitle');
+    const messageEl = document.getElementById('confirmModalMessage');
+    const cancelBtn = document.getElementById('confirmCancelBtn');
+    const okBtn = document.getElementById('confirmOkBtn');
+    const backdrop = modal ? modal.querySelector('.ui-modal-backdrop') : null;
+
+    if (!modal || !titleEl || !messageEl || !cancelBtn || !okBtn) return;
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    modal.classList.remove('hidden');
+
+    function closeModal() {
+        modal.classList.add('hidden');
+        okBtn.onclick = null;
+        cancelBtn.onclick = null;
+        if (backdrop) backdrop.onclick = null;
+    }
+
+    cancelBtn.onclick = closeModal;
+    if (backdrop) backdrop.onclick = closeModal;
+
+    okBtn.onclick = async () => {
+        try {
+            await onConfirm();
+        } finally {
+            closeModal();
+        }
+    };
+}
 function openModal(id) {
     document.getElementById(id).style.display = 'block';
 }
@@ -225,33 +272,41 @@ window.submitShippingUpdate = async function () {
 
         if (response.ok) {
             closeModal('updateStatusModal');
-            fetchShippingStatus(); // Refresh table
+            showToast('Shipping status updated successfully', 'success');
+            fetchShippingStatus();
         } else {
-            const err = await response.json();
-            console.error('Update failed:', err);
-            alert('Failed to update status: ' + (err.detail || 'Unknown error'));
+            const err = await response.json().catch(() => ({}));
+            showToast(`Failed to update status: ${err.detail || 'Unknown error'}`, 'error');
         }
     } catch (error) {
         console.error('Error updating shipping:', error);
-        alert('Error connecting to server: ' + error.message);
+        showToast(`Error connecting to server: ${error.message}`, 'error');
     }
 }
 
 window.deleteShippingOrder = async function (orderId) {
-    if (confirm(`Are you sure you want to delete Order #${orderId}?`)) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/admin/shipping/${orderId}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) {
-                fetchShippingStatus(); // Refresh
-            } else {
-                alert('Failed to delete order');
+    openConfirmModal(
+        'Delete Order',
+        `Are you sure you want to delete Order #${orderId}?`,
+        async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/shipping/${orderId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showToast(`Order #${orderId} deleted successfully`, 'success');
+                    fetchShippingStatus(); // Refresh
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    showToast(errorData.detail || 'Failed to delete order', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting order:', error);
+                showToast('Error deleting order', 'error');
             }
-        } catch (error) {
-            console.error('Error deleting order:', error);
         }
-    }
+    );
 }
 
 /**
@@ -417,26 +472,29 @@ window.changeCustomerPage = function (page) {
 };
 
 window.deleteCustomer = async function (userId) {
-    if (confirm(`Are you sure you want to delete Customer #${userId}?`)) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/admin/customers/${userId}`, {
-                method: 'DELETE'
-            });
-            if (response.ok) {
-                // Remove from local arrays to update UI instantly
-                allCustomers = allCustomers.filter(c => c.id !== userId);
-                filterCustomers(); // Re-filter and re-render
-                alert('Customer deleted successfully');
-            } else {
-                const err = await response.json();
-                alert('Failed to delete customer: ' + (err.detail || 'Unknown error'));
+    openConfirmModal(
+        'Delete Customer',
+        `Are you sure you want to delete Customer #${userId}?`,
+        async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/customers/${userId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showToast(`Customer #${userId} deleted successfully`, 'success');
+                    fetchCustomerProfiles();
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    showToast(errorData.detail || 'Failed to delete customer', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting customer:', error);
+                showToast('Error deleting customer', 'error');
             }
-        } catch (error) {
-            console.error('Error deleting customer:', error);
-            alert('Error connecting to server');
         }
-    }
-};
+    );
+}
 
 // --- VIP Update Modal Logic ---
 let currentUpdatingUserId = null;
@@ -448,7 +506,7 @@ window.openUpdateVIPModal = function (userId, currentLevel) {
     openModal('updateVIPModal');
 }
 
-window.submitVIPUpdate = async function () {
+wwindow.submitVIPUpdate = async function () {
     if (!currentUpdatingUserId) return;
     const newLevel = document.getElementById('modal-vip-level').value;
 
@@ -458,12 +516,18 @@ window.submitVIPUpdate = async function () {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ vip_level: newLevel })
         });
+
         if (response.ok) {
             closeModal('updateVIPModal');
+            showToast('Customer VIP level updated successfully', 'success');
             fetchCustomerProfiles();
+        } else {
+            const err = await response.json().catch(() => ({}));
+            showToast(err.detail || 'Failed to update customer VIP level', 'error');
         }
     } catch (e) {
         console.error(e);
+        showToast('Error connecting to server', 'error');
     }
 }
 
@@ -499,44 +563,75 @@ async function fetchWarehouseInventory(preservePage = false) {
 }
 // ... (renderWarehouseTable implementation omitted, assumes it's unchanged) ...
 
-window.updateStock = async function (productName, quantityChange, btnElement) {
+wwindow.updateStock = function (productName, quantityChange, btnElement) {
+    const itemIndex = allWarehouseItems.findIndex(i => i.product_name === productName);
+    if (itemIndex === -1) return;
+
+    allWarehouseItems[itemIndex].quantity += quantityChange;
+
     if (btnElement) {
-        btnElement.disabled = true;
-        btnElement.style.opacity = '0.5';
-        btnElement.textContent = '...';
+        const tr = btnElement.closest('tr');
+        if (tr) {
+            const qtyMsg = tr.querySelector('td:nth-child(2) strong');
+            if (qtyMsg) qtyMsg.textContent = allWarehouseItems[itemIndex].quantity;
+
+            const dateCell = tr.querySelector('td:nth-child(3)');
+            if (dateCell) dateCell.textContent = 'Saving...';
+        }
     }
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/admin/warehouse/update`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ product_name: productName, quantity_change: quantityChange })
-        });
+    if (pendingUpdates[productName]) {
+        clearTimeout(pendingUpdates[productName].timeoutId);
+        pendingUpdates[productName].totalChange += quantityChange;
+    } else {
+        pendingUpdates[productName] = {
+            totalChange: quantityChange
+        };
+    }
 
-        if (response.ok) {
-            // Fetch fresh but preserve current page
-            await fetchWarehouseInventory(true);
-        } else {
-            console.error(await response.text());
-            alert('Failed to update stock');
-        }
-    } catch (e) {
-        console.error(e);
-        alert('Error connecting to server');
-    } finally {
-        // Re-enable button after operation (even if table re-renders, this is safe)
-        if (btnElement) {
-            // Note: If table re-renders, this element might be removed from DOM, 
-            // but if it wasn't, we want to reset it.
-            // Actually, fetchWarehouseInventory REPLACES the HTML, so this button is gone.
-            // So this finally block is mostly for error cases where table didn't refresh.
-            if (document.body.contains(btnElement)) {
-                btnElement.disabled = false;
-                btnElement.style.opacity = '1';
-                btnElement.textContent = quantityChange > 0 ? '+10' : '-10';
+    pendingUpdates[productName].timeoutId = setTimeout(async () => {
+        const finalChange = pendingUpdates[productName].totalChange;
+        delete pendingUpdates[productName];
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/warehouse/update`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ product_name: productName, quantity_change: finalChange })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                const rows = document.querySelectorAll('#warehouse-table-body tr');
+                rows.forEach(row => {
+                    if (row.innerHTML.includes(productName)) {
+                        const dateCell = row.querySelector('td:nth-child(3)');
+                        if (dateCell) {
+                            dateCell.textContent = data.last_restock
+                                ? new Date(data.last_restock).toLocaleDateString()
+                                : 'Just now';
+                        }
+                    }
+                });
+
+                if (allWarehouseItems[itemIndex]) {
+                    allWarehouseItems[itemIndex].last_restock = data.last_restock;
+                }
+
+                showToast(`${productName} stock updated successfully`, 'success');
+            } else {
+                const err = await response.json().catch(() => ({}));
+                console.error("Sync failed", err);
+                showToast(err.detail || 'Failed to update stock', 'error');
+                await fetchWarehouseInventory(true);
             }
+        } catch (e) {
+            console.error(e);
+            showToast('Error connecting to server', 'error');
+            fetchWarehouseInventory(true);
         }
-    }
+    }, 1500);
 }
 
 function renderWarehouseTable() {

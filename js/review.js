@@ -7,19 +7,69 @@
 let cart = [];
 let checkoutData = null;
 
+/* =========================
+   UI HELPERS
+========================= */
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 2500);
+}
+
+function openConfirmModal(title, message, onConfirm) {
+    const modal = document.getElementById('confirmModal');
+    const titleEl = document.getElementById('confirmModalTitle');
+    const messageEl = document.getElementById('confirmModalMessage');
+    const cancelBtn = document.getElementById('confirmCancelBtn');
+    const okBtn = document.getElementById('confirmOkBtn');
+    const backdrop = modal ? modal.querySelector('.ui-modal-backdrop') : null;
+
+    if (!modal || !titleEl || !messageEl || !cancelBtn || !okBtn) return;
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    modal.classList.remove('hidden');
+
+    function closeModal() {
+        modal.classList.add('hidden');
+        okBtn.onclick = null;
+        cancelBtn.onclick = null;
+        if (backdrop) backdrop.onclick = null;
+    }
+
+    cancelBtn.onclick = closeModal;
+    if (backdrop) backdrop.onclick = closeModal;
+
+    okBtn.onclick = async () => {
+        try {
+            await onConfirm();
+        } finally {
+            closeModal();
+        }
+    };
+}
+
 /**
  * Initialize the review page
  */
 function init() {
     loadData();
 
-
     if (cart.length === 0) {
-        alert('No items in cart. Redirecting to cart page.');
-        window.location.href = 'cart.html';
+        showToast('No items in cart. Redirecting to cart page.', 'warning');
+        setTimeout(() => {
+            window.location.href = 'cart.html';
+        }, 1200);
         return;
     }
-
 
     renderItems();
     renderOrderSummary();
@@ -41,7 +91,6 @@ function loadData() {
         } else {
             cart = [];
         }
-
 
         const checkoutDataStr = localStorage.getItem('checkoutData');
         if (checkoutDataStr) {
@@ -74,9 +123,7 @@ function renderItems() {
     const container = document.getElementById('items-container');
     if (!container) return;
 
-
     container.innerHTML = cart.map((item, index) => renderItem(item, index)).join('');
-
 
     // Attach delete button listeners
     cart.forEach(item => {
@@ -97,12 +144,10 @@ function renderItem(item, index) {
     const itemNumber = index + 1;
     const totalItems = cart.length;
 
-
     // Format address
     const addressDisplay = item.shippingAddress && item.shippingAddress.street
         ? `${item.shippingAddress.name || ''}, ${item.shippingAddress.street}, ${item.shippingAddress.city}, ${item.shippingAddress.state}, ${item.shippingAddress.zip || ''}, ${item.shippingAddress.phone || ''}`
         : 'No address set';
-
 
     // Format delivery date
     let deliveryDateDisplay = 'Not set';
@@ -123,12 +168,10 @@ function renderItem(item, index) {
         deliveryDateDisplay = 'Estimated delivery: 5-7 business days';
     }
 
-
     // Gift message display
     const giftMessageDisplay = item.giftMessage && item.giftMessage.trim() !== ''
         ? item.giftMessage
         : 'No Card Message';
-
 
     return `
         <div class="review-section">
@@ -211,14 +254,12 @@ function renderOrderSummary() {
     const container = document.getElementById('order-summary-content');
     if (!container) return;
 
-
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
     const shipping = 8.99; // Default shipping
     const totalBeforeTax = merchandise + shipping;
     const estimatedTax = 0.00; // Can be calculated based on location
     const orderTotal = totalBeforeTax + estimatedTax;
-
 
     container.innerHTML = `
         <div class="summary-items-count">${itemCount} ${itemCount === 1 ? 'Item' : 'Items'}</div>
@@ -254,18 +295,15 @@ function renderPaymentMethod() {
     const container = document.getElementById('payment-method-display');
     if (!container) return;
 
-
     if (!checkoutData || !checkoutData.paymentMethod) {
         container.innerHTML = '<p style="color: #999;">No payment method selected</p>';
         return;
     }
 
-
     if (checkoutData.paymentMethod === 'card' && checkoutData.card) {
         const card = checkoutData.card;
         const last4 = card.number.slice(-4);
         const cardType = getCardType(card.number);
-
 
         container.innerHTML = `
             <div>Credit or Debit Card</div>
@@ -296,12 +334,10 @@ function renderPaymentMethod() {
 function getCardType(cardNumber) {
     if (!cardNumber) return 'CARD';
 
-
     if (cardNumber.startsWith('4')) return 'VISA';
     if (cardNumber.startsWith('5')) return 'Mastercard';
     if (cardNumber.startsWith('3')) return 'AMEX';
     if (cardNumber.startsWith('6')) return 'DISCOVER';
-
 
     return 'CARD';
 }
@@ -313,12 +349,10 @@ function renderBillingAddress() {
     const container = document.getElementById('billing-address-display');
     if (!container) return;
 
-
     if (!checkoutData || !checkoutData.billing) {
         container.innerHTML = '<p style="color: #999;">No billing address</p>';
         return;
     }
-
 
     const billing = checkoutData.billing;
     const addressParts = [
@@ -330,7 +364,6 @@ function renderBillingAddress() {
         billing.zip,
         billing.country
     ].filter(part => part).join(', ');
-
 
     container.innerHTML = `
         <div class="address-display">${addressParts}</div>
@@ -344,19 +377,16 @@ function renderContactInfo() {
     const container = document.getElementById('contact-info-display');
     if (!container) return;
 
-
     if (!checkoutData || !checkoutData.contact) {
         container.innerHTML = '<p style="color: #999;">No contact information</p>';
         return;
     }
-
 
     const contact = checkoutData.contact;
     let html = `
         <div class="contact-display">Your email address: ${contact.email}</div>
         <div class="contact-display">Your phone number: ${contact.phone}</div>
     `;
-
 
     if (contact.emailOffers) {
         html += `
@@ -366,7 +396,6 @@ function renderContactInfo() {
             </div>
         `;
     }
-
 
     container.innerHTML = html;
 }
@@ -378,13 +407,11 @@ function renderOrderTotal() {
     const container = document.getElementById('order-total-display');
     if (!container) return;
 
-
     const merchandise = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
     const shipping = 8.99;
     const totalBeforeTax = merchandise + shipping;
     const estimatedTax = 0.00;
     const orderTotal = totalBeforeTax + estimatedTax;
-
 
     container.innerHTML = `
         <div class="summary-row order-total">
@@ -399,41 +426,53 @@ function renderOrderTotal() {
  * @param {string} itemId - Item ID to delete
  */
 function handleDeleteItem(itemId) {
-    if (confirm('Are you sure you want to remove this item from your order?')) {
-        cart = cart.filter(item => item.id !== itemId);
+    openConfirmModal(
+        'Remove Item',
+        'Are you sure you want to remove this item from your order?',
+        async () => {
+            cart = cart.filter(item => item.id !== itemId);
 
+            try {
+                localStorage.setItem('cart', JSON.stringify(cart));
+            } catch (error) {
+                console.error('Error saving cart:', error);
+                showToast('Error updating cart', 'error');
+                return;
+            }
 
-        try {
-            localStorage.setItem('cart', JSON.stringify(cart));
-        } catch (error) {
-            console.error('Error saving cart:', error);
+            if (cart.length === 0) {
+                showToast('Your cart is now empty. Redirecting to cart page.', 'warning');
+                setTimeout(() => {
+                    window.location.href = 'cart.html';
+                }, 1200);
+            } else {
+                renderItems();
+                renderOrderSummary();
+                renderOrderTotal();
+                updateHeaderCartBadge();
+                showToast('Item removed from your order', 'success');
+            }
         }
-
-
-        if (cart.length === 0) {
-            window.location.href = 'cart.html';
-        } else {
-            renderItems();
-            renderOrderSummary();
-            renderOrderTotal();
-        }
-    }
+    );
 }
 
 /**
  * Handle place order
  */
-window.handlePlaceOrder = async function () {
+window.handlePlaceOrder = function () {
     if (cart.length === 0) {
-        alert('Your cart is empty!');
-        window.location.href = 'cart.html';
+        showToast('Your cart is empty!', 'warning');
+        setTimeout(() => {
+            window.location.href = 'cart.html';
+        }, 1200);
         return;
     }
 
-
     if (!checkoutData) {
-        alert('Please complete checkout first.');
-        window.location.href = 'checkout.html';
+        showToast('Please complete checkout first.', 'warning');
+        setTimeout(() => {
+            window.location.href = 'checkout.html';
+        }, 1200);
         return;
     }
 
@@ -444,61 +483,71 @@ window.handlePlaceOrder = async function () {
         date: new Date().toISOString()
     });
 
-    try {
-        const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
-        const userId = Number(currentUser?.id);
+    openConfirmModal(
+        'Confirm Order',
+        'Are you sure you want to place this order?',
+        async () => {
+            try {
+                const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+                const userId = Number(currentUser?.id);
 
-        if (!userId) {
-            alert('User session not found. Please log in again.');
-            window.location.href = 'login.html';
-            return;
+                if (!userId) {
+                    showToast('User session not found. Please log in again.', 'error');
+                    setTimeout(() => {
+                        window.location.href = 'membership-login.html';
+                    }, 1200);
+                    return;
+                }
+
+                const response = await fetch('http://localhost:8000/payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        amount: totalAmount,
+                        order_info: orderInfo,
+                        status: 'completed'
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    const order = {
+                        id: `order-${Date.now()}`,
+                        db_id: result.payment_id,
+                        date: new Date().toISOString(),
+                        items: cart,
+                        checkout: checkoutData,
+                        total: totalAmount
+                    };
+
+                    // Save order locally
+                    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                    orders.push(order);
+                    localStorage.setItem('orders', JSON.stringify(orders));
+
+                    // Clear cart and checkout data
+                    localStorage.removeItem('cart');
+                    localStorage.removeItem('checkoutData');
+
+                    showToast(`Order placed successfully! Payment ID: ${result.payment_id}`, 'success');
+
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    const err = await response.json().catch(() => ({}));
+                    showToast(`Payment failed: ${err.detail || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error placing order:', error);
+                showToast('Error connecting to payment server. Please try again.', 'error');
+            }
         }
-
-        const response = await fetch('http://localhost:8000/payment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user_id: userId,
-                amount: totalAmount,
-                order_info: orderInfo,
-                status: 'completed'
-            })
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-
-            const order = {
-                id: `order-${Date.now()}`,
-                db_id: result.payment_id,
-                date: new Date().toISOString(),
-                items: cart,
-                checkout: checkoutData,
-                total: totalAmount
-            };
-
-            // Save order locally
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            orders.push(order);
-            localStorage.setItem('orders', JSON.stringify(orders));
-
-            // Clear cart and checkout data
-            localStorage.removeItem('cart');
-            localStorage.removeItem('checkoutData');
-
-            // Show success and redirect
-            alert(`Order placed successfully! Payment ID: ${result.payment_id}`);
-            window.location.href = 'index.html';
-        } else {
-            const err = await response.json();
-            alert(`Payment failed: ${err.detail || 'Unknown error'}`);
-        }
-    } catch (error) {
-        console.error('Error placing order:', error);
-        alert('Error connecting to payment server. Please try again.');
-    }
+    );
 };
 
 /**
@@ -514,4 +563,3 @@ function calculateOrderTotal() {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', init);
-

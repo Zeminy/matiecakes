@@ -62,9 +62,11 @@
             font-weight: 600;
             position: relative;
         }
-         nav ul li.membership {
-    margin-left: auto;
-}
+
+        nav ul li.membership {
+            margin-left: auto;
+        }
+
         nav a {
             color: #fff;
             padding: 8px 0;
@@ -1050,6 +1052,99 @@
                 opacity: 1;
             }
         }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .ui-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+        }
+
+        .ui-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        .ui-modal-box {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 430px;
+            margin: 14vh auto 0;
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+        }
+
+        .ui-modal-box h3 {
+            margin: 0 0 10px;
+            font-size: 22px;
+            color: #1a1157;
+        }
+
+        .ui-modal-box p {
+            margin: 0 0 20px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .ui-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .ui-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .ui-btn-cancel {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .ui-btn-ok {
+            background: #c07a3a;
+            color: #fff;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            min-width: 260px;
+            max-width: 360px;
+            background: #fff;
+            border-left: 5px solid #28a745;
+            color: #222;
+            padding: 14px 16px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .toast.error {
+            border-left-color: #dc3545;
+        }
+
+        .toast.warning {
+            border-left-color: #f59e0b;
+        }
     </style>
 </head>
 
@@ -1258,6 +1353,21 @@
     <!-- SCRIPTS -->
     <script type="module" src="js/product.js"></script>
     <script>
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 2500);
+        }
+
         // Update cart badge count (available globally)
         function updateCartBadge() {
             try {
@@ -1275,6 +1385,7 @@
 
         // Make it available globally
         window.updateCartBadge = updateCartBadge;
+        window.showToast = showToast;
 
         // Update cart badge on page load
         document.addEventListener('DOMContentLoaded', () => {
@@ -1403,6 +1514,22 @@
     </script>
     <script src="src/scripts/chat.js" defer></script>
     <script src="js/auth.js"></script>
+
+    <!-- Custom Product Confirm Modal -->
+    <div id="confirmModal" class="ui-modal hidden">
+        <div class="ui-modal-backdrop"></div>
+        <div class="ui-modal-box">
+            <h3 id="confirmModalTitle">Add to Cart</h3>
+            <p id="confirmModalMessage">Do you want to add this box to your cart?</p>
+            <div class="ui-modal-actions">
+                <button id="confirmCancelBtn" class="ui-btn ui-btn-cancel">Cancel</button>
+                <button id="confirmOkBtn" class="ui-btn ui-btn-ok">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Toast -->
+    <div id="toastContainer" class="toast-container"></div>
 </body>
 
 </html>
